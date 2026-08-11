@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F3B6E">
+<title>My Requests — Communication Briefing · Part 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3B6E; --navy-deep:#142a52; --ink:#0f1f3d;
+    --amber:#E08A1E; --amber-soft:#fbe8cd;
+    --paper:#F4F5F8; --card:#fff; --line:#e3e6ee; --line-soft:#eef1f7;
+    --navy-tint:#eef0f6; --faint:#97a1b4;
+    --text:#1b2436; --muted:#5b6678;
+    --code-bg:#0f1f3d; --code-text:#e9edf7;
+    --ok:#1f8a52; --ok-soft:#e3f3ea;
+    --green:#228b57; --red:#c83737; --gray:#788291;
+    --radius:14px; --tap:46px; --sh-sm:0 1px 2px rgba(16,31,61,.04);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:24px;line-height:1.62;-webkit-font-smoothing:antialiased;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+
+  header.mast{background:radial-gradient(120% 140% at 100% 0%, rgba(224,138,30,.22), transparent 55%),linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:calc(28px + env(safe-area-inset-top)) 0 26px;border-bottom:3px solid var(--amber)}
+  .mast-inner{display:flex;gap:18px;align-items:center}
+  .mast-copy{flex:1;min-width:0}
+  .brandmark{flex:none;width:60px;height:60px;border-radius:15px;background:linear-gradient(160deg,#274982,#1a345f);border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 22px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);display:grid;place-items:center}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);font-weight:500;margin:0 0 10px}
+  .mast h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:42px;line-height:1.12;margin:0 0 8px;letter-spacing:-.01em}
+  .mast p.sub{margin:0;color:#c7d2e8;font-size:21px;max-width:48ch}
+  .mast .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .mast .meta span{font-family:"IBM Plex Mono",monospace;font-size:16px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);padding:5px 9px;border-radius:999px;color:#dde6f5}
+  .mast .meta span b{color:#fff;font-weight:600}
+  @media(max-width:480px){ .brandmark{width:50px;height:50px} .mast h1{font-size:34px} }
+
+  .sticky{position:sticky;top:0;z-index:40;background:rgba(244,245,248,.86);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  .progress{height:5px;background:var(--line);overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--amber));transition:width .35s ease}
+  .progtext{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--muted);padding:6px 0 8px;display:flex;justify-content:space-between;align-items:center}
+  .progtext button{background:none;border:none;color:var(--navy);font-family:inherit;font-size:15px;cursor:pointer;text-decoration:underline;padding:4px}
+
+  section.block{margin:26px 0}
+  section.block > h2.sec{font-family:"IBM Plex Serif",serif;font-size:29px;font-weight:600;color:var(--navy);margin:0 0 4px;letter-spacing:-.01em;scroll-margin-top:120px}
+  section.block > p.lead{margin:0 0 14px;color:var(--muted);font-size:21px}
+
+  .tldr{background:#fffdf8;border:1px dashed #ecd6ad;border-radius:12px;padding:13px 15px;margin:0 0 15px;font-size:20px}
+  .tldr b{display:block;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#a4651a;margin-bottom:4px}
+
+  details.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:12px 0;overflow:hidden;scroll-margin-top:118px;box-shadow:var(--sh-sm)}
+  details.step[open]{box-shadow:0 6px 24px -12px rgba(16,31,61,.28);border-color:#d4dae8}
+  summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 16px;min-height:var(--tap);user-select:none;-webkit-tap-highlight-color:transparent}
+  summary::-webkit-details-marker{display:none}
+  summary .num{flex:none;min-width:30px;height:30px;padding:0 5px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:18px}
+  details.isdone summary .num{background:var(--ok)}
+  summary .stitle{flex:1;font-weight:600;font-size:22px;line-height:1.3}
+  summary .chev{flex:none;color:var(--muted);transition:transform .2s ease}
+  details[open] summary .chev{transform:rotate(90deg)}
+  summary .dot{flex:none;width:9px;height:9px;border-radius:50%;border:2px solid var(--line)}
+  details.isdone summary .dot{background:var(--ok);border-color:var(--ok)}
+  .body{padding:2px 16px 18px;border-top:1px solid var(--line-soft)}
+  .body > *:first-child{margin-top:14px}
+  .body p{margin:0 0 12px}
+  p.do{margin:0 0 12px}
+  .body ul,.body ol{margin:0 0 12px;padding-left:22px}.body li{margin:0 0 8px}
+  ol.steps2{counter-reset:s2;list-style:none;padding-left:0}
+  ol.steps2 > li{position:relative;padding:2px 0 10px 40px;margin:0}
+  ol.steps2 > li::before{counter-increment:s2;content:counter(s2);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--navy-tint);color:var(--navy);font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:16px;display:grid;place-items:center;border:1px solid #dbe3f5}
+
+  dl.props{margin:0 0 13px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  dl.props > div{display:grid;grid-template-columns:210px 1fr;border-top:1px solid var(--line-soft)}
+  dl.props > div:first-child{border-top:none}
+  dl.props dt{background:#f7f9fc;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:18px;color:var(--navy);font-weight:500;border-right:1px solid var(--line-soft)}
+  dl.props dd{margin:0;padding:9px 12px;font-size:20px}
+  dl.props dd code{font-family:"IBM Plex Mono",monospace;font-size:18px;background:#eef1f7;padding:1px 5px;border-radius:5px}
+  @media(max-width:430px){dl.props > div{grid-template-columns:130px 1fr}dl.props dt{font-size:15px;padding:8px 9px}dl.props dd{font-size:18px;padding:8px 10px}}
+
+  .fxlabel{font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:0 0 5px;font-weight:500}
+  .fx{position:relative;margin:0 0 13px}
+  .fx code{display:block;background:var(--code-bg);color:var(--code-text);font-family:"IBM Plex Mono",monospace;font-size:18px;line-height:1.55;padding:14px 84px 14px 16px;border-radius:11px;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;border:1px solid #1c3360}
+  .fx .copy{position:absolute;top:8px;right:8px;height:34px;min-width:34px;padding:0 11px;border:none;border-radius:8px;background:rgba(224,138,30,.95);color:#1b1206;font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .fx .copy:active{transform:scale(.96)}
+  .fx .copy.copied{background:var(--ok);color:#fff}
+  .fxgroup{border:1px solid var(--line);border-radius:12px;padding:12px 13px 2px;margin:0 0 14px;background:#fcfdff}
+  .fxgroup > .gh{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--navy);margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .fxgroup > .gh::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--amber)}
+
+  .pane{background:#f4f6fb;border:1px solid #dbe2f1;border-left:4px solid var(--navy);border-radius:11px;padding:12px 14px;margin:0 0 13px}
+  .pane > .ph{font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);font-weight:600;margin:0 0 9px;display:flex;align-items:center;gap:7px}
+  .pane > .ph::before{content:"\2699";font-size:16px;line-height:1}
+  .pane ol,.pane ul{margin:0;padding-left:20px}.pane li{margin:0 0 6px;font-size:19px}
+  .pane p{margin:0 0 8px;font-size:19px}
+  .pane code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:#e7ecf7;color:var(--navy);padding:1px 6px;border-radius:5px}
+
+  .note{border-radius:11px;padding:12px 14px;margin:0 0 13px;font-size:20px;border:1px solid;line-height:1.55}
+  .note b{display:block;font-size:17px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;font-family:"IBM Plex Mono",monospace}
+  .note.why{background:#eef2fb;border-color:#d5def3;color:#23365e}.note.why b{color:var(--navy)}
+  .note.warn{background:#fbe8cd33;border-color:var(--amber-soft);color:#6b4410}.note.warn b{color:#a4651a}
+  .note.tip{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.tip b{color:var(--ok)}
+  .note.check{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.check b{color:var(--ok)}
+  .note.check b::before{content:"✅ ";}
+  .note code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:5px}
+
+  /* tap-to-copy chips: every code chip outside a dark .fx box is copyable */
+  code.cc{cursor:copy;position:relative;-webkit-tap-highlight-color:transparent}
+  code.cc::after{content:"⧉";font-size:.78em;margin-left:5px;opacity:.55}
+  code.cc.copied{background:var(--ok) !important;color:#fff !important}
+  code.cc.copied::after{content:"✓";opacity:1}
+
+  /* visual language — navy button = click it in the product UI; amber chip = value you enter; key cap = press it */
+  code.cc{background:#fdf1dd !important;color:#7a4d10 !important;border:1px solid #eed7ae;border-radius:6px;padding:1px 6px}
+  kbd.ui{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:.8em;font-weight:600;color:#fff;background:linear-gradient(180deg,#2a4a85,#1F3B6E);border:1px solid #142a52;border-radius:8px;padding:2px 9px 3px;line-height:1.4;white-space:nowrap;box-shadow:0 1px 0 #0d1c3a;vertical-align:baseline}
+  kbd.key{font-family:"IBM Plex Mono",monospace;font-size:.72em;font-weight:600;color:#3d4a63;background:linear-gradient(#fff,#eef0f5);border:1px solid #c3cad9;border-bottom-width:3px;border-radius:6px;padding:1px 7px;line-height:1.5;white-space:nowrap}
+
+  table.cols{width:100%;border-collapse:collapse;margin:0 0 13px;font-size:18px;background:#fff;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  table.cols th{background:#f7f9fc;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.cols td{padding:7px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  table.cols tr:last-child td{border-bottom:none}
+
+  .done{-webkit-appearance:none;appearance:none;width:100%;min-height:var(--tap);margin-top:6px;border:1.5px solid var(--navy);border-radius:11px;background:#fff;color:var(--navy);font-family:inherit;font-size:21px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;gap:8px}
+  .done:active{background:var(--line-soft)}
+  details.isdone .done{background:var(--ok);border-color:var(--ok);color:#fff}
+
+  footer{margin:34px 0 10px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:18px;text-align:center;line-height:1.6}
+  footer a{color:var(--navy);font-weight:600}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap mast-inner">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="16" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/>
+        <path d="M16 24l6 6 11-13" stroke="rgba(224,138,30,.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="mast-copy">
+      <p class="kicker">BBK · CCD · Part 3 of 5</p>
+      <h1>My Requests</h1>
+      <p class="sub">Requesters see their own submissions, live status, CCD notes — and can edit after submitting.</p>
+      <div class="meta">
+        <span><b>~45 min</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>Edit-after</b>-submit</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sticky">
+  <div class="wrap">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="progtext"><span id="progLabel">0 of 10 steps done</span><button id="reset" type="button">Reset</button></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+
+    <section class="block">
+    <h2 class="sec">What Part 3 builds</h2>
+    <div class="tldr"><b>TL;DR</b>A second screen, <code class="cc">scrMyRequests</code>: requesters see their own submissions with live status colors and CCD notes, and can reopen any request for editing — the shared form from Part 2 learns an edit mode. Every edit still lands in version history automatically.</div>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">Before you start</h2>
+    <div class="pane">
+      <p class="ph">Prerequisites</p>
+      <ul>
+        <li><a href="part1-foundation.html">Part 1</a> and <a href="part2-submission-form.html">Part 2</a> finished.</li>
+        <li>The app open in Power Apps Studio with at least one TEST item submitted (b9).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">The steps</h2>
+
+  <details class="step" id="c1" open>
+    <summary><span class="dot"></span><span class="num">C1</span><span class="stitle">New screen</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>Tree view → <kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd>. Rename it <code class="cc">scrMyRequests</code>.</li>
+        <li>Repeat the b3 header pattern: a Rectangle <code class="cc">recMyHeader</code> (X <code>0</code>, Y <code>0</code>, Width <code>Parent.Width</code>, Height <code>88</code>, Fill <code>RGBA(31, 59, 110, 1)</code>) and a label <code class="cc">lblMyTitle</code> (Text <code>"My Requests"</code>, X <code>24</code>, Y <code>0</code>, Height <code>88</code>, Color <code>White</code>, Size <code>22</code>, FontWeight <code>FontWeight.Semibold</code>).</li>
+      </ol>
+      <div class="note tip"><b>Faster</b>Copy <code>recSubmitHeader</code> and <code>lblSubmitTitle</code> from scrSubmit (<kbd class="key">Ctrl+C</kbd> / <kbd class="key">Ctrl+V</kbd> onto the new screen), rename the copies, change the Text.</div>
+      <div class="note check"><b>Check before moving on</b>scrMyRequests has the same navy header, titled My Requests.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c2">
+    <summary><span class="dot"></span><span class="num">C2</span><span class="stitle">Navigation both ways</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">On <code>scrSubmit</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename <code class="cc">btnGoMyRequests</code>:</p>
+      <dl class="props">
+        <div><dt>Text</dt><dd><code>"My requests"</code></dd></div>
+        <div><dt>X · Y</dt><dd><code>Parent.Width - 244</code> · <code>20</code></dd></div>
+        <div><dt>Width · Height</dt><dd><code>220</code> · <code>48</code></dd></div>
+      </dl>
+      <p class="fxlabel">btnGoMyRequests · OnSelect</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Navigate(scrMyRequests, ScreenTransition.None)</code></div>
+      <p class="do">On <code>scrMyRequests</code>: another Button, rename <code class="cc">btnGoSubmit</code>, same size, Text <code>"+ New request"</code>, X <code>Parent.Width - 244</code>, Y <code>20</code>:</p>
+      <p class="fxlabel">btnGoSubmit · OnSelect</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, Blank()); Navigate(scrSubmit, ScreenTransition.None)</code></div>
+      <div class="note why"><b>Why clear gblEditItem</b>c6 teaches the Part 2 form to edit an existing request when <code>gblEditItem</code> holds one. Clearing it on the way to a <em>new</em> request is what keeps the form in New mode.</div>
+      <div class="note check"><b>Check before moving on</b>Hold <kbd class="key">Alt</kbd> and click each button — the screens swap both ways.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c3">
+    <summary><span class="dot"></span><span class="num">C3</span><span class="stitle">The gallery</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>On scrMyRequests: <kbd class="ui">Insert</kbd> → <kbd class="ui">Vertical gallery</kbd>. Rename <code class="cc">galMyRequests</code>. If asked for a data source pick <kbd class="ui">Communication Requests</kbd>.</li>
+        <li>Position: X <code>24</code>, Y <code>112</code>, Width <code>Parent.Width * 0.45</code>, Height <code>Parent.Height - 136</code>. Layout: <kbd class="ui">Title, subtitle, and body</kbd>.</li>
+        <li>Set its <strong>Items</strong>:</li>
+      </ol>
+      <p class="fxlabel">galMyRequests · Items</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), "Created", SortOrder.Descending)</code></div>
+      <div class="note warn"><b>Blue delegation underline — expected</b>Filtering on <code>'Created By'.Email</code> can't be pushed down to SharePoint, so Power Apps warns you. At this system's volumes (well under the 2,000-item delegation ceiling) that is fine. For regular staff the Part 1 item-level permissions already hide other people's items server-side; the filter mostly matters for CCD members, who can see everything.</div>
+      <div class="note check"><b>Check before moving on</b>The gallery lists your TEST items, newest first.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c4">
+    <summary><span class="dot"></span><span class="num">C4</span><span class="stitle">Gallery fields</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Click <em>inside</em> the first gallery row to edit the template. Rename the three labels and set their Text (add labels with <kbd class="ui">Insert</kbd> while the template is selected if the layout gave you fewer):</p>
+      <ol class="steps2">
+        <li><code class="cc">lblReqTitle</code> — Text <code>ThisItem.'Request Subject'</code>, FontWeight <code>FontWeight.Semibold</code>, Size <code>16</code>.</li>
+        <li><code class="cc">lblReqStatus</code> — Text <code>ThisItem.Status.Value</code> and Color:</li>
+      </ol>
+      <p class="fxlabel">lblReqStatus · Color</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Switch(ThisItem.Status.Value, "Submitted", RGBA(224, 138, 30, 1), "In Progress", RGBA(31, 59, 110, 1), "Completed", RGBA(31, 138, 82, 1), RGBA(120, 130, 145, 1))</code></div>
+      <ol class="steps2" start="3">
+        <li><code class="cc">lblReqDate</code> — Text <code>"Target: " &amp; Text(ThisItem.'Target Date', ShortDate)</code>.</li>
+      </ol>
+      <div class="note check"><b>Check before moving on</b>Rows show subject (bold), a colored status word — amber for Submitted — and the target date.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c5">
+    <summary><span class="dot"></span><span class="num">C5</span><span class="stitle">Detail panel</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Right of the gallery, <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename <code class="cc">lblDetNotes</code>:</p>
+      <dl class="props">
+        <div><dt>X</dt><dd><code>galMyRequests.X + galMyRequests.Width + 24</code></dd></div>
+        <div><dt>Y</dt><dd><code>112</code></dd></div>
+        <div><dt>Width</dt><dd><code>Parent.Width - Self.X - 24</code></dd></div>
+        <div><dt>Height</dt><dd><code>240</code></dd></div>
+      </dl>
+      <p class="fxlabel">lblDetNotes · Text</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "Select a request on the left.", "Status: " &amp; galMyRequests.Selected.Status.Value &amp; Char(10) &amp; Char(10) &amp; "CCD notes:" &amp; Char(10) &amp; If(IsBlank(galMyRequests.Selected.'CCD Notes'), "— none yet —", galMyRequests.Selected.'CCD Notes'))</code></div>
+      <div class="note why"><b>This is FR-6 working</b>Status and any notes CCD writes (Part 4) appear here, live, to the person who asked — no email required.</div>
+      <div class="note check"><b>Check before moving on</b>Selecting a gallery row shows its status and "— none yet —" for notes.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c6">
+    <summary><span class="dot"></span><span class="num">C6</span><span class="stitle">Wire edit-after-submit (touches the Part 2 form)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">First the button. On scrMyRequests: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename <code class="cc">btnEditRequest</code>, Text <code>"Edit this request"</code>, X <code>lblDetNotes.X</code>, Y <code>368</code>, Width <code>220</code>, Height <code>48</code>.</p>
+      <p class="fxlabel">btnEditRequest · DisplayMode</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), DisplayMode.Disabled, DisplayMode.Edit)</code></div>
+      <p class="fxlabel">btnEditRequest · OnSelect</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, galMyRequests.Selected); Navigate(scrSubmit, ScreenTransition.None)</code></div>
+      <p class="do">Now teach the Part 2 form about edits. Select <code class="cc">frmSubmit</code> on scrSubmit and set:</p>
+      <p class="fxlabel">frmSubmit · Item</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>gblEditItem</code></div>
+      <p class="fxlabel">frmSubmit · DefaultMode</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), FormMode.New, FormMode.Edit)</code></div>
+      <p class="do">And let the title tell the truth — <code class="cc">lblSubmitTitle</code> · Text:</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), "Communication Briefing Form", "Edit request")</code></div>
+      <div class="note check"><b>Check before moving on</b>No formula errors; the b4 DefaultMode value (<code>FormMode.New</code>) is now replaced by the If version.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c7">
+    <summary><span class="dot"></span><span class="num">C7</span><span class="stitle">Return after edit</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Replace <code class="cc">frmSubmit</code>'s OnSuccess (from b8) with:</p>
+      <p class="fxlabel">frmSubmit · OnSuccess</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Notify(If(IsBlank(gblEditItem), "Request submitted — the CCD team has been notified.", "Changes saved."), NotificationType.Success); If(IsBlank(gblEditItem), ResetForm(frmSubmit), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
+      <div class="note why"><b>Two exits</b>A new submission clears the form for the next one; an edit bounces you back to My Requests, which now shows the updated row.</div>
+      <div class="note check"><b>Check before moving on</b>Formula accepted with no red squiggles.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c8">
+    <summary><span class="dot"></span><span class="num">C8</span><span class="stitle">Refresh and empty state</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Icon</kbd> → pick the circular-arrows <kbd class="ui">Refresh</kbd> icon, rename <code class="cc">btnMyRefresh</code>, put it left of btnGoSubmit (X <code>Parent.Width - 304</code>, Y <code>28</code>, Width <code>32</code>, Height <code>32</code>, Color <code>White</code>). OnSelect:</li>
+      </ol>
+      <p class="fxlabel">btnMyRefresh · OnSelect</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Refresh('Communication Requests')</code></div>
+      <ol class="steps2" start="2">
+        <li>A label <code class="cc">lblMyEmpty</code> over the gallery area (X <code>24</code>, Y <code>132</code>, Width <code>galMyRequests.Width</code>), Text <code>"No requests yet — tap + New request to submit your first."</code>, Visible:</li>
+      </ol>
+      <p class="fxlabel">lblMyEmpty · Visible</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>IsEmpty(galMyRequests.AllItems)</code></div>
+      <div class="note check"><b>Check before moving on</b>The empty-state label is invisible right now (your TEST items exist) — select it in the tree view to confirm it's there.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c9">
+    <summary><span class="dot"></span><span class="num">C9</span><span class="stitle">F5 test — the edit loop</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li><kbd class="key">F5</kbd> → <kbd class="ui">My requests</kbd> → select the b9 TEST item.</li>
+        <li><kbd class="ui">Edit this request</kbd> — the form opens pre-filled, titled <em>Edit request</em>.</li>
+        <li>Change Request Details, click <kbd class="ui">Submit request</kbd> — toast says <em>Changes saved.</em> and you land back on My Requests.</li>
+        <li>In the SharePoint list, open the item's <kbd class="ui">Version history</kbd> — a new version, your name, right now.</li>
+      </ol>
+      <div class="note why"><b>Audit trail, already working</b>Even before the Part 5 flow exists, FR-3 + FR-4's core promise (edit after submit; every edit tracked with name and time) is being kept by version history.</div>
+      <div class="note check"><b>Check before moving on</b>All four sub-steps behaved as described.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c10">
+    <summary><span class="dot"></span><span class="num">C10</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li><kbd class="key">Ctrl+S</kbd>, then <kbd class="ui">Publish</kbd> → <kbd class="ui">Publish this version</kbd>.</li>
+      </ol>
+      <div class="note check"><b>Check before moving on</b>Published. On to the CCD side of the house — <a href="part4-ccd-dashboard.html">Part 4</a>.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  </section>
+
+
+  <footer>
+    Part 3 of 5 — the Communication Briefing Form build.<br>
+    The series: &nbsp;<a href="index.html">Index</a> · <a href="part1-foundation.html">Part 1 — SharePoint Foundation</a> · <a href="part2-submission-form.html">Part 2 — Submission Form</a> · <a href="part4-ccd-dashboard.html">Part 4 — CCD Dashboard</a> · <a href="part5-flows-golive.html">Part 5 — Flows + Go-Live</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var mem={};
+  var store={
+    get:function(k){try{return localStorage.getItem(k);}catch(e){return (k in mem)?mem[k]:null;}},
+    set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
+    del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
+  };
+  var KEY="cbfPart3_v1";
+
+  function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+  function copyText(text,onDone){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(onDone,function(){fallbackCopy(text);onDone();});}
+    else{fallbackCopy(text);onDone();}
+  }
+  document.querySelectorAll(".fx .copy").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var code=btn.parentElement.querySelector("code");
+      copyText(code?code.textContent:"",function(){
+        btn.classList.add("copied");btn.textContent="✓";
+        setTimeout(function(){btn.classList.remove("copied");btn.textContent="Copy";},1300);
+      });
+    });
+  });
+  document.querySelectorAll("code.cc").forEach(function(chip){
+    chip.setAttribute("title","Tap to copy");
+    chip.addEventListener("click",function(){
+      copyText(chip.textContent,function(){
+        chip.classList.add("copied");
+        setTimeout(function(){chip.classList.remove("copied");},1100);
+      });
+    });
+  });
+
+  var steps=Array.prototype.slice.call(document.querySelectorAll("details.step"));
+  var total=steps.length;
+  var bar=document.getElementById("bar");
+  var label=document.getElementById("progLabel");
+  function loadDone(){var raw=store.get(KEY);if(!raw)return {};try{return JSON.parse(raw)||{};}catch(e){return {};}}
+  function saveDone(obj){store.set(KEY,JSON.stringify(obj));}
+  var doneMap=loadDone();
+  function refreshProgress(){
+    var n=0;
+    steps.forEach(function(d){if(d.classList.contains("isdone"))n++;});
+    bar.style.width=(total?Math.round(n/total*100):0)+"%";
+    label.textContent=n+" of "+total+" steps done";
+  }
+  steps.forEach(function(d){
+    if(doneMap[d.id])d.classList.add("isdone");
+    var btn=d.querySelector(".done");
+    function syncBtn(){btn.textContent=d.classList.contains("isdone")?"✓ Done — tap to undo":"Mark step done";}
+    syncBtn();
+    btn.addEventListener("click",function(){d.classList.toggle("isdone");doneMap[d.id]=d.classList.contains("isdone");saveDone(doneMap);syncBtn();refreshProgress();});
+  });
+  refreshProgress();
+
+  /* anchor links that target content inside a closed step: open the step first */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener("click",function(){
+      var el=document.getElementById(a.getAttribute("href").slice(1));
+      if(!el)return;
+      var d=el.closest?el.closest("details"):null;
+      if(el.tagName&&el.tagName.toLowerCase()==="details")d=el;
+      if(d)d.open=true;
+    });
+  });
+
+  document.getElementById("reset").addEventListener("click",function(){
+    steps.forEach(function(d){d.classList.remove("isdone");d.querySelector(".done").textContent="Mark step done";});
+    doneMap={};store.del(KEY);refreshProgress();
+  });
+})();
+</script>
+</body>
+</html>

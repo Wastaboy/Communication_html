@@ -22,6 +22,11 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)",
         'Notify("Request submitted — the CCD team has been notified.", NotificationType.Success); ResetForm(frmSubmit)',
     ],
+    "part3-my-requests.html": [
+        "SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), \"Created\", SortOrder.Descending)",
+        "Set(gblEditItem, galMyRequests.Selected); Navigate(scrSubmit, ScreenTransition.None)",
+        "If(IsBlank(gblEditItem), FormMode.New, FormMode.Edit)",
+    ],
 }
 
 def fail(msgs, m): msgs.append(m)
