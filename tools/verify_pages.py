@@ -27,6 +27,11 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "Set(gblEditItem, galMyRequests.Selected); Navigate(scrSubmit, ScreenTransition.None)",
         "If(IsBlank(gblEditItem), FormMode.New, FormMode.Edit)",
     ],
+    "part4-ccd-dashboard.html": [
+        "Set(gblIsCCD, Lower(User().Email) in [",
+        "Choices('Communication Requests'.Status)",
+        "Patch('Communication Requests', galAllRequests.Selected, {Status: ddStatus.Selected, 'CCD Notes': txtCCDNotes.Text}); Notify(\"Request updated.\", NotificationType.Success)",
+    ],
 }
 
 def fail(msgs, m): msgs.append(m)
