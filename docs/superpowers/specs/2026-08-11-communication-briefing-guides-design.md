@@ -57,7 +57,8 @@ Replicate the established interactive format from `bloody-2026-08-07-1600.html`:
 **SharePoint (Part 1)**
 - Team site; the site URL is a placeholder pill the user fills from their tenant.
 - List **Communication Requests**: Title (Request Subject, required), Department
-  (choice), Request Details (multi-line), Target Date (date), Status (choice:
+  (choice — values entered by the user from BBK's department list via a
+  placeholder pill ⚑), Request Details (multi-line), Target Date (date), Status (choice:
   **Submitted / In Progress / Completed**, default Submitted ⚑), CCD Notes
   (multi-line), attachments enabled, versioning on. Requester = Created By.
 - List **Audit Log**: Request ID (number), Action (choice: Created / Edited /
