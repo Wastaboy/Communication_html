@@ -32,6 +32,11 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "Choices('Communication Requests'.Status)",
         "Patch('Communication Requests', galAllRequests.Selected, {Status: ddStatus.Selected, 'CCD Notes': txtCCDNotes.Text}); Notify(\"Request updated.\", NotificationType.Success)",
     ],
+    "part5-flows-golive.html": [
+        "triggerOutputs()?['body/{TriggerWindowStartToken}']",
+        "triggerOutputs()?['body/{TriggerWindowEndToken}']",
+        "concat('Status is now: ', triggerOutputs()?['body/Status/Value'])",
+    ],
 }
 
 def fail(msgs, m): msgs.append(m)
