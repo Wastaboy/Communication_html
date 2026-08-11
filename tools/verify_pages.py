@@ -17,6 +17,11 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "Everyone except external users",
         "Create items and edit items that were created by the user",
     ],
+    "part2-submission-form.html": [
+        "SubmitForm(frmSubmit)",
+        "If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)",
+        'Notify("Request submitted — the CCD team has been notified.", NotificationType.Success); ResetForm(frmSubmit)',
+    ],
 }
 
 def fail(msgs, m): msgs.append(m)
