@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F3B6E">
+<title>SharePoint Foundation — Communication Briefing · Part 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3B6E; --navy-deep:#142a52; --ink:#0f1f3d;
+    --amber:#E08A1E; --amber-soft:#fbe8cd;
+    --paper:#F4F5F8; --card:#fff; --line:#e3e6ee; --line-soft:#eef1f7;
+    --navy-tint:#eef0f6; --faint:#97a1b4;
+    --text:#1b2436; --muted:#5b6678;
+    --code-bg:#0f1f3d; --code-text:#e9edf7;
+    --ok:#1f8a52; --ok-soft:#e3f3ea;
+    --green:#228b57; --red:#c83737; --gray:#788291;
+    --radius:14px; --tap:46px; --sh-sm:0 1px 2px rgba(16,31,61,.04);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:24px;line-height:1.62;-webkit-font-smoothing:antialiased;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+
+  header.mast{background:radial-gradient(120% 140% at 100% 0%, rgba(224,138,30,.22), transparent 55%),linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:calc(28px + env(safe-area-inset-top)) 0 26px;border-bottom:3px solid var(--amber)}
+  .mast-inner{display:flex;gap:18px;align-items:center}
+  .mast-copy{flex:1;min-width:0}
+  .brandmark{flex:none;width:60px;height:60px;border-radius:15px;background:linear-gradient(160deg,#274982,#1a345f);border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 22px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);display:grid;place-items:center}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);font-weight:500;margin:0 0 10px}
+  .mast h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:42px;line-height:1.12;margin:0 0 8px;letter-spacing:-.01em}
+  .mast p.sub{margin:0;color:#c7d2e8;font-size:21px;max-width:48ch}
+  .mast .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .mast .meta span{font-family:"IBM Plex Mono",monospace;font-size:16px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);padding:5px 9px;border-radius:999px;color:#dde6f5}
+  .mast .meta span b{color:#fff;font-weight:600}
+  @media(max-width:480px){ .brandmark{width:50px;height:50px} .mast h1{font-size:34px} }
+
+  .sticky{position:sticky;top:0;z-index:40;background:rgba(244,245,248,.86);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  .progress{height:5px;background:var(--line);overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--amber));transition:width .35s ease}
+  .progtext{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--muted);padding:6px 0 8px;display:flex;justify-content:space-between;align-items:center}
+  .progtext button{background:none;border:none;color:var(--navy);font-family:inherit;font-size:15px;cursor:pointer;text-decoration:underline;padding:4px}
+
+  section.block{margin:26px 0}
+  section.block > h2.sec{font-family:"IBM Plex Serif",serif;font-size:29px;font-weight:600;color:var(--navy);margin:0 0 4px;letter-spacing:-.01em;scroll-margin-top:120px}
+  section.block > p.lead{margin:0 0 14px;color:var(--muted);font-size:21px}
+
+  .tldr{background:#fffdf8;border:1px dashed #ecd6ad;border-radius:12px;padding:13px 15px;margin:0 0 15px;font-size:20px}
+  .tldr b{display:block;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#a4651a;margin-bottom:4px}
+
+  details.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:12px 0;overflow:hidden;scroll-margin-top:118px;box-shadow:var(--sh-sm)}
+  details.step[open]{box-shadow:0 6px 24px -12px rgba(16,31,61,.28);border-color:#d4dae8}
+  summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 16px;min-height:var(--tap);user-select:none;-webkit-tap-highlight-color:transparent}
+  summary::-webkit-details-marker{display:none}
+  summary .num{flex:none;min-width:30px;height:30px;padding:0 5px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:18px}
+  details.isdone summary .num{background:var(--ok)}
+  summary .stitle{flex:1;font-weight:600;font-size:22px;line-height:1.3}
+  summary .chev{flex:none;color:var(--muted);transition:transform .2s ease}
+  details[open] summary .chev{transform:rotate(90deg)}
+  summary .dot{flex:none;width:9px;height:9px;border-radius:50%;border:2px solid var(--line)}
+  details.isdone summary .dot{background:var(--ok);border-color:var(--ok)}
+  .body{padding:2px 16px 18px;border-top:1px solid var(--line-soft)}
+  .body > *:first-child{margin-top:14px}
+  .body p{margin:0 0 12px}
+  p.do{margin:0 0 12px}
+  .body ul,.body ol{margin:0 0 12px;padding-left:22px}.body li{margin:0 0 8px}
+  ol.steps2{counter-reset:s2;list-style:none;padding-left:0}
+  ol.steps2 > li{position:relative;padding:2px 0 10px 40px;margin:0}
+  ol.steps2 > li::before{counter-increment:s2;content:counter(s2);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--navy-tint);color:var(--navy);font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:16px;display:grid;place-items:center;border:1px solid #dbe3f5}
+
+  dl.props{margin:0 0 13px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  dl.props > div{display:grid;grid-template-columns:210px 1fr;border-top:1px solid var(--line-soft)}
+  dl.props > div:first-child{border-top:none}
+  dl.props dt{background:#f7f9fc;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:18px;color:var(--navy);font-weight:500;border-right:1px solid var(--line-soft)}
+  dl.props dd{margin:0;padding:9px 12px;font-size:20px}
+  dl.props dd code{font-family:"IBM Plex Mono",monospace;font-size:18px;background:#eef1f7;padding:1px 5px;border-radius:5px}
+  @media(max-width:430px){dl.props > div{grid-template-columns:130px 1fr}dl.props dt{font-size:15px;padding:8px 9px}dl.props dd{font-size:18px;padding:8px 10px}}
+
+  .fxlabel{font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:0 0 5px;font-weight:500}
+  .fx{position:relative;margin:0 0 13px}
+  .fx code{display:block;background:var(--code-bg);color:var(--code-text);font-family:"IBM Plex Mono",monospace;font-size:18px;line-height:1.55;padding:14px 84px 14px 16px;border-radius:11px;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;border:1px solid #1c3360}
+  .fx .copy{position:absolute;top:8px;right:8px;height:34px;min-width:34px;padding:0 11px;border:none;border-radius:8px;background:rgba(224,138,30,.95);color:#1b1206;font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .fx .copy:active{transform:scale(.96)}
+  .fx .copy.copied{background:var(--ok);color:#fff}
+  .fxgroup{border:1px solid var(--line);border-radius:12px;padding:12px 13px 2px;margin:0 0 14px;background:#fcfdff}
+  .fxgroup > .gh{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--navy);margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .fxgroup > .gh::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--amber)}
+
+  .pane{background:#f4f6fb;border:1px solid #dbe2f1;border-left:4px solid var(--navy);border-radius:11px;padding:12px 14px;margin:0 0 13px}
+  .pane > .ph{font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);font-weight:600;margin:0 0 9px;display:flex;align-items:center;gap:7px}
+  .pane > .ph::before{content:"\2699";font-size:16px;line-height:1}
+  .pane ol,.pane ul{margin:0;padding-left:20px}.pane li{margin:0 0 6px;font-size:19px}
+  .pane p{margin:0 0 8px;font-size:19px}
+  .pane code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:#e7ecf7;color:var(--navy);padding:1px 6px;border-radius:5px}
+
+  .note{border-radius:11px;padding:12px 14px;margin:0 0 13px;font-size:20px;border:1px solid;line-height:1.55}
+  .note b{display:block;font-size:17px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;font-family:"IBM Plex Mono",monospace}
+  .note.why{background:#eef2fb;border-color:#d5def3;color:#23365e}.note.why b{color:var(--navy)}
+  .note.warn{background:#fbe8cd33;border-color:var(--amber-soft);color:#6b4410}.note.warn b{color:#a4651a}
+  .note.tip{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.tip b{color:var(--ok)}
+  .note.check{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.check b{color:var(--ok)}
+  .note.check b::before{content:"✅ ";}
+  .note code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:5px}
+
+  /* tap-to-copy chips: every code chip outside a dark .fx box is copyable */
+  code.cc{cursor:copy;position:relative;-webkit-tap-highlight-color:transparent}
+  code.cc::after{content:"⧉";font-size:.78em;margin-left:5px;opacity:.55}
+  code.cc.copied{background:var(--ok) !important;color:#fff !important}
+  code.cc.copied::after{content:"✓";opacity:1}
+
+  /* visual language — navy button = click it in the product UI; amber chip = value you enter; key cap = press it */
+  code.cc{background:#fdf1dd !important;color:#7a4d10 !important;border:1px solid #eed7ae;border-radius:6px;padding:1px 6px}
+  kbd.ui{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:.8em;font-weight:600;color:#fff;background:linear-gradient(180deg,#2a4a85,#1F3B6E);border:1px solid #142a52;border-radius:8px;padding:2px 9px 3px;line-height:1.4;white-space:nowrap;box-shadow:0 1px 0 #0d1c3a;vertical-align:baseline}
+  kbd.key{font-family:"IBM Plex Mono",monospace;font-size:.72em;font-weight:600;color:#3d4a63;background:linear-gradient(#fff,#eef0f5);border:1px solid #c3cad9;border-bottom-width:3px;border-radius:6px;padding:1px 7px;line-height:1.5;white-space:nowrap}
+
+  table.cols{width:100%;border-collapse:collapse;margin:0 0 13px;font-size:18px;background:#fff;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  table.cols th{background:#f7f9fc;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.cols td{padding:7px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  table.cols tr:last-child td{border-bottom:none}
+
+  .done{-webkit-appearance:none;appearance:none;width:100%;min-height:var(--tap);margin-top:6px;border:1.5px solid var(--navy);border-radius:11px;background:#fff;color:var(--navy);font-family:inherit;font-size:21px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;gap:8px}
+  .done:active{background:var(--line-soft)}
+  details.isdone .done{background:var(--ok);border-color:var(--ok);color:#fff}
+
+  footer{margin:34px 0 10px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:18px;text-align:center;line-height:1.6}
+  footer a{color:var(--navy);font-weight:600}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap mast-inner">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="16" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/>
+        <path d="M16 24l6 6 11-13" stroke="rgba(224,138,30,.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="mast-copy">
+      <p class="kicker">BBK · CCD · Part 1 of 5</p>
+      <h1>SharePoint Foundation</h1>
+      <p class="sub">Two lists, versioning, and item-level privacy — the data layer the whole Communication Briefing system stands on.</p>
+      <div class="meta">
+        <span><b>~40 min</b> hands-on</span> <span><b>SharePoint</b> only</span> <span><b>No code</b> yet</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sticky">
+  <div class="wrap">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="progtext"><span id="progLabel">0 of 9 steps done</span><button id="reset" type="button">Reset</button></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="block">
+    <h2 class="sec">What Part 1 builds</h2>
+    <div class="tldr"><b>TL;DR</b>A private SharePoint team site with a <code class="cc">Communication Requests</code> list (six columns, versioning on, attachments on, item-level privacy) and an <code class="cc">Audit Log</code> list the Part 5 flows will write to. Finish this part and the data layer is done.</div>
+    <div class="note why"><b>Phase-1 rule</b>There is <strong>no approval or rejection workflow anywhere</strong> in this build — that is a business decision by CCD, not an oversight. If you find yourself adding an approve button at any point in this series, stop.</div>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">How to read this guide</h2>
+    <p class="lead">Three kinds of markers, used everywhere in the series:</p>
+    <ul>
+      <li><code class="cc">amber chip</code> — an exact name or value. Tap it to copy, then paste it in.</li>
+      <li><kbd class="ui">Navy button</kbd> — something you click in the product UI (a menu, tab, or button).</li>
+      <li><kbd class="key">F5</kbd> — a key you press.</li>
+    </ul>
+    <p>Dark boxes hold longer values with their own <em>Copy</em> button. Every step ends with a green check — do not move on until it passes.</p>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">Before you start</h2>
+    <div class="pane">
+      <p class="ph">Prerequisites</p>
+      <ul>
+        <li>A BBK Microsoft 365 account that can create SharePoint team sites (if <kbd class="ui">+ Create site</kbd> is missing in a1, ask IT to create the site and make you an <strong>Owner</strong>).</li>
+        <li>The five CCD member names handy: Rawan AlQattan, Rafa Kaddoura, Abdulrahman Danish, Samar Qannati, Noora AlFaihani.</li>
+        <li>About 40 uninterrupted minutes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">The steps</h2>
+
+  <details class="step" id="a1" open>
+    <summary><span class="dot"></span><span class="num">A1</span><span class="stitle">Create the team site</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Everything lives on one private team site.</p>
+      <ol class="steps2">
+        <li>Go to <code class="cc">office.com</code>, sign in, open the app launcher (top-left grid) and click <kbd class="ui">SharePoint</kbd>.</li>
+        <li>Click <kbd class="ui">+ Create site</kbd> → <kbd class="ui">Team site</kbd> → <kbd class="ui">Standard team</kbd> → <kbd class="ui">Use template</kbd>.</li>
+        <li>Site name: <code class="cc">Communication Briefing</code>. Leave the group email alias as suggested.</li>
+        <li>Privacy: <kbd class="ui">Private — only members can access this site</kbd>. Language: English. Click <kbd class="ui">Create site</kbd>, then <kbd class="ui">Finish</kbd> (skip adding members here — a8 does that properly).</li>
+      </ol>
+      <div class="note tip"><b>Site creation disabled?</b>Some tenants hide <kbd class="ui">+ Create site</kbd>. Ask IT to create a private team site named <code class="cc">Communication Briefing</code> and grant you <strong>Owner</strong> — then continue from a2.</div>
+      <div class="note check"><b>Check before moving on</b>The new site opens and its address looks like <code>…/sites/CommunicationBriefing</code>. Copy that URL somewhere handy — every later part calls it <strong>your site URL</strong>.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a2">
+    <summary><span class="dot"></span><span class="num">A2</span><span class="stitle">Create the Communication Requests list</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>On the site home page click <kbd class="ui">+ New</kbd> → <kbd class="ui">List</kbd>.</li>
+        <li>Choose <kbd class="ui">Blank list</kbd>.</li>
+        <li>Name: <code class="cc">Communication Requests</code>. Leave "Show in site navigation" ticked.</li>
+        <li>Click <kbd class="ui">Create</kbd>.</li>
+      </ol>
+      <div class="note check"><b>Check before moving on</b>An empty list opens with a single <code>Title</code> column.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a3">
+    <summary><span class="dot"></span><span class="num">A3</span><span class="stitle">Add the five columns</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Create each column with a <strong>space-free name</strong> exactly as shown — a4 renames the labels afterwards. For each one: click <kbd class="ui">+ Add column</kbd>, pick the type, click <kbd class="ui">Next</kbd>, fill it in, click <kbd class="ui">Save</kbd>.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">Department</code></td><td><kbd class="ui">Choice</kbd></td><td>Paste the division list below</td></tr>
+        <tr><td><code class="cc">RequestDetails</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">TargetDate</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">No</kbd></td></tr>
+        <tr><td><code class="cc">Status</code></td><td><kbd class="ui">Choice</kbd></td><td>Three choices, default below</td></tr>
+        <tr><td><code class="cc">CCDNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+      </table>
+      <p class="fxlabel">Department · choices (paste into the first choice box — it splits into pills)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>CE Office
+Operations &amp; Administration
+Information Technology
+Financial Planning &amp; Control
+Human Resources
+Strategy &amp; Transformation
+Marketing &amp; Communications
+Corporate &amp; Business Development
+Remedial
+In - Business Risk
+Treasury &amp; Investment
+Private Banking &amp; Wealth Management
+International Banking
+Wholesale Banking
+Retail Banking
+Corporate Secretariat
+Information Security
+Risk Management
+Credit &amp; Overseas Risk
+Compliance &amp; AML
+Internal Audit
+Legal</code></div>
+      <div class="note tip"><b>If the paste doesn't split</b>Add the choices one per box manually — same values, same order.</div>
+      <p class="do">For <code class="cc">Status</code>, the three choices are <code class="cc">Submitted</code>, <code class="cc">In Progress</code>, <code class="cc">Completed</code> — and under <kbd class="ui">More options</kbd> set <strong>Default value</strong> to <code class="cc">Submitted</code>.</p>
+      <div class="note warn"><b>Confirm with CCD</b>Two of these are working defaults: the division list (is it current?) and the three status names. If CCD wants different ones, change them here in a3 — every later part reads whatever this column holds.</div>
+      <div class="note check"><b>Check before moving on</b>The list shows columns: Title, Department, RequestDetails, TargetDate, Status, CCDNotes.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a4">
+    <summary><span class="dot"></span><span class="num">A4</span><span class="stitle">Rename the display labels</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">For each column below: click its header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → paste the new label → <kbd class="ui">Save</kbd>.</p>
+      <table class="cols">
+        <tr><th>Column</th><th>Rename to</th></tr>
+        <tr><td><code>Title</code></td><td><code class="cc">Request Subject</code></td></tr>
+        <tr><td><code>RequestDetails</code></td><td><code class="cc">Request Details</code></td></tr>
+        <tr><td><code>TargetDate</code></td><td><code class="cc">Target Date</code></td></tr>
+        <tr><td><code>CCDNotes</code></td><td><code class="cc">CCD Notes</code></td></tr>
+      </table>
+      <div class="note why"><b>Why create-then-rename</b>A column's <em>internal</em> name is frozen at creation. Space-free names first means the Part 5 flows see clean names like <code>RequestDetails</code> instead of <code>Request_x0020_Details</code>; renaming afterwards only changes the label people see.</div>
+      <div class="note check"><b>Check before moving on</b>Headers now read: Request Subject · Department · Request Details · Target Date · Status · CCD Notes.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a5">
+    <summary><span class="dot"></span><span class="num">A5</span><span class="stitle">Versioning and attachments</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>In the list, click the gear (top-right) → <kbd class="ui">List settings</kbd>.</li>
+        <li>Click <kbd class="ui">Versioning settings</kbd> → "Create a version each time you edit an item in this list?" <kbd class="ui">Yes</kbd> → <kbd class="ui">OK</kbd>.</li>
+        <li>Back in settings, click <kbd class="ui">Advanced settings</kbd> → Attachments: <kbd class="ui">Enabled</kbd> (it usually already is) → <kbd class="ui">OK</kbd>.</li>
+      </ol>
+      <div class="note why"><b>Why versioning matters here</b>Version history is half of the audit-trail requirement: every edit keeps who and when, forever, with zero code. The Part 5 flow adds the reportable other half.</div>
+      <div class="note check"><b>Check before moving on</b>Versioning settings shows <strong>Yes</strong>; Advanced settings shows attachments <strong>Enabled</strong>.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a6">
+    <summary><span class="dot"></span><span class="num">A6</span><span class="stitle">Item-level privacy</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">This is the setting that keeps requesters from seeing each other's requests.</p>
+      <ol class="steps2">
+        <li>Still in <kbd class="ui">List settings</kbd> → <kbd class="ui">Advanced settings</kbd>, find <strong>Item-level Permissions</strong>.</li>
+        <li>Read access: <kbd class="ui">Read items that were created by the user</kbd>.</li>
+        <li>Create and Edit access: <kbd class="ui">Create items and edit items that were created by the user</kbd>.</li>
+        <li>Click <kbd class="ui">OK</kbd>.</li>
+      </ol>
+      <div class="note why"><b>Who still sees everything</b>Users with <strong>Manage Lists</strong> permission — the site Owners you add in a8 — bypass item-level restrictions. That is exactly how the CCD team gets the full picture while staff stay in their lane.</div>
+      <div class="note check"><b>Check before moving on</b>Advanced settings shows both item-level options set to the "created by the user" choices.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a7">
+    <summary><span class="dot"></span><span class="num">A7</span><span class="stitle">Create the Audit Log list</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Part 5's flow writes one row here for every create, edit, and status change. Same drill as a2–a3: <kbd class="ui">+ New</kbd> → <kbd class="ui">List</kbd> → <kbd class="ui">Blank list</kbd> → name <code class="cc">Audit Log</code> → <kbd class="ui">Create</kbd>, then add:</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">RequestID</code></td><td><kbd class="ui">Number</kbd></td><td>&nbsp;</td></tr>
+        <tr><td><code class="cc">Action</code></td><td><kbd class="ui">Choice</kbd></td><td><code class="cc">Created</code> / <code class="cc">Edited</code> / <code class="cc">Status Changed</code>, no default</td></tr>
+        <tr><td><code class="cc">ModifiedBy</code></td><td><kbd class="ui">Single line of text</kbd></td><td>&nbsp;</td></tr>
+        <tr><td><code class="cc">ModifiedDateTime</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
+        <tr><td><code class="cc">ChangeSummary</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+      </table>
+      <div class="note why"><b>Why plain text for ModifiedBy</b>A text column keeps the Part 5 flow one action shorter and exports to Excel exactly as written. The requests list already stores the real person field for anything forensic.</div>
+      <div class="note check"><b>Check before moving on</b>The Audit Log list exists with columns: Title, RequestID, Action, ModifiedBy, ModifiedDateTime, ChangeSummary.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a8">
+    <summary><span class="dot"></span><span class="num">A8</span><span class="stitle">Grant access — CCD as Owners, staff as Members</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>Site home → gear → <kbd class="ui">Site permissions</kbd> → <kbd class="ui">Add members</kbd> → <kbd class="ui">Add members to group</kbd>.</li>
+        <li>Add each CCD member — Rawan AlQattan, Rafa Kaddoura, Abdulrahman Danish, Samar Qannati, Noora AlFaihani — and set each one's role to <kbd class="ui">Owner</kbd>.</li>
+        <li>Then add <code class="cc">Everyone except external users</code> and leave its role as <kbd class="ui">Member</kbd> — that is what lets any staff member submit a request.</li>
+      </ol>
+      <div class="note warn"><b>Confirm with CCD / IT</b>All-staff from day one, or a pilot group first? To pilot, add a smaller security group as Member instead of Everyone — the rest of the build is identical.</div>
+      <div class="note check"><b>Check before moving on</b>Site permissions shows the five CCD names under Owners and Everyone except external users (or your pilot group) under Members.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a9">
+    <summary><span class="dot"></span><span class="num">A9</span><span class="stitle">Verify the foundation</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>In Communication Requests click <kbd class="ui">+ New</kbd>, set Request Subject to <code class="cc">TEST - delete me later</code>, pick any Department, <kbd class="ui">Save</kbd>.</li>
+        <li>Open the item again, change Request Details to anything, save.</li>
+        <li>Select the item → <kbd class="ui">⋮</kbd> → <kbd class="ui">Version history</kbd>.</li>
+      </ol>
+      <div class="note tip"><b>Keep the test item</b>Part 2's first F5 test looks for it, and Part 5's go-live step sweeps all TEST items out at the end.</div>
+      <div class="note check"><b>Check before moving on</b>All six: ① both lists exist ② headers read Request Subject / Department / Request Details / Target Date / Status / CCD Notes ③ versioning on ④ item-level permissions set to "created by the user" ⑤ five CCD Owners + staff Members ⑥ version history shows 2.0 with your name and timestamps, and the item's Status defaulted to <strong>Submitted</strong>.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  </section>
+
+  <footer>
+    Part 1 of 5 — the Communication Briefing Form build.<br>
+    The series: &nbsp;<a href="index.html">Index</a> · <a href="part2-submission-form.html">Part 2 — Submission Form</a> · <a href="part3-my-requests.html">Part 3 — My Requests</a> · <a href="part4-ccd-dashboard.html">Part 4 — CCD Dashboard</a> · <a href="part5-flows-golive.html">Part 5 — Flows + Go-Live</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var mem={};
+  var store={
+    get:function(k){try{return localStorage.getItem(k);}catch(e){return (k in mem)?mem[k]:null;}},
+    set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
+    del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
+  };
+  var KEY="cbfPart1_v1";
+
+  function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+  function copyText(text,onDone){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(onDone,function(){fallbackCopy(text);onDone();});}
+    else{fallbackCopy(text);onDone();}
+  }
+  document.querySelectorAll(".fx .copy").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var code=btn.parentElement.querySelector("code");
+      copyText(code?code.textContent:"",function(){
+        btn.classList.add("copied");btn.textContent="✓";
+        setTimeout(function(){btn.classList.remove("copied");btn.textContent="Copy";},1300);
+      });
+    });
+  });
+  document.querySelectorAll("code.cc").forEach(function(chip){
+    chip.setAttribute("title","Tap to copy");
+    chip.addEventListener("click",function(){
+      copyText(chip.textContent,function(){
+        chip.classList.add("copied");
+        setTimeout(function(){chip.classList.remove("copied");},1100);
+      });
+    });
+  });
+
+  var steps=Array.prototype.slice.call(document.querySelectorAll("details.step"));
+  var total=steps.length;
+  var bar=document.getElementById("bar");
+  var label=document.getElementById("progLabel");
+  function loadDone(){var raw=store.get(KEY);if(!raw)return {};try{return JSON.parse(raw)||{};}catch(e){return {};}}
+  function saveDone(obj){store.set(KEY,JSON.stringify(obj));}
+  var doneMap=loadDone();
+  function refreshProgress(){
+    var n=0;
+    steps.forEach(function(d){if(d.classList.contains("isdone"))n++;});
+    bar.style.width=(total?Math.round(n/total*100):0)+"%";
+    label.textContent=n+" of "+total+" steps done";
+  }
+  steps.forEach(function(d){
+    if(doneMap[d.id])d.classList.add("isdone");
+    var btn=d.querySelector(".done");
+    function syncBtn(){btn.textContent=d.classList.contains("isdone")?"✓ Done — tap to undo":"Mark step done";}
+    syncBtn();
+    btn.addEventListener("click",function(){d.classList.toggle("isdone");doneMap[d.id]=d.classList.contains("isdone");saveDone(doneMap);syncBtn();refreshProgress();});
+  });
+  refreshProgress();
+
+  /* anchor links that target content inside a closed step: open the step first */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener("click",function(){
+      var el=document.getElementById(a.getAttribute("href").slice(1));
+      if(!el)return;
+      var d=el.closest?el.closest("details"):null;
+      if(el.tagName&&el.tagName.toLowerCase()==="details")d=el;
+      if(d)d.open=true;
+    });
+  });
+
+  document.getElementById("reset").addEventListener("click",function(){
+    steps.forEach(function(d){d.classList.remove("isdone");d.querySelector(".done").textContent="Mark step done";});
+    doneMap={};store.del(KEY);refreshProgress();
+  });
+})();
+</script>
+</body>
+</html>

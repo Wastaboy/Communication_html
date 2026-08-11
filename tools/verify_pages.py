@@ -12,7 +12,12 @@ PAGES = {
     "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v1"},
     "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v1"},
 }
-SNIPPETS = {}  # filename -> [verbatim decoded formula strings]; filled by later tasks
+SNIPPETS = {  # filename -> [verbatim decoded formula strings]
+    "part1-foundation.html": [
+        "Everyone except external users",
+        "Create items and edit items that were created by the user",
+    ],
+}
 
 def fail(msgs, m): msgs.append(m)
 
