@@ -48,7 +48,14 @@ before and after Submit, and never lose typed work without asking.
   scrDone). Part 3: legend added, c7 return-flow text adjusted.
 - Storage keys bump: `cbfPart2_v2`, `cbfPart3_v2` (renumbered steps must not
   inherit old tick-marks). Index step counts updated (Part 2 = 12).
-- Parts 1, 4, 5 unchanged. Verify script: update part2/part3 snippet lists and
+- Part 2 introduces `App.OnStart = Set(gblEditItem, Blank()); Set(gblShowCancelConfirm, false)`
+  so its formulas can reference the globals before Part 3 exists. Part 4's d1
+  (which replaces App.OnStart wholesale) therefore gains those two Sets in its
+  formula — text-only change, step ids and storage key unchanged.
+- scrDone is built in Part 2 with only "Submit another request"; Part 3 adds the
+  "View my requests" button (that screen doesn't exist during Part 2) and
+  upgrades Cancel/Discard to their edit-aware versions. Part 3 becomes 11 steps.
+- Parts 1 and 5 unchanged. Verify script: update part2/part3 snippet lists and
   key names; full QA + redeploy to the same URLs.
 
 ## Out of scope (YAGNI)
