@@ -145,7 +145,7 @@
       <h1>My Requests</h1>
       <p class="sub">Requesters see their own submissions, live status, CCD notes — and can edit after submitting.</p>
       <div class="meta">
-        <span><b>~45 min</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>Edit-after</b>-submit</span>
+        <span><b>~50 min</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>Edit-after</b>-submit</span>
       </div>
     </div>
   </div>
@@ -154,7 +154,7 @@
 <div class="sticky">
   <div class="wrap">
     <div class="progress"><i id="bar"></i></div>
-    <div class="progtext"><span id="progLabel">0 of 10 steps done</span><button id="reset" type="button">Reset</button></div>
+    <div class="progtext"><span id="progLabel">0 of 11 steps done</span><button id="reset" type="button">Reset</button></div>
   </div>
 </div>
 
@@ -172,7 +172,7 @@
       <p class="ph">Prerequisites</p>
       <ul>
         <li><a href="part1-foundation.html">Part 1</a> and <a href="part2-submission-form.html">Part 2</a> finished.</li>
-        <li>The app open in Power Apps Studio with at least one TEST item submitted (b9).</li>
+        <li>The app open in Power Apps Studio with at least one TEST item submitted (b11).</li>
       </ul>
     </div>
   </section>
@@ -259,8 +259,11 @@
       </dl>
       <p class="fxlabel">lblDetNotes · Text</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "Select a request on the left.", "Status: " &amp; galMyRequests.Selected.Status.Value &amp; Char(10) &amp; Char(10) &amp; "CCD notes:" &amp; Char(10) &amp; If(IsBlank(galMyRequests.Selected.'CCD Notes'), "— none yet —", galMyRequests.Selected.'CCD Notes'))</code></div>
-      <div class="note why"><b>This is FR-6 working</b>Status and any notes CCD writes (Part 4) appear here, live, to the person who asked — no email required.</div>
-      <div class="note check"><b>Check before moving on</b>Selecting a gallery row shows its status and "— none yet —" for notes.</div>
+      <p class="do">And the one-line legend that makes the status colors self-explanatory — <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename <code class="cc">lblStatusLegend</code>: X <code>24</code>, Y <code>90</code>, Width <code>Parent.Width - 48</code>, Size <code>12</code>, Color <code>RGBA(91, 102, 120, 1)</code>, Text:</p>
+      <p class="fxlabel">lblStatusLegend · Text</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Submitted = waiting for CCD   ·   In Progress = being worked on   ·   Completed = done"</code></div>
+      <div class="note why"><b>This is FR-6 working — legibly</b>Status and any notes CCD writes (Part 4) appear here, live, to the person who asked. The legend means the colored words decode themselves — nobody has to guess what "In Progress" implies.</div>
+      <div class="note check"><b>Check before moving on</b>Selecting a gallery row shows its status and "— none yet —" for notes; the legend line sits under the header.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -288,17 +291,36 @@
   <details class="step" id="c7">
     <summary><span class="dot"></span><span class="num">C7</span><span class="stitle">Return after edit</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Replace <code class="cc">frmSubmit</code>'s OnSuccess (from b8) with:</p>
+      <p class="do">Replace <code class="cc">frmSubmit</code>'s OnSuccess (the b9 version) with the edit-aware final:</p>
       <p class="fxlabel">frmSubmit · OnSuccess</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Notify(If(IsBlank(gblEditItem), "Request submitted — the CCD team has been notified.", "Changes saved."), NotificationType.Success); If(IsBlank(gblEditItem), ResetForm(frmSubmit), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
-      <div class="note why"><b>Two exits</b>A new submission clears the form for the next one; an edit bounces you back to My Requests, which now shows the updated row.</div>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None), Notify("Changes saved.", NotificationType.Success); Set(gblEditItem, Blank()); ResetForm(frmSubmit); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
+      <div class="note why"><b>Two exits, both explained</b>A new submission still gets the full confirmation screen. An edit doesn't detour — a "Changes saved." toast and straight back to My Requests, where the updated row is already showing.</div>
       <div class="note check"><b>Check before moving on</b>Formula accepted with no red squiggles.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="c8">
-    <summary><span class="dot"></span><span class="num">C8</span><span class="stitle">Refresh and empty state</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">C8</span><span class="stitle">Edit-aware cancel + the second next-step button</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Cancelling an <em>edit</em> should return you to your list, not strand you on the form. Upgrade the two b10 formulas:</p>
+      <p class="fxlabel">btnCancel · OnSelect (replaces the b10 version)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None)))</code></div>
+      <p class="fxlabel">btnDialogDiscard · OnSelect (replaces the b10 version)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblShowCancelConfirm, false); ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
+      <p class="do">And now that My Requests exists, give the confirmation screen its second exit. On <code>scrDone</code>:</p>
+      <ol class="steps2">
+        <li>Button <code class="cc">btnDoneMyRequests</code>: Text <code>"View my requests"</code>, X <code>(Parent.Width - 452) / 2</code>, Y <code>500</code>, Width <code>220</code>, Height <code>48</code>, Fill <code>RGBA(31, 59, 110, 1)</code>, OnSelect <code>Navigate(scrMyRequests, ScreenTransition.None)</code>.</li>
+        <li>Move <code class="cc">btnDoneAnother</code> to X <code>(Parent.Width - 452) / 2 + 232</code> so the pair sits centered.</li>
+      </ol>
+      <div class="note why"><b>Why both buttons</b>After submitting, the two things a user plausibly wants — check where their request went, or file another one — are one tap each, spelled out in words.</div>
+      <div class="note check"><b>Check before moving on</b>scrDone shows both buttons side by side; no formula errors on scrSubmit.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="c9">
+    <summary><span class="dot"></span><span class="num">C9</span><span class="stitle">Refresh and empty state</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Icon</kbd> → pick the circular-arrows <kbd class="ui">Refresh</kbd> icon, rename <code class="cc">btnMyRefresh</code>, put it left of btnGoSubmit (X <code>Parent.Width - 304</code>, Y <code>28</code>, Width <code>32</code>, Height <code>32</code>, Color <code>White</code>). OnSelect:</li>
@@ -315,23 +337,25 @@
     </div>
   </details>
 
-  <details class="step" id="c9">
-    <summary><span class="dot"></span><span class="num">C9</span><span class="stitle">F5 test — the edit loop</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="c10">
+    <summary><span class="dot"></span><span class="num">C10</span><span class="stitle">F5 test — the edit loop, cancel included</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="key">F5</kbd> → <kbd class="ui">My requests</kbd> → select the b9 TEST item.</li>
-        <li><kbd class="ui">Edit this request</kbd> — the form opens pre-filled, titled <em>Edit request</em>.</li>
-        <li>Change Request Details, click <kbd class="ui">Submit request</kbd> — toast says <em>Changes saved.</em> and you land back on My Requests.</li>
-        <li>In the SharePoint list, open the item's <kbd class="ui">Version history</kbd> — a new version, your name, right now.</li>
+        <li><kbd class="key">F5</kbd> → <kbd class="ui">My requests</kbd> → select the b11 TEST item.</li>
+        <li><kbd class="ui">Edit this request</kbd> — the form opens pre-filled, titled <em>Edit request</em>; the button reads <em>Save changes</em> and the hint reads <em>"Ready — saving updates your request instantly…"</em>.</li>
+        <li>Change Request Details, then <kbd class="ui">Cancel changes</kbd> → the discard dialog appears → <kbd class="ui">Discard</kbd> → you land back on My Requests, the item unchanged.</li>
+        <li><kbd class="ui">Edit this request</kbd> again, change Request Details, click <kbd class="ui">Save changes</kbd> — toast says <em>Changes saved.</em> and you land back on My Requests.</li>
+        <li><kbd class="ui">+ New request</kbd> → submit a fresh <code class="cc">TEST confirm - delete me later</code> → the confirmation screen shows <strong>both</strong> buttons → <kbd class="ui">View my requests</kbd> lands here with the new row on top.</li>
+        <li>In the SharePoint list, open the edited item's <kbd class="ui">Version history</kbd> — a new version, your name, right now.</li>
       </ol>
-      <div class="note why"><b>Audit trail, already working</b>Even before the Part 5 flow exists, FR-3 + FR-4's core promise (edit after submit; every edit tracked with name and time) is being kept by version history.</div>
-      <div class="note check"><b>Check before moving on</b>All four sub-steps behaved as described.</div>
+      <div class="note why"><b>Audit trail, already working</b>Even before the Part 5 flow exists, FR-3 + FR-4's core promise (edit after submit; every edit tracked with name and time) is being kept by version history — and a discarded edit correctly leaves no version behind.</div>
+      <div class="note check"><b>Check before moving on</b>All six sub-steps behaved as described — especially: Discard reverted, Save changes stuck, and the confirmation screen offered both next moves.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="c10">
-    <summary><span class="dot"></span><span class="num">C10</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="c11">
+    <summary><span class="dot"></span><span class="num">C11</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li><kbd class="key">Ctrl+S</kbd>, then <kbd class="ui">Publish</kbd> → <kbd class="ui">Publish this version</kbd>.</li>
@@ -359,7 +383,7 @@
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart3_v1";
+  var KEY="cbfPart3_v2";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){

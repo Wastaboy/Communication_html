@@ -8,7 +8,7 @@ ALL = ["index.html", "part1-foundation.html", "part2-submission-form.html",
 PAGES = {
     "part1-foundation.html": {"prefix": "a", "key": "cbfPart1_v1"},
     "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v2"},
-    "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v1"},
+    "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v2"},
     "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v1"},
     "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v1"},
 }
@@ -30,6 +30,9 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), \"Created\", SortOrder.Descending)",
         "Set(gblEditItem, galMyRequests.Selected); Navigate(scrSubmit, ScreenTransition.None)",
         "If(IsBlank(gblEditItem), FormMode.New, FormMode.Edit)",
+        'Notify("Changes saved.", NotificationType.Success); Set(gblEditItem, Blank()); ResetForm(frmSubmit); Navigate(scrMyRequests, ScreenTransition.None)',
+        "btnDoneMyRequests",
+        "Submitted = waiting for CCD",
     ],
     "part4-ccd-dashboard.html": [
         "Set(gblIsCCD, Lower(User().Email) in [",
