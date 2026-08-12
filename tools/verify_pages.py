@@ -7,7 +7,7 @@ ALL = ["index.html", "part1-foundation.html", "part2-submission-form.html",
        "part3-my-requests.html", "part4-ccd-dashboard.html", "part5-flows-golive.html"]
 PAGES = {
     "part1-foundation.html": {"prefix": "a", "key": "cbfPart1_v1"},
-    "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v1"},
+    "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v2"},
     "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v1"},
     "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v1"},
     "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v1"},
@@ -20,7 +20,11 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
     "part2-submission-form.html": [
         "SubmitForm(frmSubmit)",
         "If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)",
-        'Notify("Request submitted — the CCD team has been notified.", NotificationType.Success); ResetForm(frmSubmit)',
+        "ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None)",
+        "Fill the fields marked * to enable Submit.",
+        "If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit))",
+        "Discard this request?",
+        "Set(gblEditItem, Blank()); Set(gblShowCancelConfirm, false)",
     ],
     "part3-my-requests.html": [
         "SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), \"Created\", SortOrder.Descending)",

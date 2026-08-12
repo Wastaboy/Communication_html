@@ -145,7 +145,7 @@
       <h1>App Shell + Submission Form</h1>
       <p class="sub">A canvas app whose submit screen feels like a Google Form — fields, validation, attachments, done.</p>
       <div class="meta">
-        <span><b>~45 min</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>First F5</b> test</span>
+        <span><b>~50 min</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>First F5</b> test</span>
       </div>
     </div>
   </div>
@@ -154,7 +154,7 @@
 <div class="sticky">
   <div class="wrap">
     <div class="progress"><i id="bar"></i></div>
-    <div class="progtext"><span id="progLabel">0 of 10 steps done</span><button id="reset" type="button">Reset</button></div>
+    <div class="progtext"><span id="progLabel">0 of 12 steps done</span><button id="reset" type="button">Reset</button></div>
   </div>
 </div>
 
@@ -163,7 +163,7 @@
 
     <section class="block">
     <h2 class="sec">What Part 2 builds</h2>
-    <div class="tldr"><b>TL;DR</b>The canvas app itself — <code class="cc">Communication Briefing Form</code> — with its first screen: a submission form wired to the Part 1 list. Required-field validation, attachment upload, and a real end-to-end submit test. When this part is done, staff could already use the system.</div>
+    <div class="tldr"><b>TL;DR</b>The canvas app itself — <code class="cc">Communication Briefing Form</code> — with a submit screen that explains itself: what the form does, why the button is (or isn't) ready, a full confirmation screen after submitting, and a "discard?" safety net so nobody loses typed work. When this part is done, staff could already use the system.</div>
   </section>
 
   <section class="block">
@@ -211,11 +211,17 @@
   </details>
 
   <details class="step" id="b3">
-    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Name the screen, add the header</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>Tree view (left rail): click the <kbd class="ui">⋮</kbd> next to <code>Screen1</code> → <kbd class="ui">Rename</kbd> → <code class="cc">scrSubmit</code>.</li>
-        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Rectangle</kbd>, rename it <code class="cc">recSubmitHeader</code>, then set in the properties pane (or formula bar):</li>
+        <li>Tree view: select <kbd class="ui">App</kbd> and set its <strong>OnStart</strong>:</li>
+      </ol>
+      <p class="fxlabel">App · OnStart</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, Blank()); Set(gblShowCancelConfirm, false)</code></div>
+      <ol class="steps2" start="3">
+        <li>Run it once so the variables exist: <kbd class="ui">App</kbd> → <kbd class="ui">⋮</kbd> → <kbd class="ui">Run OnStart</kbd>.</li>
+        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Rectangle</kbd>, rename it <code class="cc">recSubmitHeader</code>:</li>
       </ol>
       <dl class="props">
         <div><dt>X · Y</dt><dd><code>0</code> · <code>0</code></dd></div>
@@ -232,7 +238,16 @@
         <div><dt>Size</dt><dd><code>22</code></dd></div>
         <div><dt>FontWeight</dt><dd><code>FontWeight.Semibold</code></dd></div>
       </dl>
-      <div class="note check"><b>Check before moving on</b>A navy band with the white app title sits across the top of <code>scrSubmit</code>.</div>
+      <p class="do">And one more label — <code class="cc">lblSubmitIntro</code>, the line that tells users what this form actually does:</p>
+      <dl class="props">
+        <div><dt>Text</dt><dd><code>"This form goes straight to the Corporate Communications team. Fields marked * are required — and you can still edit your request after submitting."</code></dd></div>
+        <div><dt>X · Y</dt><dd><code>24</code> · <code>92</code></dd></div>
+        <div><dt>Width</dt><dd><code>Parent.Width - 48</code></dd></div>
+        <div><dt>Size</dt><dd><code>14</code></dd></div>
+        <div><dt>Color</dt><dd><code>RGBA(91, 102, 120, 1)</code></dd></div>
+      </dl>
+      <div class="note why"><b>Why the intro and the variables</b>Users should know where their words go and that submitting isn't final-final <em>before</em> they type. The two variables get real jobs soon: <code>gblEditItem</code> (Part 3's edit mode) and <code>gblShowCancelConfirm</code> (b10's discard dialog) — initializing them now lets every formula reference them safely.</div>
+      <div class="note check"><b>Check before moving on</b>Navy band, white title, grey intro line under it — and Run OnStart executed without error.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -245,9 +260,9 @@
         <li>Position it:</li>
       </ol>
       <dl class="props">
-        <div><dt>X · Y</dt><dd><code>24</code> · <code>112</code></dd></div>
+        <div><dt>X · Y</dt><dd><code>24</code> · <code>128</code></dd></div>
         <div><dt>Width</dt><dd><code>Parent.Width - 48</code></dd></div>
-        <div><dt>Height</dt><dd><code>Parent.Height - 200</code></dd></div>
+        <div><dt>Height</dt><dd><code>Parent.Height - 216</code></dd></div>
       </dl>
       <ol class="steps2" start="3">
         <li>With the form selected, in the properties pane set <strong>Data source</strong> to <kbd class="ui">Communication Requests</kbd>.</li>
@@ -255,7 +270,7 @@
       </ol>
       <p class="fxlabel">frmSubmit · DefaultMode</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>FormMode.New</code></div>
-      <div class="note check"><b>Check before moving on</b>The form shows data cards for the list's fields.</div>
+      <div class="note check"><b>Check before moving on</b>The form shows data cards for the list's fields, sitting below the intro line.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -298,59 +313,110 @@
   </details>
 
   <details class="step" id="b7">
-    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">The submit button</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">The submit button — and its honest helper line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename <code class="cc">btnSubmit</code>, then set:</p>
       <dl class="props">
-        <div><dt>Text</dt><dd><code>"Submit request"</code></dd></div>
         <div><dt>X · Y</dt><dd><code>24</code> · <code>frmSubmit.Y + frmSubmit.Height + 8</code></dd></div>
         <div><dt>Width · Height</dt><dd><code>220</code> · <code>48</code></dd></div>
         <div><dt>Fill</dt><dd><code>RGBA(224, 138, 30, 1)</code></dd></div>
         <div><dt>Color</dt><dd><code>RGBA(20, 20, 20, 1)</code></dd></div>
       </dl>
+      <p class="fxlabel">btnSubmit · Text</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), "Submit request", "Save changes")</code></div>
       <p class="fxlabel">btnSubmit · OnSelect</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>SubmitForm(frmSubmit)</code></div>
       <p class="fxlabel">btnSubmit · DisplayMode</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)</code></div>
-      <div class="note why"><b>Why DisplayMode</b>The button greys itself out until every required field is filled — the validation the requirements ask for, with no extra code.</div>
-      <div class="note check"><b>Check before moving on</b>With Request Subject empty the button is greyed; type anything into it and the button wakes up.</div>
+      <p class="do">Now the helper line that always says why the button is or isn't ready — <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename <code class="cc">lblSubmitHint</code>: X <code>24</code>, Y <code>btnSubmit.Y + 56</code>, Width <code>Parent.Width - 48</code>, Size <code>13</code>, Color <code>RGBA(91, 102, 120, 1)</code>. Text:</p>
+      <p class="fxlabel">lblSubmitHint · Text</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(!frmSubmit.Valid, "Fill the fields marked * to enable Submit.", IsBlank(gblEditItem), "Ready — Submit sends this to the CCD team and you'll see a confirmation.", "Ready — saving updates your request instantly for the CCD team.")</code></div>
+      <div class="note why"><b>Why a hint label</b>A greyed-out button with no explanation is a dead end; this one always says what to do next. (Its "Save changes" wording becomes reachable in Part 3, when editing arrives.)</div>
+      <div class="note check"><b>Check before moving on</b>With Request Subject empty: button greyed, hint says fill the * fields. Type anything into Request Subject: button wakes up, hint flips to "Ready —…".</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="b8">
-    <summary><span class="dot"></span><span class="num">B8</span><span class="stitle">Success and failure behavior</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B8</span><span class="stitle">The confirmation screen</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Select <code class="cc">frmSubmit</code> and set two properties (property dropdown → paste → done):</p>
-      <p class="fxlabel">frmSubmit · OnSuccess</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Notify("Request submitted — the CCD team has been notified.", NotificationType.Success); ResetForm(frmSubmit)</code></div>
-      <p class="fxlabel">frmSubmit · OnFailure</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Notify("Something went wrong — your request was not saved. " &amp; frmSubmit.Error, NotificationType.Error)</code></div>
-      <div class="note why"><b>Why OnFailure</b>If SharePoint rejects the save (connection dropped, permission missing), the requester sees the actual reason instead of a silently stuck form.</div>
-      <div class="note check"><b>Check before moving on</b>Both formulas accepted — no red squiggles in the formula bar.</div>
+      <p class="do">After submitting, users get a whole screen that says what just happened and what happens next — not a toast that vanishes.</p>
+      <ol class="steps2">
+        <li><kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd> → rename <code class="cc">scrDone</code>.</li>
+        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Icons</kbd> → <kbd class="ui">Check</kbd>, rename <code class="cc">icoDoneCheck</code>: X <code>(Parent.Width - 120) / 2</code>, Y <code>160</code>, Width <code>120</code>, Height <code>120</code>, Color <code>RGBA(31, 138, 82, 1)</code>.</li>
+        <li>Label <code class="cc">lblDoneTitle</code>: Text <code>"Request submitted"</code>, X <code>0</code>, Y <code>300</code>, Width <code>Parent.Width</code>, Align <code>Align.Center</code>, Size <code>28</code>, FontWeight <code>FontWeight.Semibold</code>.</li>
+        <li>Label <code class="cc">lblDoneBody</code>: X <code>(Parent.Width - 640) / 2</code>, Y <code>360</code>, Width <code>640</code>, Height <code>120</code>, Align <code>Align.Center</code>, Text:</li>
+      </ol>
+      <p class="fxlabel">lblDoneBody · Text</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"The CCD team has just been emailed your request. Track it anytime in My Requests — Submitted → In Progress → Completed. You can still edit it after submitting."</code></div>
+      <ol class="steps2" start="5">
+        <li>Button <code class="cc">btnDoneAnother</code>: Text <code>"Submit another request"</code>, X <code>(Parent.Width - 220) / 2</code>, Y <code>500</code>, Width <code>220</code>, Height <code>48</code>, OnSelect <code>Navigate(scrSubmit, ScreenTransition.None)</code>.</li>
+      </ol>
+      <div class="note tip"><b>One button for now</b>Part 3 adds a <em>View my requests</em> button beside this one — that screen doesn't exist yet.</div>
+      <div class="note check"><b>Check before moving on</b>scrDone shows the big green check, title, explanation and the button.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="b9">
-    <summary><span class="dot"></span><span class="num">B9</span><span class="stitle">First F5 test</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B9</span><span class="stitle">Success and failure behavior</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li>Press <kbd class="key">F5</kbd> (or the ▷ play button, top-right).</li>
-        <li>Request Subject: <code class="cc">TEST from app - delete me later</code>. Pick any Department, type some details, pick a target date.</li>
-        <li>In the Attachments card click <kbd class="ui">Attach file</kbd> and add any small file.</li>
-        <li>Click <kbd class="ui">Submit request</kbd> — expect the green toast and a cleared form.</li>
-        <li>Open the SharePoint list in a browser tab: the new item is there, with a paper-clip icon and Status <strong>Submitted</strong>.</li>
-        <li>Press <kbd class="key">Esc</kbd> to leave preview.</li>
-      </ol>
-      <div class="note warn"><b>If submit fails with a permission error</b>Re-check Part 1: a6 (item-level permissions) and a8 (you're an Owner; staff are Members).</div>
-      <div class="note check"><b>Check before moving on</b>Item in the list · paper-clip visible · Status = Submitted · form cleared after submit.</div>
+      <p class="do">Select <code class="cc">frmSubmit</code> (on scrSubmit) and set two properties:</p>
+      <p class="fxlabel">frmSubmit · OnSuccess</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None)</code></div>
+      <p class="fxlabel">frmSubmit · OnFailure</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Notify("Something went wrong — your request was not saved. " &amp; frmSubmit.Error, NotificationType.Error)</code></div>
+      <div class="note why"><b>Why a screen beats a toast</b>The confirmation screen stays until the user chooses what's next, and its text answers the "did it work? who saw it? now what?" questions in one read. OnFailure still surfaces the real error if SharePoint rejects the save.</div>
+      <div class="note check"><b>Check before moving on</b>Both formulas accepted — no red squiggles.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="b10">
-    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Cancel — with a discard safety net</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">On <code>scrSubmit</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename <code class="cc">btnCancel</code>: X <code>268</code>, Y <code>frmSubmit.Y + frmSubmit.Height + 8</code>, Width <code>180</code>, Height <code>48</code>, Fill <code>RGBA(238, 240, 246, 1)</code>, Color <code>RGBA(31, 59, 110, 1)</code>.</p>
+      <p class="fxlabel">btnCancel · Text</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), "Clear form", "Cancel changes")</code></div>
+      <p class="fxlabel">btnCancel · OnSelect</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit))</code></div>
+      <p class="do">Now the dialog. Insert these six controls <strong>in this exact order</strong> (later inserts stack on top), and give <strong>every one of them</strong> Visible = <code>gblShowCancelConfirm</code>:</p>
+      <ol class="steps2">
+        <li><kbd class="ui">Rectangle</kbd> → <code class="cc">recDimmer</code>: X <code>0</code>, Y <code>0</code>, Width <code>Parent.Width</code>, Height <code>Parent.Height</code>, Fill <code>RGBA(15, 31, 61, 0.6)</code>.</li>
+        <li><kbd class="ui">Rectangle</kbd> → <code class="cc">recDialog</code>: X <code>(Parent.Width - 520) / 2</code>, Y <code>(Parent.Height - 260) / 2</code>, Width <code>520</code>, Height <code>260</code>, Fill <code>White</code>.</li>
+        <li>Label <code class="cc">lblDialogTitle</code>: Text <code>"Discard this request?"</code>, X <code>recDialog.X + 24</code>, Y <code>recDialog.Y + 20</code>, Width <code>472</code>, Size <code>20</code>, FontWeight <code>FontWeight.Semibold</code>.</li>
+        <li>Label <code class="cc">lblDialogBody</code>: Text <code>"Anything you've entered here will be lost. Your already-submitted requests are not affected."</code>, X <code>recDialog.X + 24</code>, Y <code>recDialog.Y + 64</code>, Width <code>472</code>, Height <code>90</code>.</li>
+        <li>Button <code class="cc">btnDialogKeep</code>: Text <code>"Keep editing"</code>, X <code>recDialog.X + 24</code>, Y <code>recDialog.Y + 188</code>, Width <code>220</code>, Height <code>48</code>, Fill <code>RGBA(31, 59, 110, 1)</code>, OnSelect <code>Set(gblShowCancelConfirm, false)</code>.</li>
+        <li>Button <code class="cc">btnDialogDiscard</code>: Text <code>"Discard"</code>, X <code>recDialog.X + 276</code>, Y <code>recDialog.Y + 188</code>, Width <code>220</code>, Height <code>48</code>, Fill <code>White</code>, Color <code>RGBA(200, 55, 55, 1)</code>, OnSelect:</li>
+      </ol>
+      <p class="fxlabel">btnDialogDiscard · OnSelect</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblShowCancelConfirm, false); ResetForm(frmSubmit)</code></div>
+      <div class="note why"><b>The two rules of cancel</b>Never lose typed work silently (anything unsaved → ask first, with <em>Keep editing</em> as the safe, primary choice) — and never nag when nothing was typed (empty form → Clear just clears, no dialog).</div>
+      <div class="note check"><b>Check before moving on</b>Six dialog controls in the tree, all with Visible <code>gblShowCancelConfirm</code> — invisible right now because the variable is false.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="b11">
+    <summary><span class="dot"></span><span class="num">B11</span><span class="stitle">F5 test — submit, confirm, cancel</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>Press <kbd class="key">F5</kbd>. With the form empty, read the hint: <em>"Fill the fields marked * to enable Submit."</em> — the button is greyed.</li>
+        <li>Request Subject: <code class="cc">TEST from app - delete me later</code>; watch the hint flip to <em>"Ready —…"</em>. Pick a Department, type details, pick a date, <kbd class="ui">Attach file</kbd> → any small file.</li>
+        <li><kbd class="ui">Submit request</kbd> → the <strong>confirmation screen</strong>: green check, "Request submitted", the what-happens-next text.</li>
+        <li><kbd class="ui">Submit another request</kbd> → an empty form.</li>
+        <li>Type anything into Request Subject, then <kbd class="ui">Clear form</kbd> → the discard dialog appears. <kbd class="ui">Keep editing</kbd> → your text is still there.</li>
+        <li><kbd class="ui">Clear form</kbd> again → <kbd class="ui">Discard</kbd> → the form is empty. Press <kbd class="key">Esc</kbd>.</li>
+        <li>In the SharePoint list: the submitted item exists, paper-clip icon, Status <strong>Submitted</strong>.</li>
+      </ol>
+      <div class="note warn"><b>If submit fails with a permission error</b>Re-check Part 1: a6 (item-level permissions) and a8 (you're an Owner; staff are Members).</div>
+      <div class="note check"><b>Check before moving on</b>Hint changes with validity · confirmation screen appears · Submit another works · dialog protects typed work · Discard clears quietly · item in the list with attachment.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="b12">
+    <summary><span class="dot"></span><span class="num">B12</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>Press <kbd class="key">Ctrl+S</kbd> — if asked for a name, keep <code class="cc">Communication Briefing Form</code>.</li>
@@ -380,7 +446,7 @@
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart2_v1";
+  var KEY="cbfPart2_v2";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){
