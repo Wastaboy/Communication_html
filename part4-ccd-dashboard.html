@@ -185,10 +185,11 @@
     <div class="body">
       <ol class="steps2">
         <li><kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd> → rename <code class="cc">scrDashboard</code>. Copy the header pair again: <code class="cc">recDashHeader</code> + <code class="cc">lblDashTitle</code>, Text <code>"CCD Dashboard"</code>.</li>
-        <li>In the tree view select <kbd class="ui">App</kbd> and set its <strong>OnStart</strong>:</li>
+        <li>In the tree view select <kbd class="ui">App</kbd> and <strong>replace</strong> its OnStart with this superset:</li>
       </ol>
-      <p class="fxlabel">App · OnStart</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblIsCCD, Lower(User().Email) in ["rawan.alqattan@bbkonline.com", "rafa.kaddoura@bbkonline.com", "abdulrahman.danish@bbkonline.com", "samar.qannati@bbkonline.com", "noora.alfaihani@bbkonline.com"]); Set(gblStatusFilter, "All")</code></div>
+      <p class="fxlabel">App · OnStart (replaces the whole property)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, Blank()); Set(gblShowCancelConfirm, false); Set(gblIsCCD, Lower(User().Email) in ["rawan.alqattan@bbkonline.com", "rafa.kaddoura@bbkonline.com", "abdulrahman.danish@bbkonline.com", "samar.qannati@bbkonline.com", "noora.alfaihani@bbkonline.com"]); Set(gblStatusFilter, "All")</code></div>
+      <div class="note warn"><b>Paste replaces everything</b>This formula replaces the <em>whole</em> OnStart — that's why it starts with the two <code>Set</code> lines you first wrote in b3. If you paste a version without them, the submit screen's edit mode and cancel dialog break.</div>
       <div class="note warn"><b>Confirm with CCD / IT</b>The five addresses above are a <em>guessed format</em> — replace every one with the real address from Outlook before go-live. A wrong address only hides the dashboard button from that person; the data itself is already safe (site Owners see everything, everyone else is fenced by Part 1's item-level permissions). While building, add <strong>your own email</strong> to the list too — remove it at go-live (e12).</div>
       <ol class="steps2" start="3">
         <li>On <code>scrMyRequests</code> add a Button <code class="cc">btnGoDashboard</code>: Text <code>"CCD dashboard"</code>, X <code>Parent.Width - 488</code>, Y <code>20</code>, Width <code>220</code>, Height <code>48</code>, Visible <code>gblIsCCD</code>, OnSelect <code>Navigate(scrDashboard, ScreenTransition.None)</code>.</li>
