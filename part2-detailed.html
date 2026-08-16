@@ -102,6 +102,9 @@
   .note.tip{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.tip b{color:var(--ok)}
   .note.check{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.check b{color:var(--ok)}
   .note.check b::before{content:"✅ ";}
+  .note.fix{background:#fdecec;border:2px solid #e89b9b;color:#6e1d1d}.note.fix b{color:var(--red);font-size:18px}
+  .note.fix b::before{content:"🔧 ";}
+  summary .fixtag{flex:none;font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;letter-spacing:.08em;color:#fff;background:var(--red);border-radius:999px;padding:3px 11px}
   .note code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:5px}
 
   /* tap-to-copy chips: every code chip outside a dark .fx box is copyable */
@@ -192,7 +195,7 @@
         <li>For Text values, the quotes <code>"…"</code> are part of the value. Copy them too.</li>
       </ol>
     </div>
-    <div class="note warn"><b>Already built from classic Part 2?</b>Three fixes this edition bakes in — apply them to your existing app: <strong>1)</strong> the App OnStart formula now gives <code>gblEditItem</code> a real type (<a href="#b3">b3</a>) so the button and hint formulas stop erroring; <strong>2)</strong> the hint label's Width is <code>Parent.Width - 48</code> — if yours says <code>Width Parent.Width - 48</code> a property name was pasted in by mistake (<a href="#b7">b7</a>); <strong>3)</strong> all six discard-dialog controls need Visible = <code>gblShowCancelConfirm</code>, or the dark overlay covers the form permanently (<a href="#b10">b10</a>).</div>
+    <div class="note fix"><b>Already built the app? Fix it in 3 steps</b>Your app is 90% right — skip everything except the three steps tagged <strong style="color:#c83737">FIX</strong> below. Inside each one, a red box like this points at the exact formula to change:<br><br><strong>1.</strong> <a href="#b3">b3</a> — replace App OnStart (kills the red <code>gblEditItem</code> errors on the button and hint).<br><strong>2.</strong> <a href="#b7">b7</a> — fix the hint label's broken Width formula.<br><strong>3.</strong> <a href="#b10">b10</a> — set Visible on all six dialog controls (right now the dark overlay never goes away).<br><br>Then re-run the F5 test (<a href="#b11">b11</a>) and publish (<a href="#b12">b12</a>). About 10 minutes total.</div>
   </section>
 
   <section class="block">
@@ -245,12 +248,13 @@
   </details>
 
   <details class="step" id="b3">
-    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Rename the screen first. Tree view (left rail): click the <kbd class="ui">⋮</kbd> next to <code>Screen1</code> → <kbd class="ui">Rename</kbd> → paste:</p>
       <p class="fxlabel">Screen name</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>scrSubmit</code></div>
       <p class="do">Tree view: select <kbd class="ui">App</kbd>, pick <strong>OnStart</strong> in the property dropdown, and paste:</p>
+      <div class="note fix"><b>Fixing your build? Change this</b>Your OnStart currently says <code>Set(gblEditItem, Blank()); …</code>. Select <kbd class="ui">App</kbd>, open <strong>OnStart</strong>, delete the whole formula and paste the box below. Then run <kbd class="ui">App</kbd> → <kbd class="ui">⋮</kbd> → <kbd class="ui">Run OnStart</kbd>. The red errors on <code>btnSubmit</code>, <code>btnCancel</code> and <code>lblSubmitHint</code> disappear. That's the whole fix for this step — skip the rest.</div>
       <p class="fxlabel">App · OnStart</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false)</code></div>
       <div class="note why"><b>Why LookUp instead of Blank()</b><code>LookUp('Communication Requests', false)</code> never finds anything, so <code>gblEditItem</code> starts empty — but Power Apps now knows it holds a <em>list item</em>. Initialize it with plain <code>Blank()</code> and the variable has no type, and every formula that asks <code>IsBlank(gblEditItem)</code> shows a red error. Part 3 later sets it to a real item; this line makes both work.</div>
@@ -368,7 +372,7 @@
   </details>
 
   <details class="step" id="b7">
-    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">The submit button — and its honest helper line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">The submit button — and its honest helper line</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
         <p class="gh">btnSubmit — Button</p>
@@ -389,6 +393,7 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)</code></div>
       </div>
 
+      <div class="note fix"><b>Fixing your build? Change this</b>Select <code>lblSubmitHint</code>, open its <strong>Width</strong> property — yours says <code>Width Parent.Width - 48</code> (the word "Width" was pasted in by mistake). Replace the whole formula with <code class="cc">Parent.Width - 48</code>. While you're here, set <strong>Size</strong> to <code class="cc">13</code>. That's the whole fix for this step — skip the rest.</div>
       <div class="fxgroup">
         <p class="gh">lblSubmitHint — Text label</p>
         <p class="do">The helper line that always says why the button is or isn't ready. <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblSubmitHint</code>, then set:</p>
@@ -494,7 +499,7 @@
   </details>
 
   <details class="step" id="b10">
-    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Cancel — with a discard safety net</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Cancel — with a discard safety net</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
         <p class="gh">btnCancel — Button</p>
@@ -513,6 +518,7 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit))</code></div>
       </div>
 
+      <div class="note fix"><b>Fixing your build? Change this</b>You already inserted all six dialog controls — only their <strong>Visible</strong> is missing, which is why the dark overlay never goes away. For each of <code>recDimmer</code>, <code>recDialog</code>, <code>lblDialogTitle</code>, <code>lblDialogBody</code>, <code>btnDialogKeep</code>, <code>btnDialogDiscard</code>: select it, pick <strong>Visible</strong> in the property dropdown, paste <code class="cc">gblShowCancelConfirm</code>. Six controls, same formula six times — the overlay vanishes as soon as the first one is set. Optional polish while you're here: on <code>btnDialogDiscard</code> set Fill <code class="cc">White</code> and Color <code class="cc">RGBA(200, 55, 55, 1)</code> so the destructive button stops looking like the safe one. That's the whole fix for this step — skip the rest.</div>
       <p class="do">Now the dialog — six controls, inserted <strong>in this exact order</strong> (later inserts stack on top). Every single one gets the same Visible formula:</p>
       <p class="fxlabel">Visible — for ALL six dialog controls</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>gblShowCancelConfirm</code></div>
