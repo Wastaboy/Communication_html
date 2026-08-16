@@ -4,12 +4,10 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 ALL = ["index.html", "part1-foundation.html", "part2-submission-form.html",
-       "part2-detailed.html",
        "part3-my-requests.html", "part4-ccd-dashboard.html", "part5-flows-golive.html"]
 PAGES = {
     "part1-foundation.html": {"prefix": "a", "key": "cbfPart1_v1"},
-    "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v2"},
-    "part2-detailed.html": {"prefix": "b", "key": "cbfPart2detail_v1"},
+    "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v3"},
     "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v2"},
     "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v1"},
     "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v1"},
@@ -27,15 +25,6 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit))",
         "Discard this request?",
         "Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false)",
-    ],
-    "part2-detailed.html": [
-        "Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false)",
-        "SubmitForm(frmSubmit)",
-        "If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)",
-        "ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None)",
-        "Fill the fields marked * to enable Submit.",
-        "If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit))",
-        "Discard this request?",
         "gblShowCancelConfirm</code></dd></div>",  # Visible rows on the dialog controls
     ],
     "part3-my-requests.html": [
