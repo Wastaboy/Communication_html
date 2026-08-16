@@ -182,7 +182,17 @@
 
       <section class="block">
     <h2 class="sec">What Part 1 builds</h2>
-    <div class="tldr"><b>TL;DR</b>A private SharePoint team site with a <code class="cc">Communication Requests</code> list (six columns, versioning on, attachments on, item-level privacy) and an <code class="cc">Audit Log</code> list the Part 5 flows will write to. Finish this part and the data layer is done.</div>
+    <div class="tldr"><b>TL;DR</b>A private SharePoint team site with a <code class="cc">Communication Requests</code> list (six columns, versioning on, attachments on, item-level privacy) and an <code class="cc">Audit Log</code> list the Part 5 flows will write to. Every name and value below is tap-to-copy: nothing to retype, nothing to guess. Finish this part and the data layer is done.</div>
+    <div class="pane">
+      <p class="ph">How to create any column</p>
+      <ol>
+        <li>In the list, click <kbd class="ui">+ Add column</kbd> (to the right of the last column header).</li>
+        <li>Pick the column <strong>type</strong> named in that column's box below, then click <kbd class="ui">Next</kbd>.</li>
+        <li>In the panel that slides in from the right, tap the amber <strong>Name</strong> chip here and paste it into the Name box. Paste it exactly — no spaces, no edits.</li>
+        <li>Set any other rows listed for that column (choices, default value, include time). Settings not listed: leave them alone.</li>
+        <li>Click <kbd class="ui">Save</kbd>. The new column appears at the right of the list.</li>
+      </ol>
+    </div>
     <div class="note why"><b>Phase-1 rule</b>There is <strong>no approval or rejection workflow anywhere</strong> in this build — that is a business decision by CCD, not an oversight. If you find yourself adding an approve button at any point in this series, stop.</div>
   </section>
 
@@ -215,15 +225,26 @@
   <details class="step" id="a1" open>
     <summary><span class="dot"></span><span class="num">A1</span><span class="stitle">Create the team site</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Everything lives on one private team site.</p>
+      <p class="do">Everything lives on one private team site. You create it once and never come back to this screen.</p>
       <ol class="steps2">
-        <li>Go to <code class="cc">office.com</code>, sign in, open the app launcher (top-left grid) and click <kbd class="ui">SharePoint</kbd>.</li>
-        <li>Click <kbd class="ui">+ Create site</kbd> → <kbd class="ui">Team site</kbd> → <kbd class="ui">Standard team</kbd> → <kbd class="ui">Use template</kbd>.</li>
-        <li>Site name: <code class="cc">Communication Briefing</code>. Leave the group email alias as suggested.</li>
-        <li>Privacy: <kbd class="ui">Private — only members can access this site</kbd>. Language: English. Click <kbd class="ui">Create site</kbd>, then <kbd class="ui">Finish</kbd> (skip adding members here — a8 does that properly).</li>
+        <li>Go to <code class="cc">office.com</code> and sign in with your BBK account.</li>
+        <li>Open the app launcher — the grid of nine dots, top-left — and click <kbd class="ui">SharePoint</kbd>.</li>
+        <li>On the SharePoint start page click <kbd class="ui">+ Create site</kbd>.</li>
+        <li>Choose <kbd class="ui">Team site</kbd> → <kbd class="ui">Standard team</kbd> → <kbd class="ui">Use template</kbd>.</li>
+        <li>Site name — paste exactly:</li>
       </ol>
+      <p class="fxlabel">Site name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Communication Briefing</code></div>
+      <ol class="steps2" start="6">
+        <li>Leave the <strong>Group email address</strong> exactly as SharePoint suggests it, and click <kbd class="ui">Next</kbd>.</li>
+        <li>Privacy settings: <kbd class="ui">Private — only members can access this site</kbd>. Language: <code class="cc">English</code>.</li>
+        <li>Click <kbd class="ui">Create site</kbd>, then <kbd class="ui">Finish</kbd> — <strong>skip the "Add members" box entirely</strong>. Adding people here gives everyone the wrong role; a8 does it properly.</li>
+      </ol>
+      <p class="do">When the new site opens, copy its full address from the browser's address bar and keep it somewhere handy — every later part calls it <strong>your site URL</strong>. The address ends with this fragment:</p>
+      <p class="fxlabel">Site URL · ending fragment</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>/sites/CommunicationBriefing</code></div>
       <div class="note tip"><b>Site creation disabled?</b>Some tenants hide <kbd class="ui">+ Create site</kbd>. Ask IT to create a private team site named <code class="cc">Communication Briefing</code> and grant you <strong>Owner</strong> — then continue from a2.</div>
-      <div class="note check"><b>Check before moving on</b>The new site opens and its address looks like <code>…/sites/CommunicationBriefing</code>. Copy that URL somewhere handy — every later part calls it <strong>your site URL</strong>.</div>
+      <div class="note check"><b>Check before moving on</b>The new site opens, its address ends in <code>/sites/CommunicationBriefing</code>, and the site URL is saved somewhere you can paste from in Parts 2 and 5.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -231,13 +252,19 @@
   <details class="step" id="a2">
     <summary><span class="dot"></span><span class="num">A2</span><span class="stitle">Create the Communication Requests list</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <p class="do">This list is where every request lives. Its name is load-bearing: Parts 2–5 connect to it by this exact name, so paste it — don't type it.</p>
       <ol class="steps2">
         <li>On the site home page click <kbd class="ui">+ New</kbd> → <kbd class="ui">List</kbd>.</li>
         <li>Choose <kbd class="ui">Blank list</kbd>.</li>
-        <li>Name: <code class="cc">Communication Requests</code>. Leave "Show in site navigation" ticked.</li>
+        <li>Name — paste exactly (one space, capital C, capital R):</li>
+      </ol>
+      <p class="fxlabel">List name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Communication Requests</code></div>
+      <ol class="steps2" start="4">
+        <li>Leave <kbd class="ui">Show in site navigation</kbd> ticked.</li>
         <li>Click <kbd class="ui">Create</kbd>.</li>
       </ol>
-      <div class="note check"><b>Check before moving on</b>An empty list opens with a single <code>Title</code> column.</div>
+      <div class="note check"><b>Check before moving on</b>An empty list named <strong>Communication Requests</strong> opens with a single <code>Title</code> column.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -245,7 +272,7 @@
   <details class="step" id="a3">
     <summary><span class="dot"></span><span class="num">A3</span><span class="stitle">Add the five columns</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Create each column with a <strong>space-free name</strong> exactly as shown — a4 renames the labels afterwards. For each one: click <kbd class="ui">+ Add column</kbd>, pick the type, click <kbd class="ui">Next</kbd>, fill it in, click <kbd class="ui">Save</kbd>.</p>
+      <p class="do">Five columns, one box each below. Create every one with the <strong>space-free name</strong> exactly as shown — a4 renames the display labels afterwards. The clicks are always the same (see the "How to create any column" pane at the top of this page): <kbd class="ui">+ Add column</kbd> → pick the type → <kbd class="ui">Next</kbd> → paste the name → set the listed options → <kbd class="ui">Save</kbd>. Overview first, then each column in full:</p>
       <table class="cols">
         <tr><th>Name</th><th>Type</th><th>Details</th></tr>
         <tr><td><code class="cc">Department</code></td><td><kbd class="ui">Choice</kbd></td><td>Paste the division list below</td></tr>
@@ -254,8 +281,18 @@
         <tr><td><code class="cc">Status</code></td><td><kbd class="ui">Choice</kbd></td><td>Three choices, default below</td></tr>
         <tr><td><code class="cc">CCDNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
       </table>
-      <p class="fxlabel">Department · choices (paste into the first choice box — it splits into pills)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>CE Office
+
+      <div class="fxgroup">
+        <p class="gh">Department — column 1 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">Department</code></dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+          <div><dt>Default value</dt><dd>Leave empty — requesters must pick their own division.</dd></div>
+        </dl>
+        <p class="do">Click into the <strong>first</strong> choice box and paste the whole block — it splits into one pill per line:</p>
+        <p class="fxlabel">Department · Choices (all 22, paste as one block)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>CE Office
 Operations &amp; Administration
 Information Technology
 Financial Planning &amp; Control
@@ -277,10 +314,60 @@ Credit &amp; Overseas Risk
 Compliance &amp; AML
 Internal Audit
 Legal</code></div>
-      <div class="note tip"><b>If the paste doesn't split</b>Add the choices one per box manually — same values, same order.</div>
-      <p class="do">For <code class="cc">Status</code>, the three choices are <code class="cc">Submitted</code>, <code class="cc">In Progress</code>, <code class="cc">Completed</code> — and under <kbd class="ui">More options</kbd> set <strong>Default value</strong> to <code class="cc">Submitted</code>.</p>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="note tip"><b>If the paste doesn't split</b>Add the choices one per box manually — same values, same order. Tap each line's chip in the block above one at a time if that's easier.</div>
+
+      <div class="fxgroup">
+        <p class="gh">RequestDetails — column 2 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Multiple lines of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">RequestDetails</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Multiple lines of text</code></dd></div>
+          <div><dt>Use enhanced rich text</dt><dd><code class="cc">No</code> — under <kbd class="ui">More options</kbd>; plain text keeps Part 5's emails clean</dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">TargetDate — column 3 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Date and time</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">TargetDate</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Date and time</code></dd></div>
+          <div><dt>Include time</dt><dd><code class="cc">No</code> — a target is a day, not a minute</dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">Status — column 4 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">Status</code></dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+        </dl>
+        <p class="do">Choices — exactly these three, in this order (paste the block into the first choice box, or tap the chips <code class="cc">Submitted</code>, <code class="cc">In Progress</code>, <code class="cc">Completed</code> one per box):</p>
+        <p class="fxlabel">Status · Choices</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Submitted
+In Progress
+Completed</code></div>
+        <p class="do">Then open <kbd class="ui">More options</kbd> and set <strong>Default value</strong> to <code class="cc">Submitted</code> — this is what makes every new request arrive as Submitted without the requester doing anything. Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">CCDNotes — column 5 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Multiple lines of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">CCDNotes</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Multiple lines of text</code></dd></div>
+          <div><dt>Use enhanced rich text</dt><dd><code class="cc">No</code> — under <kbd class="ui">More options</kbd></dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
       <div class="note warn"><b>Confirm with CCD</b>Two of these are working defaults: the division list (is it current?) and the three status names. If CCD wants different ones, change them here in a3 — every later part reads whatever this column holds.</div>
-      <div class="note check"><b>Check before moving on</b>The list shows columns: Title, Department, RequestDetails, TargetDate, Status, CCDNotes.</div>
+      <div class="note check"><b>Check before moving on</b>The list shows columns, left to right: Title · Department · RequestDetails · TargetDate · Status · CCDNotes — and clicking <kbd class="ui">+ New</kbd> shows Status pre-filled with <strong>Submitted</strong> (press <kbd class="key">Esc</kbd> to close without saving).</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -288,7 +375,7 @@ Legal</code></div>
   <details class="step" id="a4">
     <summary><span class="dot"></span><span class="num">A4</span><span class="stitle">Rename the display labels</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">For each column below: click its header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → paste the new label → <kbd class="ui">Save</kbd>.</p>
+      <p class="do">Four renames, same clicks each time: click the column's <strong>header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the new label → <kbd class="ui">Save</kbd>. Tap each amber chip to copy its label:</p>
       <table class="cols">
         <tr><th>Column</th><th>Rename to</th></tr>
         <tr><td><code>Title</code></td><td><code class="cc">Request Subject</code></td></tr>
@@ -296,6 +383,7 @@ Legal</code></div>
         <tr><td><code>TargetDate</code></td><td><code class="cc">Target Date</code></td></tr>
         <tr><td><code>CCDNotes</code></td><td><code class="cc">CCD Notes</code></td></tr>
       </table>
+      <p class="do"><code class="cc">Department</code> and <code class="cc">Status</code> keep their names — they were readable already.</p>
       <div class="note why"><b>Why create-then-rename</b>A column's <em>internal</em> name is frozen at creation. Space-free names first means the Part 5 flows see clean names like <code>RequestDetails</code> instead of <code>Request_x0020_Details</code>; renaming afterwards only changes the label people see.</div>
       <div class="note check"><b>Check before moving on</b>Headers now read: Request Subject · Department · Request Details · Target Date · Status · CCD Notes.</div>
       <button class="done" type="button">Mark step done</button>
@@ -305,13 +393,18 @@ Legal</code></div>
   <details class="step" id="a5">
     <summary><span class="dot"></span><span class="num">A5</span><span class="stitle">Versioning and attachments</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <p class="do">Both switches live in the classic settings page — it looks older than the rest of SharePoint; that's normal.</p>
       <ol class="steps2">
-        <li>In the list, click the gear (top-right) → <kbd class="ui">List settings</kbd>.</li>
-        <li>Click <kbd class="ui">Versioning settings</kbd> → "Create a version each time you edit an item in this list?" <kbd class="ui">Yes</kbd> → <kbd class="ui">OK</kbd>.</li>
-        <li>Back in settings, click <kbd class="ui">Advanced settings</kbd> → Attachments: <kbd class="ui">Enabled</kbd> (it usually already is) → <kbd class="ui">OK</kbd>.</li>
+        <li>In the <strong>Communication Requests</strong> list, click the gear icon (top-right of the page) → <kbd class="ui">List settings</kbd>.</li>
+        <li>Under <strong>General Settings</strong> click <kbd class="ui">Versioning settings</kbd>.</li>
+        <li>Find the question <em>"Create a version each time you edit an item in this list?"</em> and select <kbd class="ui">Yes</kbd>. Leave every other option on this page as it is.</li>
+        <li>Click <kbd class="ui">OK</kbd> — you land back on List settings.</li>
+        <li>Click <kbd class="ui">Advanced settings</kbd>.</li>
+        <li>Find the <strong>Attachments</strong> section and confirm <kbd class="ui">Attachments are enabled</kbd> is selected (it usually already is).</li>
+        <li>Click <kbd class="ui">OK</kbd>.</li>
       </ol>
       <div class="note why"><b>Why versioning matters here</b>Version history is half of the audit-trail requirement: every edit keeps who and when, forever, with zero code. The Part 5 flow adds the reportable other half.</div>
-      <div class="note check"><b>Check before moving on</b>Versioning settings shows <strong>Yes</strong>; Advanced settings shows attachments <strong>Enabled</strong>.</div>
+      <div class="note check"><b>Check before moving on</b>Re-open <kbd class="ui">Versioning settings</kbd> — the edit question shows <strong>Yes</strong>. Re-open <kbd class="ui">Advanced settings</kbd> — Attachments shows <strong>Enabled</strong>.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -319,13 +412,15 @@ Legal</code></div>
   <details class="step" id="a6">
     <summary><span class="dot"></span><span class="num">A6</span><span class="stitle">Item-level privacy</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">This is the setting that keeps requesters from seeing each other's requests.</p>
+      <p class="do">This is the setting that keeps requesters from seeing each other's requests. Two radio buttons — pick them exactly as written or the privacy model breaks.</p>
       <ol class="steps2">
-        <li>Still in <kbd class="ui">List settings</kbd> → <kbd class="ui">Advanced settings</kbd>, find <strong>Item-level Permissions</strong>.</li>
-        <li>Read access: <kbd class="ui">Read items that were created by the user</kbd>.</li>
-        <li>Create and Edit access: <kbd class="ui">Create items and edit items that were created by the user</kbd>.</li>
+        <li>Still in <kbd class="ui">List settings</kbd> (gear → <kbd class="ui">List settings</kbd> if you left), click <kbd class="ui">Advanced settings</kbd>.</li>
+        <li>Scroll to the <strong>Item-level Permissions</strong> section — it has two groups of radio buttons.</li>
+        <li><strong>Read access</strong> — select the second option: <kbd class="ui">Read items that were created by the user</kbd>.</li>
+        <li><strong>Create and Edit access</strong> — select: <kbd class="ui">Create items and edit items that were created by the user</kbd>.</li>
         <li>Click <kbd class="ui">OK</kbd>.</li>
       </ol>
+      <div class="note warn"><b>The two traps on this page</b>Don't pick <em>"Read all items"</em> (everyone would see everyone's requests) and don't pick <em>"None"</em> under Create and Edit (nobody could submit at all). Both correct answers end in <em>"…that were created by the user"</em>.</div>
       <div class="note why"><b>Who still sees everything</b>Users with <strong>Manage Lists</strong> permission — the site Owners you add in a8 — bypass item-level restrictions. That is exactly how the CCD team gets the full picture while staff stay in their lane.</div>
       <div class="note check"><b>Check before moving on</b>Advanced settings shows both item-level options set to the "created by the user" choices.</div>
       <button class="done" type="button">Mark step done</button>
@@ -335,7 +430,10 @@ Legal</code></div>
   <details class="step" id="a7">
     <summary><span class="dot"></span><span class="num">A7</span><span class="stitle">Create the Audit Log list</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Part 5's flow writes one row here for every create, edit, and status change. Same drill as a2–a3: <kbd class="ui">+ New</kbd> → <kbd class="ui">List</kbd> → <kbd class="ui">Blank list</kbd> → name <code class="cc">Audit Log</code> → <kbd class="ui">Create</kbd>, then add:</p>
+      <p class="do">Part 5's flow writes one row here for every create, edit, and status change — humans never type into this list. Same drill as a2: site home → <kbd class="ui">+ New</kbd> → <kbd class="ui">List</kbd> → <kbd class="ui">Blank list</kbd> → paste the name → <kbd class="ui">Create</kbd>.</p>
+      <p class="fxlabel">List name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Audit Log</code></div>
+      <p class="do">Then add five columns, exactly like a3 (leave the built-in <code>Title</code> column alone — the flow fills it). Overview, then each in full:</p>
       <table class="cols">
         <tr><th>Name</th><th>Type</th><th>Details</th></tr>
         <tr><td><code class="cc">RequestID</code></td><td><kbd class="ui">Number</kbd></td><td>&nbsp;</td></tr>
@@ -344,8 +442,66 @@ Legal</code></div>
         <tr><td><code class="cc">ModifiedDateTime</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
         <tr><td><code class="cc">ChangeSummary</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
       </table>
+
+      <div class="fxgroup">
+        <p class="gh">RequestID — column 1 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Number</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">RequestID</code> — one word, capital I-D</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Number</code></dd></div>
+        </dl>
+        <p class="do">Nothing else to set. Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">Action — column 2 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">Action</code></dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+          <div><dt>Default value</dt><dd>None — the flow always states the action explicitly</dd></div>
+        </dl>
+        <p class="fxlabel">Action · Choices (paste into the first choice box)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Created
+Edited
+Status Changed</code></div>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">ModifiedBy — column 3 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Single line of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">ModifiedBy</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Single line of text</code></dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">ModifiedDateTime — column 4 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Date and time</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">ModifiedDateTime</code> — one word, no spaces</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Date and time</code></dd></div>
+          <div><dt>Include time</dt><dd><code class="cc">Yes</code> — an audit row needs the minute, not just the day</dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">ChangeSummary — column 5 of 5</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Multiple lines of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">ChangeSummary</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Multiple lines of text</code></dd></div>
+          <div><dt>Use enhanced rich text</dt><dd><code class="cc">No</code> — under <kbd class="ui">More options</kbd></dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
       <div class="note why"><b>Why plain text for ModifiedBy</b>A text column keeps the Part 5 flow one action shorter and exports to Excel exactly as written. The requests list already stores the real person field for anything forensic.</div>
-      <div class="note check"><b>Check before moving on</b>The Audit Log list exists with columns: Title, RequestID, Action, ModifiedBy, ModifiedDateTime, ChangeSummary.</div>
+      <div class="note check"><b>Check before moving on</b>The Audit Log list exists with columns: Title · RequestID · Action · ModifiedBy · ModifiedDateTime · ChangeSummary.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -353,13 +509,21 @@ Legal</code></div>
   <details class="step" id="a8">
     <summary><span class="dot"></span><span class="num">A8</span><span class="stitle">Grant access — CCD as Owners, staff as Members</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <p class="do">Two kinds of people, two roles: the five CCD members become <strong>Owners</strong> (they see and manage everything), and all staff become <strong>Members</strong> (they can submit, and a6 keeps them inside their own items).</p>
       <ol class="steps2">
-        <li>Site home → gear → <kbd class="ui">Site permissions</kbd> → <kbd class="ui">Add members</kbd> → <kbd class="ui">Add members to group</kbd>.</li>
-        <li>Add each CCD member — Rawan AlQattan, Rafa Kaddoura, Abdulrahman Danish, Samar Qannati, Noora AlFaihani — and set each one's role to <kbd class="ui">Owner</kbd>.</li>
-        <li>Then add <code class="cc">Everyone except external users</code> and leave its role as <kbd class="ui">Member</kbd> — that is what lets any staff member submit a request.</li>
+        <li>Go to the site home page → gear icon (top-right) → <kbd class="ui">Site permissions</kbd>.</li>
+        <li>Click <kbd class="ui">Add members</kbd> → <kbd class="ui">Add members to group</kbd>.</li>
+        <li>Add the five CCD members — tap each chip and paste it into the name box, pick the person from the suggestions: <code class="cc">Rawan AlQattan</code> · <code class="cc">Rafa Kaddoura</code> · <code class="cc">Abdulrahman Danish</code> · <code class="cc">Samar Qannati</code> · <code class="cc">Noora AlFaihani</code></li>
+        <li>Before saving, open the role dropdown next to <strong>each</strong> of the five names and change it from Member to <kbd class="ui">Owner</kbd>. Click <kbd class="ui">Save</kbd>.</li>
+        <li>Click <kbd class="ui">Add members</kbd> → <kbd class="ui">Add members to group</kbd> again, and this time paste:</li>
+      </ol>
+      <p class="fxlabel">Members group · who to add (all staff)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Everyone except external users</code></div>
+      <ol class="steps2" start="6">
+        <li>Pick it from the suggestions and <strong>leave its role as</strong> <kbd class="ui">Member</kbd> — that is what lets any staff member submit a request. Click <kbd class="ui">Save</kbd>.</li>
       </ol>
       <div class="note warn"><b>Confirm with CCD / IT</b>All-staff from day one, or a pilot group first? To pilot, add a smaller security group as Member instead of Everyone — the rest of the build is identical.</div>
-      <div class="note check"><b>Check before moving on</b>Site permissions shows the five CCD names under Owners and Everyone except external users (or your pilot group) under Members.</div>
+      <div class="note check"><b>Check before moving on</b>Site permissions shows the five CCD names under <strong>Site owners</strong> and Everyone except external users (or your pilot group) under <strong>Site members</strong>.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -367,10 +531,13 @@ Legal</code></div>
   <details class="step" id="a9">
     <summary><span class="dot"></span><span class="num">A9</span><span class="stitle">Verify the foundation</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <p class="do">One test item proves the whole part: default status, versioning, and the audit trail all show themselves in a two-minute pass.</p>
       <ol class="steps2">
-        <li>In Communication Requests click <kbd class="ui">+ New</kbd>, set Request Subject to <code class="cc">TEST - delete me later</code>, pick any Department, <kbd class="ui">Save</kbd>.</li>
-        <li>Open the item again, change Request Details to anything, save.</li>
-        <li>Select the item → <kbd class="ui">⋮</kbd> → <kbd class="ui">Version history</kbd>.</li>
+        <li>Open <strong>Communication Requests</strong> and click <kbd class="ui">+ New</kbd>.</li>
+        <li>Request Subject — paste exactly: <code class="cc">TEST - delete me later</code></li>
+        <li>Pick any Department, leave everything else alone, and click <kbd class="ui">Save</kbd>. Note the item's Status arrived as <strong>Submitted</strong> on its own.</li>
+        <li>Click the item to reopen it, change Request Details to: <code class="cc">Edited once to test version history</code> — then save it.</li>
+        <li>Back in the list, select the item's row → click <kbd class="ui">⋮</kbd> (or right-click the item) → <kbd class="ui">Version history</kbd>.</li>
       </ol>
       <div class="note tip"><b>Keep the test item</b>Part 2's first F5 test looks for it, and Part 5's go-live step sweeps all TEST items out at the end.</div>
       <div class="note check"><b>Check before moving on</b>All six: ① both lists exist ② headers read Request Subject / Department / Request Details / Target Date / Status / CCD Notes ③ versioning on ④ item-level permissions set to "created by the user" ⑤ five CCD Owners + staff Members ⑥ version history shows 2.0 with your name and timestamps, and the item's Status defaulted to <strong>Submitted</strong>.</div>
@@ -398,7 +565,7 @@ Legal</code></div>
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart1_v1";
+  var KEY="cbfPart1_v2";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){

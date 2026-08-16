@@ -202,18 +202,62 @@
   <details class="step" id="d1" open>
     <summary><span class="dot"></span><span class="num">D1</span><span class="stitle">Screen + CCD gate</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li><kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd> → rename <code class="cc">scrDashboard</code>. Copy the header pair again: <code class="cc">recDashHeader</code> + <code class="cc">lblDashTitle</code>, Text <code>"CCD Dashboard"</code>.</li>
-        <li>In the tree view select <kbd class="ui">App</kbd> and <strong>replace</strong> its OnStart with this superset:</li>
-      </ol>
+      <p class="do">The third and last screen. <kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd>, then in the tree view click the <kbd class="ui">⋮</kbd> next to the new screen → <kbd class="ui">Rename</kbd> → paste:</p>
+      <p class="fxlabel">Screen name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>scrDashboard</code></div>
+
+      <div class="fxgroup">
+        <p class="gh">recDashHeader — Rectangle</p>
+        <p class="do">The same navy header band as the other screens. <kbd class="ui">Insert</kbd> → <kbd class="ui">Rectangle</kbd>, rename it <code class="cc">recDashHeader</code>, then set each property via the property dropdown:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">0</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">0</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">88</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(31, 59, 110, 1)</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblDashTitle — Text label</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblDashTitle</code>. Text first:</p>
+        <p class="fxlabel">lblDashTitle · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"CCD Dashboard"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">0</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width - 48</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">88</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">White</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">22</code></dd></div>
+          <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
+        </dl>
+      </div>
+
+      <p class="do">Now the CCD gate. Tree view: select <kbd class="ui">App</kbd>, pick <strong>OnStart</strong> in the property dropdown, select <em>everything</em> in the formula bar, delete it, and paste this superset:</p>
       <p class="fxlabel">App · OnStart (replaces the whole property)</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false); Set(gblIsCCD, Lower(User().Email) in ["rawan.alqattan@bbkonline.com", "rafa.kaddoura@bbkonline.com", "abdulrahman.danish@bbkonline.com", "samar.qannati@bbkonline.com", "noora.alfaihani@bbkonline.com"]); Set(gblStatusFilter, "All")</code></div>
       <div class="note warn"><b>Paste replaces everything</b>This formula replaces the <em>whole</em> OnStart — that's why it starts with the two <code>Set</code> lines you first wrote in b3. If you paste a version without them, the submit screen's edit mode and cancel dialog break.</div>
       <div class="note warn"><b>Confirm with CCD / IT</b>The five addresses above are a <em>guessed format</em> — replace every one with the real address from Outlook before go-live. A wrong address only hides the dashboard button from that person; the data itself is already safe (site Owners see everything, everyone else is fenced by Part 1's item-level permissions). While building, add <strong>your own email</strong> to the list too — remove it at go-live (e12).</div>
-      <ol class="steps2" start="3">
-        <li>On <code>scrMyRequests</code> add a Button <code class="cc">btnGoDashboard</code>: Text <code>"CCD dashboard"</code>, X <code>Parent.Width - 488</code>, Y <code>20</code>, Width <code>220</code>, Height <code>48</code>, Visible <code>gblIsCCD</code>, OnSelect <code>Navigate(scrDashboard, ScreenTransition.None)</code>.</li>
-        <li>Run App OnStart once so the variables exist: tree view → <kbd class="ui">App</kbd> → <kbd class="ui">⋮</kbd> → <kbd class="ui">Run OnStart</kbd>.</li>
-      </ol>
+
+      <div class="fxgroup">
+        <p class="gh">btnGoDashboard — Button (lives on scrMyRequests)</p>
+        <p class="do">Tree view: click <code class="cc">scrMyRequests</code> to open it, then <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnGoDashboard</code>. Text first:</p>
+        <p class="fxlabel">btnGoDashboard · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"CCD dashboard"</code></div>
+        <p class="fxlabel">btnGoDashboard · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Navigate(scrDashboard, ScreenTransition.None)</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">Parent.Width - 488</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">20</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
+          <div><dt>Visible</dt><dd><code class="cc">gblIsCCD</code></dd></div>
+        </dl>
+        <p class="do">The <strong>Visible</strong> formula <em>is</em> the gate — non-CCD staff simply never see this button.</p>
+      </div>
+
+      <p class="do">Run it once so the new variables exist: tree view → <kbd class="ui">App</kbd> → <kbd class="ui">⋮</kbd> → <kbd class="ui">Run OnStart</kbd>.</p>
       <div class="note check"><b>Check before moving on</b>With your email in the list, the CCD dashboard button shows on My Requests and navigates; with it removed, the button vanishes.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -222,7 +266,7 @@
   <details class="step" id="d2">
     <summary><span class="dot"></span><span class="num">D2</span><span class="stitle">Filter chips</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Four buttons in a row on scrDashboard — all Y <code>112</code>, Width <code>170</code>, Height <code>40</code>:</p>
+      <p class="do">Four buttons in a row on <code class="cc">scrDashboard</code>, just under the header. All four share Y <code class="cc">112</code>, Width <code class="cc">170</code>, Height <code class="cc">40</code>. The overview first, then every chip spelled out in full:</p>
       <table class="cols">
         <tr><th>Name</th><th>Text</th><th>X</th><th>OnSelect</th></tr>
         <tr><td><code class="cc">btnChipAll</code></td><td><code>"All"</code></td><td><code>24</code></td><td><code>Set(gblStatusFilter, "All")</code></td></tr>
@@ -230,11 +274,86 @@
         <tr><td><code class="cc">btnChipProgress</code></td><td><code>"In Progress"</code></td><td><code>396</code></td><td><code>Set(gblStatusFilter, "In Progress")</code></td></tr>
         <tr><td><code class="cc">btnChipCompleted</code></td><td><code>"Completed"</code></td><td><code>582</code></td><td><code>Set(gblStatusFilter, "Completed")</code></td></tr>
       </table>
-      <p class="do">Give every chip the same two formulas (set on the first, then copy-paste the control three times and just change Name/Text/X/OnSelect):</p>
-      <p class="fxlabel">each chip · Fill</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, RGBA(31, 59, 110, 1), RGBA(238, 240, 246, 1))</code></div>
-      <p class="fxlabel">each chip · Color</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, White, RGBA(31, 59, 110, 1))</code></div>
+
+      <div class="fxgroup">
+        <p class="gh">btnChipAll — Button (chip 1 of 4)</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnChipAll</code>. Text and OnSelect first:</p>
+        <p class="fxlabel">btnChipAll · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"All"</code></div>
+        <p class="fxlabel">btnChipAll · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblStatusFilter, "All")</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">112</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">170</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">40</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnChipAll · Fill</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, RGBA(31, 59, 110, 1), RGBA(238, 240, 246, 1))</code></div>
+        <p class="fxlabel">btnChipAll · Color</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, White, RGBA(31, 59, 110, 1))</code></div>
+      </div>
+
+      <div class="note tip"><b>Faster: copy-paste the chip</b>Build <code>btnChipAll</code> completely, select it, <kbd class="key">Ctrl+C</kbd> then <kbd class="key">Ctrl+V</kbd> three times. Every copy keeps Y, Width, Height, Fill and Color — you only change the Name, Text, X and OnSelect to the values below.</div>
+
+      <div class="fxgroup">
+        <p class="gh">btnChipSubmitted — Button (chip 2 of 4)</p>
+        <p class="do">Rename the first copy <code class="cc">btnChipSubmitted</code>:</p>
+        <p class="fxlabel">btnChipSubmitted · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Submitted"</code></div>
+        <p class="fxlabel">btnChipSubmitted · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblStatusFilter, "Submitted")</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">210</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">112</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">170</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">40</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnChipSubmitted · Fill</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, RGBA(31, 59, 110, 1), RGBA(238, 240, 246, 1))</code></div>
+        <p class="fxlabel">btnChipSubmitted · Color</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, White, RGBA(31, 59, 110, 1))</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnChipProgress — Button (chip 3 of 4)</p>
+        <p class="do">Rename the second copy <code class="cc">btnChipProgress</code>:</p>
+        <p class="fxlabel">btnChipProgress · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"In Progress"</code></div>
+        <p class="fxlabel">btnChipProgress · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblStatusFilter, "In Progress")</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">396</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">112</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">170</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">40</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnChipProgress · Fill</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, RGBA(31, 59, 110, 1), RGBA(238, 240, 246, 1))</code></div>
+        <p class="fxlabel">btnChipProgress · Color</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, White, RGBA(31, 59, 110, 1))</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnChipCompleted — Button (chip 4 of 4)</p>
+        <p class="do">Rename the third copy <code class="cc">btnChipCompleted</code>:</p>
+        <p class="fxlabel">btnChipCompleted · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Completed"</code></div>
+        <p class="fxlabel">btnChipCompleted · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblStatusFilter, "Completed")</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">582</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">112</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">170</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">40</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnChipCompleted · Fill</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, RGBA(31, 59, 110, 1), RGBA(238, 240, 246, 1))</code></div>
+        <p class="fxlabel">btnChipCompleted · Color</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(gblStatusFilter = Self.Text, White, RGBA(31, 59, 110, 1))</code></div>
+      </div>
+
+      <div class="note why"><b>Why Self.Text does all the work</b><code>Self.Text</code> is the chip's own label, so one Fill formula serves all four chips: whichever chip's text matches <code>gblStatusFilter</code> paints navy, the rest stay light grey. That's also why each chip's Text must match the Status choice names word for word.</div>
       <div class="note check"><b>Check before moving on</b><kbd class="key">Alt</kbd>-click the chips — the active one flips to navy.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -243,9 +362,21 @@
   <details class="step" id="d3">
     <summary><span class="dot"></span><span class="num">D3</span><span class="stitle">Search box</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Text input</kbd>, rename <code class="cc">txtDashSearch</code>: X <code>24</code>, Y <code>168</code>, Width <code>540</code>, Height <code>44</code>, Default <code>""</code>, HintText <code>"Search by request subject…"</code>.</li>
-      </ol>
+      <div class="fxgroup">
+        <p class="gh">txtDashSearch — Text input</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Text input</kbd>, rename it <code class="cc">txtDashSearch</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">168</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">540</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
+        </dl>
+        <p class="fxlabel">txtDashSearch · Default</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>""</code></div>
+        <p class="fxlabel">txtDashSearch · HintText</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Search by request subject…"</code></div>
+      </div>
+      <div class="note why"><b>Why Default is two quote marks</b>That's an <em>empty text</em>. d4's gallery formula checks <code>IsBlank(txtDashSearch.Text)</code>, so the box must start genuinely empty for "no search typed" to mean "show everything".</div>
       <div class="note check"><b>Check before moving on</b>The box renders with its hint text under the chips.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -254,16 +385,82 @@
   <details class="step" id="d4">
     <summary><span class="dot"></span><span class="num">D4</span><span class="stitle">The all-requests gallery</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Vertical gallery</kbd> → rename <code class="cc">galAllRequests</code>: X <code>24</code>, Y <code>228</code>, Width <code>Parent.Width * 0.5</code>, Height <code>Parent.Height - 252</code>. Items:</li>
-      </ol>
-      <p class="fxlabel">galAllRequests · Items</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>SortByColumns(Filter('Communication Requests', (gblStatusFilter = "All" || Status.Value = gblStatusFilter) &amp;&amp; (IsBlank(txtDashSearch.Text) || StartsWith(Title, txtDashSearch.Text))), "Created", SortOrder.Descending)</code></div>
+      <div class="fxgroup">
+        <p class="gh">galAllRequests — Vertical gallery</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Vertical gallery</kbd> (if it asks for a data source, pick <kbd class="ui">Communication Requests</kbd> — the Items formula below replaces it anyway). Rename it <code class="cc">galAllRequests</code>, and in the properties pane set <strong>Layout</strong> to <kbd class="ui">Blank</kbd> — you place the three labels yourself in a moment. Then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">228</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width * 0.5</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">Parent.Height - 252</code></dd></div>
+          <div><dt>TemplateSize</dt><dd><code class="cc">88</code></dd></div>
+        </dl>
+        <p class="fxlabel">galAllRequests · Items</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>SortByColumns(Filter('Communication Requests', (gblStatusFilter = "All" || Status.Value = gblStatusFilter) &amp;&amp; (IsBlank(txtDashSearch.Text) || StartsWith(Title, txtDashSearch.Text))), "Created", SortOrder.Descending)</code></div>
+      </div>
       <div class="note warn"><b>Delegation, again</b><code>StartsWith</code> on Title delegates to SharePoint; the choice-column comparison doesn't — same volumes argument as c3, same blue underline, same "fine here".</div>
-      <ol class="steps2" start="2">
-        <li>Template labels: <code class="cc">lblDashReqTitle</code> Text <code>ThisItem.'Request Subject'</code> (Semibold, 16); <code class="cc">lblDashReqStatus</code> Text <code>ThisItem.Status.Value</code> with the same Switch Color formula as c4 (copy it from there — identical); <code class="cc">lblDashReqDept</code> Text <code>ThisItem.Department.Value &amp; " · " &amp; Text(ThisItem.Created, ShortDate)</code>.</li>
-        <li>Empty state: label <code class="cc">lblDashEmpty</code> over the gallery, Text <code>"No requests match this filter."</code>, Visible <code>IsEmpty(galAllRequests.AllItems)</code>.</li>
-      </ol>
+      <div class="note tip"><b>Working inside the template</b>To put labels <em>inside</em> the gallery, select <code>galAllRequests</code> and click the <strong>pencil icon</strong> in its top-left corner. The first row is the template — anything you insert there repeats for every request automatically.</div>
+
+      <div class="fxgroup">
+        <p class="gh">lblDashReqTitle — Text label (inside the gallery template)</p>
+        <p class="do">With the template active: <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblDashReqTitle</code>. Text first:</p>
+        <p class="fxlabel">lblDashReqTitle · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.'Request Subject'</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">16</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">6</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.TemplateWidth - 32</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">16</code></dd></div>
+          <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblDashReqStatus — Text label (inside the gallery template)</p>
+        <p class="do">Another <kbd class="ui">Text label</kbd> in the template, renamed <code class="cc">lblDashReqStatus</code>:</p>
+        <p class="fxlabel">lblDashReqStatus · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Status.Value</code></div>
+        <p class="fxlabel">lblDashReqStatus · Color</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Switch(ThisItem.Status.Value, "Submitted", RGBA(224, 138, 30, 1), "In Progress", RGBA(31, 59, 110, 1), "Completed", RGBA(31, 138, 82, 1), RGBA(120, 130, 145, 1))</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">16</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">34</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.TemplateWidth - 32</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">13</code></dd></div>
+          <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
+        </dl>
+        <p class="do">The Color formula is <strong>identical</strong> to c4's on My Requests — repeated here in full so you never have to switch pages.</p>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblDashReqDept — Text label (inside the gallery template)</p>
+        <p class="do">Last template label, renamed <code class="cc">lblDashReqDept</code>:</p>
+        <p class="fxlabel">lblDashReqDept · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Department.Value &amp; " · " &amp; Text(ThisItem.Created, ShortDate)</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">16</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">58</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.TemplateWidth - 32</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">12</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblDashEmpty — Text label (on the screen, NOT in the template)</p>
+        <p class="do">Click an empty spot on the canvas first so you leave the template, then <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblDashEmpty</code>. Text first:</p>
+        <p class="fxlabel">lblDashEmpty · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"No requests match this filter."</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">galAllRequests.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">galAllRequests.Y + 40</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">galAllRequests.Width</code></dd></div>
+          <div><dt>Align</dt><dd><code class="cc">Align.Center</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
+          <div><dt>Visible</dt><dd><code class="cc">IsEmpty(galAllRequests.AllItems)</code></dd></div>
+        </dl>
+      </div>
+
       <div class="note check"><b>Check before moving on</b>Chips and search narrow the list live while you type.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -371,7 +568,7 @@
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart4_v1";
+  var KEY="cbfPart4_v2";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){

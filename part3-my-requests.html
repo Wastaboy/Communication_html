@@ -202,12 +202,41 @@
   <details class="step" id="c1" open>
     <summary><span class="dot"></span><span class="num">C1</span><span class="stitle">New screen</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li>Tree view → <kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd>. Rename it <code class="cc">scrMyRequests</code>.</li>
-        <li>Repeat the b3 header pattern: a Rectangle <code class="cc">recMyHeader</code> (X <code>0</code>, Y <code>0</code>, Width <code>Parent.Width</code>, Height <code>88</code>, Fill <code>RGBA(31, 59, 110, 1)</code>) and a label <code class="cc">lblMyTitle</code> (Text <code>"My Requests"</code>, X <code>24</code>, Y <code>0</code>, Height <code>88</code>, Color <code>White</code>, Size <code>22</code>, FontWeight <code>FontWeight.Semibold</code>).</li>
-      </ol>
-      <div class="note tip"><b>Faster</b>Copy <code>recSubmitHeader</code> and <code>lblSubmitTitle</code> from scrSubmit (<kbd class="key">Ctrl+C</kbd> / <kbd class="key">Ctrl+V</kbd> onto the new screen), rename the copies, change the Text.</div>
-      <div class="note check"><b>Check before moving on</b>scrMyRequests has the same navy header, titled My Requests.</div>
+      <p class="do">Tree view (left rail): click <kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd>. Then click the <kbd class="ui">⋮</kbd> next to the new screen → <kbd class="ui">Rename</kbd> → paste:</p>
+      <p class="fxlabel">Screen name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>scrMyRequests</code></div>
+      <p class="do">Now repeat the b3 header pattern on this screen — two controls:</p>
+
+      <div class="fxgroup">
+        <p class="gh">recMyHeader — Rectangle</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Rectangle</kbd>, rename it <code class="cc">recMyHeader</code>, then set each property:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">0</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">0</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">88</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(31, 59, 110, 1)</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblMyTitle — Text label</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblMyTitle</code>. Text first:</p>
+        <p class="fxlabel">lblMyTitle · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"My Requests"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">0</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width - 48</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">88</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">White</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">22</code></dd></div>
+          <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="note tip"><b>Faster</b>Copy <code>recSubmitHeader</code> and <code>lblSubmitTitle</code> from scrSubmit (<kbd class="key">Ctrl+C</kbd>, click scrMyRequests in the tree, <kbd class="key">Ctrl+V</kbd>), rename the copies to the names above, and change the Text to <code class="cc">"My Requests"</code>.</div>
+      <div class="note check"><b>Check before moving on</b>scrMyRequests shows the same navy band as scrSubmit, titled My Requests in white.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -215,17 +244,40 @@
   <details class="step" id="c2">
     <summary><span class="dot"></span><span class="num">C2</span><span class="stitle">Navigation both ways</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">On <code>scrSubmit</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename <code class="cc">btnGoMyRequests</code>:</p>
-      <dl class="props">
-        <div><dt>Text</dt><dd><code>"My requests"</code></dd></div>
-        <div><dt>X · Y</dt><dd><code>Parent.Width - 244</code> · <code>20</code></dd></div>
-        <div><dt>Width · Height</dt><dd><code>220</code> · <code>48</code></dd></div>
-      </dl>
-      <p class="fxlabel">btnGoMyRequests · OnSelect</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Navigate(scrMyRequests, ScreenTransition.None)</code></div>
-      <p class="do">On <code>scrMyRequests</code>: another Button, rename <code class="cc">btnGoSubmit</code>, same size, Text <code>"+ New request"</code>, X <code>Parent.Width - 244</code>, Y <code>20</code>:</p>
-      <p class="fxlabel">btnGoSubmit · OnSelect</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, Blank()); Navigate(scrSubmit, ScreenTransition.None)</code></div>
+      <div class="fxgroup">
+        <p class="gh">btnGoMyRequests — Button</p>
+        <p class="do">On <code class="cc">scrSubmit</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnGoMyRequests</code>. It sits inside the navy header, top-right. Text first:</p>
+        <p class="fxlabel">btnGoMyRequests · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"My requests"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">Parent.Width - 244</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">20</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(224, 138, 30, 1)</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(20, 20, 20, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnGoMyRequests · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Navigate(scrMyRequests, ScreenTransition.None)</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnGoSubmit — Button</p>
+        <p class="do">On <code class="cc">scrMyRequests</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnGoSubmit</code>. Same spot, same size as the button above. Text first:</p>
+        <p class="fxlabel">btnGoSubmit · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"+ New request"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">Parent.Width - 244</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">20</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(224, 138, 30, 1)</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(20, 20, 20, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnGoSubmit · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, Blank()); Navigate(scrSubmit, ScreenTransition.None)</code></div>
+      </div>
+
       <div class="note why"><b>Why clear gblEditItem</b>c6 teaches the Part 2 form to edit an existing request when <code>gblEditItem</code> holds one. Clearing it on the way to a <em>new</em> request is what keeps the form in New mode.</div>
       <div class="note check"><b>Check before moving on</b>Hold <kbd class="key">Alt</kbd> and click each button — the screens swap both ways.</div>
       <button class="done" type="button">Mark step done</button>
@@ -235,13 +287,20 @@
   <details class="step" id="c3">
     <summary><span class="dot"></span><span class="num">C3</span><span class="stitle">The gallery</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li>On scrMyRequests: <kbd class="ui">Insert</kbd> → <kbd class="ui">Vertical gallery</kbd>. Rename <code class="cc">galMyRequests</code>. If asked for a data source pick <kbd class="ui">Communication Requests</kbd>.</li>
-        <li>Position: X <code>24</code>, Y <code>112</code>, Width <code>Parent.Width * 0.45</code>, Height <code>Parent.Height - 136</code>. Layout: <kbd class="ui">Title, subtitle, and body</kbd>.</li>
-        <li>Set its <strong>Items</strong>:</li>
-      </ol>
-      <p class="fxlabel">galMyRequests · Items</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), "Created", SortOrder.Descending)</code></div>
+      <div class="fxgroup">
+        <p class="gh">galMyRequests — Vertical gallery</p>
+        <p class="do">On <code class="cc">scrMyRequests</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Vertical gallery</kbd>. If a data-source panel pops up, pick <kbd class="ui">Communication Requests</kbd>. Rename the gallery <code class="cc">galMyRequests</code>, then set each property:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">112</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width * 0.45</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">Parent.Height - 136</code></dd></div>
+          <div><dt>TemplateSize</dt><dd><code class="cc">100</code></dd></div>
+        </dl>
+        <p class="do">In the properties pane (right side) set <strong>Layout</strong> to <kbd class="ui">Title, subtitle, and body</kbd>. Then pick <strong>Items</strong> in the property dropdown and paste:</p>
+        <p class="fxlabel">galMyRequests · Items</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), "Created", SortOrder.Descending)</code></div>
+      </div>
       <div class="note warn"><b>Blue delegation underline — expected</b>Filtering on <code>'Created By'.Email</code> can't be pushed down to SharePoint, so Power Apps warns you. At this system's volumes (well under the 2,000-item delegation ceiling) that is fine. For regular staff the Part 1 item-level permissions already hide other people's items server-side; the filter mostly matters for CCD members, who can see everything.</div>
       <div class="note check"><b>Check before moving on</b>The gallery lists your TEST items, newest first.</div>
       <button class="done" type="button">Mark step done</button>
@@ -251,17 +310,45 @@
   <details class="step" id="c4">
     <summary><span class="dot"></span><span class="num">C4</span><span class="stitle">Gallery fields</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Click <em>inside</em> the first gallery row to edit the template. Rename the three labels and set their Text (add labels with <kbd class="ui">Insert</kbd> while the template is selected if the layout gave you fewer):</p>
-      <ol class="steps2">
-        <li><code class="cc">lblReqTitle</code> — Text <code>ThisItem.'Request Subject'</code>, FontWeight <code>FontWeight.Semibold</code>, Size <code>16</code>.</li>
-        <li><code class="cc">lblReqStatus</code> — Text <code>ThisItem.Status.Value</code> and Color:</li>
-      </ol>
-      <p class="fxlabel">lblReqStatus · Color</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Switch(ThisItem.Status.Value, "Submitted", RGBA(224, 138, 30, 1), "In Progress", RGBA(31, 59, 110, 1), "Completed", RGBA(31, 138, 82, 1), RGBA(120, 130, 145, 1))</code></div>
-      <ol class="steps2" start="3">
-        <li><code class="cc">lblReqDate</code> — Text <code>"Target: " &amp; Text(ThisItem.'Target Date', ShortDate)</code>.</li>
-      </ol>
-      <div class="note check"><b>Check before moving on</b>Rows show subject (bold), a colored status word — amber for Submitted — and the target date.</div>
+      <p class="do">Click <em>inside</em> the first gallery row — that selects the <strong>template</strong>, so whatever you change repeats on every row. The <kbd class="ui">Title, subtitle, and body</kbd> layout gives you three labels; rename each one (tree view → <kbd class="ui">⋮</kbd> → <kbd class="ui">Rename</kbd>) and set it up below. If your layout produced fewer labels, keep the template selected and add more with <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>.</p>
+
+      <div class="fxgroup">
+        <p class="gh">lblReqTitle — Text label (the Title slot)</p>
+        <p class="do">Rename the <strong>top</strong> label in the template <code class="cc">lblReqTitle</code>. Text first:</p>
+        <p class="fxlabel">lblReqTitle · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.'Request Subject'</code></div>
+        <dl class="props">
+          <div><dt>Size</dt><dd><code class="cc">16</code></dd></div>
+          <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblReqStatus — Text label (the Subtitle slot)</p>
+        <p class="do">Rename the <strong>middle</strong> label <code class="cc">lblReqStatus</code>. Text, then the Color formula that paints each status word:</p>
+        <p class="fxlabel">lblReqStatus · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Status.Value</code></div>
+        <p class="fxlabel">lblReqStatus · Color</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Switch(ThisItem.Status.Value, "Submitted", RGBA(224, 138, 30, 1), "In Progress", RGBA(31, 59, 110, 1), "Completed", RGBA(31, 138, 82, 1), RGBA(120, 130, 145, 1))</code></div>
+        <dl class="props">
+          <div><dt>Size</dt><dd><code class="cc">13</code></dd></div>
+          <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblReqDate — Text label (the Body slot)</p>
+        <p class="do">Rename the <strong>bottom</strong> label <code class="cc">lblReqDate</code>:</p>
+        <p class="fxlabel">lblReqDate · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Target: " &amp; Text(ThisItem.'Target Date', ShortDate)</code></div>
+        <dl class="props">
+          <div><dt>Size</dt><dd><code class="cc">12</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="note why"><b>Why the Switch formula</b>Each status gets its own color — amber for Submitted, navy for In Progress, green for Completed. The last <code>RGBA(120, 130, 145, 1)</code> is the fallback gray, shown if a status ever arrives that the formula doesn't recognize.</div>
+      <div class="note check"><b>Check before moving on</b>Rows show the subject in bold, a colored status word — amber for Submitted — and a gray "Target: …" date line.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -269,18 +356,32 @@
   <details class="step" id="c5">
     <summary><span class="dot"></span><span class="num">C5</span><span class="stitle">Detail panel</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Right of the gallery, <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename <code class="cc">lblDetNotes</code>:</p>
-      <dl class="props">
-        <div><dt>X</dt><dd><code>galMyRequests.X + galMyRequests.Width + 24</code></dd></div>
-        <div><dt>Y</dt><dd><code>112</code></dd></div>
-        <div><dt>Width</dt><dd><code>Parent.Width - Self.X - 24</code></dd></div>
-        <div><dt>Height</dt><dd><code>240</code></dd></div>
-      </dl>
-      <p class="fxlabel">lblDetNotes · Text</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "Select a request on the left.", "Status: " &amp; galMyRequests.Selected.Status.Value &amp; Char(10) &amp; Char(10) &amp; "CCD notes:" &amp; Char(10) &amp; If(IsBlank(galMyRequests.Selected.'CCD Notes'), "— none yet —", galMyRequests.Selected.'CCD Notes'))</code></div>
-      <p class="do">And the one-line legend that makes the status colors self-explanatory — <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename <code class="cc">lblStatusLegend</code>: X <code>24</code>, Y <code>90</code>, Width <code>Parent.Width - 48</code>, Size <code>12</code>, Color <code>RGBA(91, 102, 120, 1)</code>, Text:</p>
-      <p class="fxlabel">lblStatusLegend · Text</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>"Submitted = waiting for CCD   ·   In Progress = being worked on   ·   Completed = done"</code></div>
+      <div class="fxgroup">
+        <p class="gh">lblDetNotes — Text label</p>
+        <p class="do">The detail panel, to the right of the gallery. On <code class="cc">scrMyRequests</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblDetNotes</code>, then set each property:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">galMyRequests.X + galMyRequests.Width + 24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">112</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width - Self.X - 24</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">240</code></dd></div>
+        </dl>
+        <p class="fxlabel">lblDetNotes · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "Select a request on the left.", "Status: " &amp; galMyRequests.Selected.Status.Value &amp; Char(10) &amp; Char(10) &amp; "CCD notes:" &amp; Char(10) &amp; If(IsBlank(galMyRequests.Selected.'CCD Notes'), "— none yet —", galMyRequests.Selected.'CCD Notes'))</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblStatusLegend — Text label</p>
+        <p class="do">The one-line legend that makes the status colors self-explanatory. <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblStatusLegend</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">90</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width - 48</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">12</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">lblStatusLegend · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Submitted = waiting for CCD   ·   In Progress = being worked on   ·   Completed = done"</code></div>
+      </div>
       <div class="note why"><b>This is FR-6 working — legibly</b>Status and any notes CCD writes (Part 4) appear here, live, to the person who asked. The legend means the colored words decode themselves — nobody has to guess what "In Progress" implies.</div>
       <div class="note check"><b>Check before moving on</b>Selecting a gallery row shows its status and "— none yet —" for notes; the legend line sits under the header.</div>
       <button class="done" type="button">Mark step done</button>
@@ -290,18 +391,42 @@
   <details class="step" id="c6">
     <summary><span class="dot"></span><span class="num">C6</span><span class="stitle">Wire edit-after-submit (touches the Part 2 form)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">First the button. On scrMyRequests: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename <code class="cc">btnEditRequest</code>, Text <code>"Edit this request"</code>, X <code>lblDetNotes.X</code>, Y <code>368</code>, Width <code>220</code>, Height <code>48</code>.</p>
-      <p class="fxlabel">btnEditRequest · DisplayMode</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), DisplayMode.Disabled, DisplayMode.Edit)</code></div>
-      <p class="fxlabel">btnEditRequest · OnSelect</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, galMyRequests.Selected); Navigate(scrSubmit, ScreenTransition.None)</code></div>
-      <p class="do">Now teach the Part 2 form about edits. Select <code class="cc">frmSubmit</code> on scrSubmit and set:</p>
-      <p class="fxlabel">frmSubmit · Item</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>gblEditItem</code></div>
-      <p class="fxlabel">frmSubmit · DefaultMode</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), FormMode.New, FormMode.Edit)</code></div>
-      <p class="do">And let the title tell the truth — <code class="cc">lblSubmitTitle</code> · Text:</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), "Communication Briefing Form", "Edit request")</code></div>
+      <div class="fxgroup">
+        <p class="gh">btnEditRequest — Button</p>
+        <p class="do">First the button. On <code class="cc">scrMyRequests</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnEditRequest</code>. Text first:</p>
+        <p class="fxlabel">btnEditRequest · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Edit this request"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">lblDetNotes.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">368</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(31, 59, 110, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnEditRequest · DisplayMode</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), DisplayMode.Disabled, DisplayMode.Edit)</code></div>
+        <p class="fxlabel">btnEditRequest · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, galMyRequests.Selected); Navigate(scrSubmit, ScreenTransition.None)</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">frmSubmit — the Part 2 form learns edit mode</p>
+        <p class="do">Back on <code class="cc">scrSubmit</code>: select <code class="cc">frmSubmit</code> in the tree view. Two properties via the property dropdown. <strong>Item</strong> first:</p>
+        <p class="fxlabel">frmSubmit · Item</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>gblEditItem</code></div>
+        <p class="do">Then <strong>DefaultMode</strong> — delete the b4 value (<code class="cc">FormMode.New</code>) and paste:</p>
+        <p class="fxlabel">frmSubmit · DefaultMode</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), FormMode.New, FormMode.Edit)</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblSubmitTitle — the title tells the truth</p>
+        <p class="do">Still on scrSubmit: select <code class="cc">lblSubmitTitle</code>, pick <strong>Text</strong> in the property dropdown, and replace the b3 value with:</p>
+        <p class="fxlabel">lblSubmitTitle · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), "Communication Briefing Form", "Edit request")</code></div>
+      </div>
+
+      <div class="note why"><b>How one form serves two jobs</b>When <code>gblEditItem</code> is empty the form is a blank New form. When btnEditRequest fills it with the selected row, the very same form opens pre-filled in Edit mode — title, button text and hint (all set with <code>If(IsBlank(gblEditItem), …)</code> back in Part 2) flip along with it.</div>
       <div class="note check"><b>Check before moving on</b>No formula errors; the b4 DefaultMode value (<code>FormMode.New</code>) is now replaced by the If version.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -310,9 +435,12 @@
   <details class="step" id="c7">
     <summary><span class="dot"></span><span class="num">C7</span><span class="stitle">Return after edit</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Replace <code class="cc">frmSubmit</code>'s OnSuccess (the b9 version) with the edit-aware final:</p>
-      <p class="fxlabel">frmSubmit · OnSuccess</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None), Notify("Changes saved.", NotificationType.Success); Set(gblEditItem, Blank()); ResetForm(frmSubmit); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
+      <div class="fxgroup">
+        <p class="gh">frmSubmit — OnSuccess, edit-aware</p>
+        <p class="do">On <code class="cc">scrSubmit</code>: select <code class="cc">frmSubmit</code>, pick <strong>OnSuccess</strong> in the property dropdown, delete the whole b9 formula and paste the edit-aware final:</p>
+        <p class="fxlabel">frmSubmit · OnSuccess (replaces the b9 version)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None), Notify("Changes saved.", NotificationType.Success); Set(gblEditItem, Blank()); ResetForm(frmSubmit); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
+      </div>
       <div class="note why"><b>Two exits, both explained</b>A new submission still gets the full confirmation screen. An edit doesn't detour — a "Changes saved." toast and straight back to My Requests, where the updated row is already showing.</div>
       <div class="note check"><b>Check before moving on</b>Formula accepted with no red squiggles.</div>
       <button class="done" type="button">Mark step done</button>
@@ -322,16 +450,46 @@
   <details class="step" id="c8">
     <summary><span class="dot"></span><span class="num">C8</span><span class="stitle">Edit-aware cancel + the second next-step button</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Cancelling an <em>edit</em> should return you to your list, not strand you on the form. Upgrade the two b10 formulas:</p>
-      <p class="fxlabel">btnCancel · OnSelect (replaces the b10 version)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None)))</code></div>
-      <p class="fxlabel">btnDialogDiscard · OnSelect (replaces the b10 version)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblShowCancelConfirm, false); ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
-      <p class="do">And now that My Requests exists, give the confirmation screen its second exit. On <code>scrDone</code>:</p>
-      <ol class="steps2">
-        <li>Button <code class="cc">btnDoneMyRequests</code>: Text <code>"View my requests"</code>, X <code>(Parent.Width - 452) / 2</code>, Y <code>500</code>, Width <code>220</code>, Height <code>48</code>, Fill <code>RGBA(31, 59, 110, 1)</code>, OnSelect <code>Navigate(scrMyRequests, ScreenTransition.None)</code>.</li>
-        <li>Move <code class="cc">btnDoneAnother</code> to X <code>(Parent.Width - 452) / 2 + 232</code> so the pair sits centered.</li>
-      </ol>
+      <p class="do">Cancelling an <em>edit</em> should return you to your list, not strand you on the form. Two b10 formulas get upgraded, then the confirmation screen gets its second button.</p>
+
+      <div class="fxgroup">
+        <p class="gh">btnCancel — Button (on scrSubmit)</p>
+        <p class="do">Select <code class="cc">btnCancel</code>, pick <strong>OnSelect</strong> in the property dropdown, delete the whole b10 formula and paste:</p>
+        <p class="fxlabel">btnCancel · OnSelect (replaces the b10 version)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None)))</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnDialogDiscard — Button (on scrSubmit)</p>
+        <p class="do">Select <code class="cc">btnDialogDiscard</code>, pick <strong>OnSelect</strong>, delete the b10 formula and paste:</p>
+        <p class="fxlabel">btnDialogDiscard · OnSelect (replaces the b10 version)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblShowCancelConfirm, false); ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnDoneMyRequests — Button (on scrDone)</p>
+        <p class="do">Now that My Requests exists, the confirmation screen gets its second exit. On <code class="cc">scrDone</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnDoneMyRequests</code>. Text first:</p>
+        <p class="fxlabel">btnDoneMyRequests · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"View my requests"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">(Parent.Width - 452) / 2</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">500</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(31, 59, 110, 1)</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">White</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnDoneMyRequests · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Navigate(scrMyRequests, ScreenTransition.None)</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnDoneAnother — reposition (on scrDone)</p>
+        <p class="do">Select <code class="cc">btnDoneAnother</code> (from b8) and change one property so the pair sits centered:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">(Parent.Width - 452) / 2 + 232</code></dd></div>
+        </dl>
+      </div>
       <div class="note why"><b>Why both buttons</b>After submitting, the two things a user plausibly wants — check where their request went, or file another one — are one tap each, spelled out in words.</div>
       <div class="note check"><b>Check before moving on</b>scrDone shows both buttons side by side; no formula errors on scrSubmit.</div>
       <button class="done" type="button">Mark step done</button>
@@ -341,16 +499,38 @@
   <details class="step" id="c9">
     <summary><span class="dot"></span><span class="num">C9</span><span class="stitle">Refresh and empty state</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Icon</kbd> → pick the circular-arrows <kbd class="ui">Refresh</kbd> icon, rename <code class="cc">btnMyRefresh</code>, put it left of btnGoSubmit (X <code>Parent.Width - 304</code>, Y <code>28</code>, Width <code>32</code>, Height <code>32</code>, Color <code>White</code>). OnSelect:</li>
-      </ol>
-      <p class="fxlabel">btnMyRefresh · OnSelect</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Refresh('Communication Requests')</code></div>
-      <ol class="steps2" start="2">
-        <li>A label <code class="cc">lblMyEmpty</code> over the gallery area (X <code>24</code>, Y <code>132</code>, Width <code>galMyRequests.Width</code>), Text <code>"No requests yet — tap + New request to submit your first."</code>, Visible:</li>
-      </ol>
-      <p class="fxlabel">lblMyEmpty · Visible</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>IsEmpty(galMyRequests.AllItems)</code></div>
+      <div class="fxgroup">
+        <p class="gh">btnMyRefresh — Refresh icon</p>
+        <p class="do">On <code class="cc">scrMyRequests</code>: <kbd class="ui">Insert</kbd> → <kbd class="ui">Icons</kbd> → pick the circular-arrows <kbd class="ui">Refresh</kbd> icon, rename it <code class="cc">btnMyRefresh</code>. It sits in the header, left of btnGoSubmit:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">Parent.Width - 304</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">28</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">32</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">32</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">White</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnMyRefresh · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Refresh('Communication Requests')</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblMyEmpty — Text label</p>
+        <p class="do">The message first-time users see instead of a blank gallery. <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblMyEmpty</code>. Text first:</p>
+        <p class="fxlabel">lblMyEmpty · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"No requests yet — tap + New request to submit your first."</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">132</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">galMyRequests.Width</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">120</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">14</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">lblMyEmpty · Visible</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>IsEmpty(galMyRequests.AllItems)</code></div>
+      </div>
+
+      <div class="note why"><b>Why the refresh icon</b>SharePoint changes made by other people (CCD updating a status, Part 4) don't push themselves into an open app. One tap on the icon re-reads the list, so a requester can watch their status move without closing and reopening.</div>
       <div class="note check"><b>Check before moving on</b>The empty-state label is invisible right now (your TEST items exist) — select it in the tree view to confirm it's there.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -404,7 +584,7 @@
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart3_v2";
+  var KEY="cbfPart3_v3";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){
