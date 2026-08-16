@@ -469,14 +469,21 @@
   <details class="step" id="d5">
     <summary><span class="dot"></span><span class="num">D5</span><span class="stitle">Update panel — status dropdown</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li><kbd class="ui">Insert</kbd> → <kbd class="ui">Drop down</kbd>, rename <code class="cc">ddStatus</code>: X <code>galAllRequests.X + galAllRequests.Width + 24</code>, Y <code>228</code>, Width <code>300</code>. Items:</li>
-      </ol>
-      <p class="fxlabel">ddStatus · Items</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Choices('Communication Requests'.Status)</code></div>
-      <ol class="steps2" start="2">
-        <li>Default (classic dropdown): <code>galAllRequests.Selected.Status.Value</code></li>
-      </ol>
+      <div class="fxgroup">
+        <p class="gh">ddStatus — Drop down</p>
+        <p class="do">The right half of the screen is the update panel. <kbd class="ui">Insert</kbd> → <kbd class="ui">Drop down</kbd>, rename it <code class="cc">ddStatus</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">galAllRequests.X + galAllRequests.Width + 24</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">228</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">300</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
+        </dl>
+        <p class="fxlabel">ddStatus · Items</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Choices('Communication Requests'.Status)</code></div>
+        <p class="fxlabel">ddStatus · Default (classic dropdown)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>galAllRequests.Selected.Status.Value</code></div>
+      </div>
+      <div class="note why"><b>Why Choices(), not typed values</b><code>Choices('Communication Requests'.Status)</code> reads the options straight from the SharePoint Status column — rename or add a status there later (see d9) and this dropdown follows automatically, nothing to retype.</div>
       <div class="note tip"><b>Modern control instead?</b>If your studio inserts the modern dropdown, the property is <strong>DefaultSelectedItems</strong> = <code>[galAllRequests.Selected.Status]</code> — same effect.</div>
       <div class="note check"><b>Check before moving on</b>Selecting different gallery rows preloads each one's current status into the dropdown.</div>
       <button class="done" type="button">Mark step done</button>
