@@ -204,13 +204,31 @@
     <summary><span class="dot"></span><span class="num">E1</span><span class="stitle">Notification flow — the trigger</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Go to <code class="cc">make.powerautomate.com</code>; confirm the environment picker (top-right) shows the same environment as the app.</li>
-        <li><kbd class="ui">+ Create</kbd> → <kbd class="ui">Automated cloud flow</kbd>. Flow name: <code class="cc">CBF - New Request Notification</code>.</li>
-        <li>In the trigger search type <code class="cc">When an item is created</code> and pick <strong>SharePoint · When an item is created</strong> → <kbd class="ui">Create</kbd>.</li>
-        <li>Site Address: pick your site. List Name: <kbd class="ui">Communication Requests</kbd>.</li>
+        <li>Go to <code class="cc">make.powerautomate.com</code> and sign in with your BBK account.</li>
+        <li>Confirm the environment picker (top-right) shows the <strong>same environment</strong> as the app — a flow built in the wrong environment never fires.</li>
+        <li>Left rail: <kbd class="ui">+ Create</kbd> → <kbd class="ui">Automated cloud flow</kbd>. A naming dialog opens.</li>
+        <li>Flow name — paste exactly:</li>
       </ol>
+      <p class="fxlabel">Flow name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>CBF - New Request Notification</code></div>
+      <ol class="steps2" start="5">
+        <li>In the <strong>Choose your flow's trigger</strong> search box, paste:</li>
+      </ol>
+      <p class="fxlabel">Trigger search</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>When an item is created</code></div>
+      <ol class="steps2" start="6">
+        <li>In the results, tick <kbd class="ui">When an item is created</kbd> with the <strong>SharePoint</strong> logo, then click <kbd class="ui">Create</kbd>.</li>
+        <li>The designer opens with the trigger card at the top. Click the card and fill both fields:</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">When an item is created — SharePoint trigger</p>
+        <dl class="props">
+          <div><dt>Site Address</dt><dd>pick your site from the dropdown — or choose <kbd class="ui">Enter custom value</kbd> and paste the site URL from Part 1 a1</dd></div>
+          <div><dt>List Name</dt><dd><code class="cc">Communication Requests</code> — pick it from the dropdown</dd></div>
+        </dl>
+      </div>
       <div class="note warn"><b>Lookalike triggers</b>Three near-misses sit next to the right one: <em>When an item is created <u>or modified</u></em> (that's e4's trigger, not this one), <em>When a file is created (properties only)</em>, and Dataverse's <em>When a row is added</em>. Pick the plain SharePoint <strong>When an item is created</strong>.</div>
-      <div class="note check"><b>Check before moving on</b>The trigger card shows your site and Communication Requests.</div>
+      <div class="note check"><b>Check before moving on</b>The trigger card shows your site address and <code>Communication Requests</code>.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -219,13 +237,27 @@
     <summary><span class="dot"></span><span class="num">E2</span><span class="stitle">Notification flow — the email</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="ui">+ New step</kbd> → search <code class="cc">Send an email (V2)</code> → pick <strong>Office 365 Outlook · Send an email (V2)</strong>.</li>
-        <li>To: <code class="cc">Corporate.Communications@bbkonline.com</code></li>
-        <li>Subject: type <code class="cc">New Communication Briefing Request: </code> then add dynamic content <kbd class="ui">Request Subject</kbd> (open the lightning-bolt panel if it's collapsed).</li>
-        <li>Body — paste this, then replace each [bracket] with the matching dynamic content chip:</li>
+        <li>Under the trigger card, click <kbd class="ui">+ New step</kbd>.</li>
+        <li>In the action search box, paste:</li>
       </ol>
-      <p class="fxlabel">email body · paste, then swap [brackets] for dynamic content</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>A new communication briefing request has been submitted.
+      <p class="fxlabel">Action search</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Send an email (V2)</code></div>
+      <ol class="steps2" start="3">
+        <li>Pick <kbd class="ui">Send an email (V2)</kbd> with the <strong>Office 365 Outlook</strong> logo — not <em>Send an email notification (V3)</em>, not <em>Outlook.com</em>.</li>
+        <li>Fill the action's three fields exactly as below.</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Send an email (V2) — Office 365 Outlook</p>
+        <dl class="props">
+          <div><dt>To</dt><dd><code class="cc">Corporate.Communications@bbkonline.com</code></dd></div>
+          <div><dt>Subject</dt><dd>paste the prefix below, then add one dynamic chip after it</dd></div>
+          <div><dt>Body</dt><dd>paste the block below, then swap each [bracket] for a dynamic chip</dd></div>
+        </dl>
+        <p class="fxlabel">Subject · paste first — the trailing space is part of the value</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>New Communication Briefing Request: </code></div>
+        <p class="do">Click into Subject right after the pasted text, open <kbd class="ui">Add dynamic content</kbd> (the lightning-bolt panel — expand it if it's collapsed), and click <kbd class="ui">Request Subject</kbd>.</p>
+        <p class="fxlabel">Body · paste, then swap [brackets] for dynamic content</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>A new communication briefing request has been submitted.
 
 Subject: [Request Subject]
 Department: [Department Value]
@@ -235,8 +267,18 @@ Details:
 [Request Details]
 
 Open the request: [Link to item]</code></div>
+        <p class="do">Now swap the brackets: delete each placeholder, leave the cursor where it was, and click the matching chip in the dynamic-content panel.</p>
+        <table class="cols">
+          <tr><th>Delete this placeholder</th><th>Insert this dynamic chip</th></tr>
+          <tr><td><code>[Request Subject]</code></td><td><kbd class="ui">Request Subject</kbd></td></tr>
+          <tr><td><code>[Department Value]</code></td><td><kbd class="ui">Department Value</kbd></td></tr>
+          <tr><td><code>[Target Date]</code></td><td><kbd class="ui">Target Date</kbd></td></tr>
+          <tr><td><code>[Request Details]</code></td><td><kbd class="ui">Request Details</kbd></td></tr>
+          <tr><td><code>[Link to item]</code></td><td><kbd class="ui">Link to item</kbd></td></tr>
+        </table>
+      </div>
       <ol class="steps2" start="5">
-        <li><kbd class="ui">Save</kbd>.</li>
+        <li>Click <kbd class="ui">Save</kbd> (top-right).</li>
       </ol>
       <div class="note warn"><b>Confirm with CCD</b>Shared mailbox vs individuals: the spec allows either <code>Corporate.Communications@bbkonline.com</code> or the five members directly. For individuals, put all five addresses in To separated by <code>;</code>.</div>
       <div class="note warn"><b>First-run sign-in</b>The Outlook connector asks you to sign in the first time — your BBK account, as usual.</div>
@@ -249,9 +291,14 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E3</span><span class="stitle">Test the notification</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Open the published app (or <kbd class="key">F5</kbd> in studio) and submit a fresh request: <code class="cc">TEST notify - delete me later</code>.</li>
-        <li>Within about a minute, the CCD address receives the email; the item link opens the request.</li>
-        <li>In Power Automate, the flow's run history shows <strong>Succeeded</strong>.</li>
+        <li>Open the published app (or press <kbd class="key">F5</kbd> in studio) and start a fresh request. Request Subject — paste:</li>
+      </ol>
+      <p class="fxlabel">Test request · Request Subject</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>TEST notify - delete me later</code></div>
+      <ol class="steps2" start="2">
+        <li>Pick any Department, type anything into Request Details, pick any Target Date, then <kbd class="ui">Submit request</kbd>.</li>
+        <li>Within about a minute the CCD address receives the email — the subject starts with <code>New Communication Briefing Request:</code> and the <em>Open the request</em> link opens the item.</li>
+        <li>In Power Automate: <kbd class="ui">My flows</kbd> → open <code class="cc">CBF - New Request Notification</code> → the 28-day run history shows <strong>Succeeded</strong>.</li>
       </ol>
       <div class="note warn"><b>Emails come from you</b>The flow sends through <em>your</em> Outlook connection — recipients see your name as sender. That's fine for Phase 1; a service-account sender is an IT enhancement for later.</div>
       <div class="note check"><b>Check before moving on</b>Email received, link works, run history green.</div>
@@ -263,11 +310,28 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E4</span><span class="stitle">Audit flow — the trigger</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="ui">+ Create</kbd> → <kbd class="ui">Automated cloud flow</kbd> → name <code class="cc">CBF - Audit Logger</code>.</li>
-        <li>Trigger: <strong>SharePoint · When an item is created or modified</strong> — this time you <em>want</em> the "or modified" one (mirror image of the e1 warning).</li>
-        <li>Site Address: your site. List Name: <kbd class="ui">Communication Requests</kbd>.</li>
+        <li>Back at <code class="cc">make.powerautomate.com</code>: <kbd class="ui">+ Create</kbd> → <kbd class="ui">Automated cloud flow</kbd>. Flow name — paste exactly:</li>
       </ol>
-      <div class="note check"><b>Check before moving on</b>Trigger card configured for Communication Requests.</div>
+      <p class="fxlabel">Flow name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>CBF - Audit Logger</code></div>
+      <ol class="steps2" start="2">
+        <li>In the trigger search box, paste:</li>
+      </ol>
+      <p class="fxlabel">Trigger search</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>When an item is created or modified</code></div>
+      <ol class="steps2" start="3">
+        <li>Tick <kbd class="ui">When an item is created or modified</kbd> with the <strong>SharePoint</strong> logo → <kbd class="ui">Create</kbd>.</li>
+        <li>Click the trigger card and fill both fields:</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">When an item is created or modified — SharePoint trigger</p>
+        <dl class="props">
+          <div><dt>Site Address</dt><dd>your site — same pick as e1</dd></div>
+          <div><dt>List Name</dt><dd><code class="cc">Communication Requests</code></dd></div>
+        </dl>
+      </div>
+      <div class="note tip"><b>Mirror image of e1's warning</b>This time you <em>want</em> the "or modified" trigger — the audit trail has to fire on edits and status changes, not just on creation.</div>
+      <div class="note check"><b>Check before moving on</b>Trigger card configured for <code>Communication Requests</code> on your site.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -276,19 +340,33 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E5</span><span class="stitle">Audit flow — created or edited?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="ui">+ New step</kbd> → <kbd class="ui">Condition</kbd>.</li>
-        <li>Left value: dynamic content <kbd class="ui">Created</kbd>. Operator: <kbd class="ui">is equal to</kbd>. Right value: dynamic content <kbd class="ui">Modified</kbd>.</li>
-        <li>In the <strong>If yes</strong> branch: <kbd class="ui">Add an action</kbd> → SharePoint <kbd class="ui">Create item</kbd> → Site, List Name <kbd class="ui">Audit Log</kbd>, and map:</li>
+        <li>Under the trigger, <kbd class="ui">+ New step</kbd> → search <code class="cc">Condition</code> → pick <kbd class="ui">Condition</kbd> under <strong>Control</strong>.</li>
+        <li>Fill the condition row — both sides come from the dynamic-content panel, nothing is typed:</li>
       </ol>
-      <table class="cols">
-        <tr><th>Audit Log field</th><th>Value</th></tr>
-        <tr><td>Title</td><td>dynamic <kbd class="ui">Request Subject</kbd></td></tr>
-        <tr><td>RequestID</td><td>dynamic <kbd class="ui">ID</kbd></td></tr>
-        <tr><td>Action Value</td><td><code class="cc">Created</code></td></tr>
-        <tr><td>ModifiedBy</td><td>dynamic <kbd class="ui">Modified By DisplayName</kbd></td></tr>
-        <tr><td>ModifiedDateTime</td><td>dynamic <kbd class="ui">Modified</kbd></td></tr>
-        <tr><td>ChangeSummary</td><td><code class="cc">New request submitted</code></td></tr>
-      </table>
+      <div class="fxgroup">
+        <p class="gh">Condition — was this run a brand-new item?</p>
+        <dl class="props">
+          <div><dt>Left value</dt><dd>dynamic content <kbd class="ui">Created</kbd></dd></div>
+          <div><dt>Operator</dt><dd><kbd class="ui">is equal to</kbd></dd></div>
+          <div><dt>Right value</dt><dd>dynamic content <kbd class="ui">Modified</kbd></dd></div>
+        </dl>
+      </div>
+      <ol class="steps2" start="3">
+        <li>In the <strong>If yes</strong> branch: <kbd class="ui">Add an action</kbd> → search <code class="cc">Create item</code> → pick <kbd class="ui">Create item</kbd> with the <strong>SharePoint</strong> logo, then map every field:</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Create item — If yes branch (logs "Created")</p>
+        <dl class="props">
+          <div><dt>Site Address</dt><dd>your site — same as the trigger</dd></div>
+          <div><dt>List Name</dt><dd><code class="cc">Audit Log</code></dd></div>
+          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Request Subject</kbd></dd></div>
+          <div><dt>RequestID</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
+          <div><dt>Action Value</dt><dd><code class="cc">Created</code> — pick it from the dropdown</dd></div>
+          <div><dt>ModifiedBy</dt><dd>dynamic content <kbd class="ui">Modified By DisplayName</kbd></dd></div>
+          <div><dt>ModifiedDateTime</dt><dd>dynamic content <kbd class="ui">Modified</kbd></dd></div>
+          <div><dt>ChangeSummary</dt><dd><code class="cc">New request submitted</code> — typed text, no dynamic content</dd></div>
+        </dl>
+      </div>
       <div class="note why"><b>Why Created = Modified means "new"</b>SharePoint stamps both timestamps identically at creation; any later edit moves Modified. One comparison sorts every run into created vs edited — no extra queries.</div>
       <div class="note check"><b>Check before moving on</b>The yes-branch Create item card is fully mapped.</div>
       <button class="done" type="button">Mark step done</button>
@@ -300,21 +378,69 @@ Open the request: [Link to item]</code></div>
     <div class="body">
       <p class="do">All of this goes in the <strong>If no</strong> branch (the item was edited — but was it the Status column?).</p>
       <ol class="steps2">
-        <li><kbd class="ui">Add an action</kbd> → SharePoint <kbd class="ui">Get changes for an item or a file (properties only)</kbd>: Site, List = Communication Requests, Id = dynamic <kbd class="ui">ID</kbd>. For <strong>Since</strong>, open <kbd class="ui">Expression</kbd> and paste:</li>
+        <li>In <strong>If no</strong>: <kbd class="ui">Add an action</kbd> → search <code class="cc">Get changes</code> → pick <kbd class="ui">Get changes for an item or a file (properties only)</kbd> with the <strong>SharePoint</strong> logo, then fill:</li>
       </ol>
-      <p class="fxlabel">Get changes · Since (expression)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowStartToken}']</code></div>
-      <p class="fxlabel">Get changes · Until (expression)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowEndToken}']</code></div>
+      <div class="fxgroup">
+        <p class="gh">Get changes for an item or a file (properties only)</p>
+        <dl class="props">
+          <div><dt>Site Address</dt><dd>your site — same as the trigger</dd></div>
+          <div><dt>List Name</dt><dd><code class="cc">Communication Requests</code></dd></div>
+          <div><dt>Id</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
+        </dl>
+        <p class="do">For <strong>Since</strong>: click into the field, switch to the <kbd class="ui">Expression</kbd> tab (next to Dynamic content), paste, then <kbd class="ui">OK</kbd>:</p>
+        <p class="fxlabel">Get changes · Since (expression)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowStartToken}']</code></div>
+        <p class="do">Same for <strong>Until</strong> (click <kbd class="ui">Show advanced options</kbd> if it's hidden):</p>
+        <p class="fxlabel">Get changes · Until (expression)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowEndToken}']</code></div>
+      </div>
       <ol class="steps2" start="2">
-        <li>Then a nested <kbd class="ui">Condition</kbd>: left = dynamic <kbd class="ui">Has Column Changed: Status</kbd>, <kbd class="ui">is equal to</kbd>, right = expression <code class="cc">true</code>.</li>
-        <li>Nested <strong>yes</strong>: <kbd class="ui">Create item</kbd> in Audit Log — same six mappings as e5 except Action Value = <code class="cc">Status Changed</code> and ChangeSummary = this expression:</li>
+        <li>Still inside <strong>If no</strong>: <kbd class="ui">Add an action</kbd> → <kbd class="ui">Condition</kbd> — a nested one, filled like this:</li>
       </ol>
-      <p class="fxlabel">ChangeSummary (expression, nested yes)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>concat('Status is now: ', triggerOutputs()?['body/Status/Value'])</code></div>
+      <div class="fxgroup">
+        <p class="gh">Nested Condition — did the Status column change?</p>
+        <dl class="props">
+          <div><dt>Left value</dt><dd>dynamic content <kbd class="ui">Has Column Changed: Status</kbd> — listed under the Get changes action</dd></div>
+          <div><dt>Operator</dt><dd><kbd class="ui">is equal to</kbd></dd></div>
+          <div><dt>Right value</dt><dd><kbd class="ui">Expression</kbd> tab → paste <code class="cc">true</code> → <kbd class="ui">OK</kbd></dd></div>
+        </dl>
+      </div>
+      <ol class="steps2" start="3">
+        <li>In the nested <strong>If yes</strong>: <kbd class="ui">Add an action</kbd> → SharePoint <kbd class="ui">Create item</kbd>, mapped like e5's except two fields:</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Create item — nested If yes (logs "Status Changed")</p>
+        <dl class="props">
+          <div><dt>Site Address</dt><dd>your site</dd></div>
+          <div><dt>List Name</dt><dd><code class="cc">Audit Log</code></dd></div>
+          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Request Subject</kbd></dd></div>
+          <div><dt>RequestID</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
+          <div><dt>Action Value</dt><dd><code class="cc">Status Changed</code> — pick it from the dropdown</dd></div>
+          <div><dt>ModifiedBy</dt><dd>dynamic content <kbd class="ui">Modified By DisplayName</kbd></dd></div>
+          <div><dt>ModifiedDateTime</dt><dd>dynamic content <kbd class="ui">Modified</kbd></dd></div>
+          <div><dt>ChangeSummary</dt><dd><kbd class="ui">Expression</kbd> tab → paste the box below → <kbd class="ui">OK</kbd></dd></div>
+        </dl>
+        <p class="fxlabel">ChangeSummary (expression)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>concat('Status is now: ', triggerOutputs()?['body/Status/Value'])</code></div>
+      </div>
       <ol class="steps2" start="4">
-        <li>Nested <strong>no</strong>: <kbd class="ui">Create item</kbd> in Audit Log — Action Value = <code class="cc">Edited</code>, ChangeSummary = <code class="cc">Fields updated by requester or CCD</code>, same other mappings.</li>
-        <li><kbd class="ui">Save</kbd>.</li>
+        <li>In the nested <strong>If no</strong>: one more SharePoint <kbd class="ui">Create item</kbd> — the "some other field was edited" row:</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Create item — nested If no (logs "Edited")</p>
+        <dl class="props">
+          <div><dt>Site Address</dt><dd>your site</dd></div>
+          <div><dt>List Name</dt><dd><code class="cc">Audit Log</code></dd></div>
+          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Request Subject</kbd></dd></div>
+          <div><dt>RequestID</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
+          <div><dt>Action Value</dt><dd><code class="cc">Edited</code> — pick it from the dropdown</dd></div>
+          <div><dt>ModifiedBy</dt><dd>dynamic content <kbd class="ui">Modified By DisplayName</kbd></dd></div>
+          <div><dt>ModifiedDateTime</dt><dd>dynamic content <kbd class="ui">Modified</kbd></dd></div>
+          <div><dt>ChangeSummary</dt><dd><code class="cc">Fields updated by requester or CCD</code> — typed text, no dynamic content</dd></div>
+        </dl>
+      </div>
+      <ol class="steps2" start="5">
+        <li>Click <kbd class="ui">Save</kbd> (top-right).</li>
       </ol>
       <div class="note why"><b>Why "Get changes"</b>The trigger alone can't see <em>which</em> column moved. Get changes compares the item against the trigger window and hands you per-column changed flags — the honest way to label a row "Status Changed".</div>
       <div class="note check"><b>Check before moving on</b>Three Create item actions exist in total (e5 yes; e6 nested yes and no); flow checker is clean.</div>
@@ -326,10 +452,14 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E7</span><span class="stitle">Test the audit trail</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Submit a new request from the app: <code class="cc">TEST audit - delete me later</code>.</li>
-        <li>Edit it from My Requests (change the details).</li>
-        <li>Change its status from the CCD dashboard.</li>
-        <li>Open the Audit Log list: three new rows — <strong>Created</strong>, <strong>Edited</strong>, <strong>Status Changed</strong> — each with the editor's name and timestamp.</li>
+        <li>Submit a new request from the app. Request Subject — paste:</li>
+      </ol>
+      <p class="fxlabel">Test request · Request Subject</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>TEST audit - delete me later</code></div>
+      <ol class="steps2" start="2">
+        <li>Open <kbd class="ui">My Requests</kbd> in the app, open that item, change the Request Details text and save — this exercises the <strong>Edited</strong> path.</li>
+        <li>From the CCD dashboard, change the same item's status (e.g. <code class="cc">In Progress</code>) — this exercises the <strong>Status Changed</strong> path.</li>
+        <li>Open the <strong>Audit Log</strong> list in SharePoint: three new rows — <strong>Created</strong>, <strong>Edited</strong>, <strong>Status Changed</strong> — each with the editor's name and timestamp, and the status row's ChangeSummary reading <code>Status is now: In Progress</code>.</li>
       </ol>
       <div class="note why"><b>FR-4, met and reportable</b>Every edit now has who + when in a flat list that exports to Excel — the audit requirement in full, alongside version history.</div>
       <div class="note check"><b>Check before moving on</b>All three action types present with correct names and times (runs can take a minute — refresh the list).</div>
@@ -342,10 +472,59 @@ Open the request: [Link to item]</code></div>
     <div class="body">
       <div class="note tip"><b>Optional step</b>The spec left this open (should requesters get an email when CCD updates their status?). <strong>Confirm with CCD</strong> — skip this step entirely and mark it done if they say no; My Requests already shows status live either way.</div>
       <ol class="steps2">
-        <li>New automated flow: <code class="cc">CBF - Status Change Notification</code>, trigger <strong>When an item is created or modified</strong> on Communication Requests.</li>
-        <li><kbd class="ui">Get changes for an item or a file (properties only)</kbd> — same Since/Until expressions as e6.</li>
-        <li><kbd class="ui">Condition</kbd> with two rows (AND): <kbd class="ui">Has Column Changed: Status</kbd> is equal to expression <code class="cc">true</code>, and dynamic <kbd class="ui">Created</kbd> <kbd class="ui">is not equal to</kbd> dynamic <kbd class="ui">Modified</kbd>.</li>
-        <li>If yes → <kbd class="ui">Send an email (V2)</kbd>: To = dynamic <kbd class="ui">Created By Email</kbd>; Subject = <code class="cc">Your communication request status: </code> + dynamic <kbd class="ui">Status Value</kbd>; Body = a short line plus dynamic <kbd class="ui">CCD Notes</kbd> and <kbd class="ui">Link to item</kbd>. Save.</li>
+        <li><kbd class="ui">+ Create</kbd> → <kbd class="ui">Automated cloud flow</kbd>. Flow name — paste exactly:</li>
+      </ol>
+      <p class="fxlabel">Flow name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>CBF - Status Change Notification</code></div>
+      <ol class="steps2" start="2">
+        <li>Trigger: <kbd class="ui">When an item is created or modified</kbd> (SharePoint) → <kbd class="ui">Create</kbd>. On the trigger card: Site Address = your site, List Name = <code class="cc">Communication Requests</code>.</li>
+        <li><kbd class="ui">+ New step</kbd> → SharePoint <kbd class="ui">Get changes for an item or a file (properties only)</kbd>: Site Address = your site, List Name = <code class="cc">Communication Requests</code>, Id = dynamic content <kbd class="ui">ID</kbd> — and the same two <kbd class="ui">Expression</kbd>-tab values as e6:</li>
+      </ol>
+      <p class="fxlabel">Get changes · Since (expression)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowStartToken}']</code></div>
+      <p class="fxlabel">Get changes · Until (expression)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowEndToken}']</code></div>
+      <ol class="steps2" start="4">
+        <li><kbd class="ui">+ New step</kbd> → <kbd class="ui">Condition</kbd>. Click <kbd class="ui">+ Add</kbd> → <kbd class="ui">Add row</kbd> so it has <strong>two</strong> rows, joined by <kbd class="ui">And</kbd>:</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Condition — status changed AND not a brand-new item</p>
+        <dl class="props">
+          <div><dt>Row 1 · left</dt><dd>dynamic content <kbd class="ui">Has Column Changed: Status</kbd></dd></div>
+          <div><dt>Row 1 · operator</dt><dd><kbd class="ui">is equal to</kbd></dd></div>
+          <div><dt>Row 1 · right</dt><dd><kbd class="ui">Expression</kbd> tab → paste <code class="cc">true</code> → <kbd class="ui">OK</kbd></dd></div>
+          <div><dt>Row 2 · left</dt><dd>dynamic content <kbd class="ui">Created</kbd></dd></div>
+          <div><dt>Row 2 · operator</dt><dd><kbd class="ui">is not equal to</kbd></dd></div>
+          <div><dt>Row 2 · right</dt><dd>dynamic content <kbd class="ui">Modified</kbd></dd></div>
+        </dl>
+      </div>
+      <ol class="steps2" start="5">
+        <li>In <strong>If yes</strong>: <kbd class="ui">Add an action</kbd> → <kbd class="ui">Send an email (V2)</kbd> (Office 365 Outlook):</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Send an email (V2) — If yes branch</p>
+        <dl class="props">
+          <div><dt>To</dt><dd>dynamic content <kbd class="ui">Created By Email</kbd></dd></div>
+          <div><dt>Subject</dt><dd>paste the prefix below, then dynamic content <kbd class="ui">Status Value</kbd> right after it</dd></div>
+          <div><dt>Body</dt><dd>paste the block below, then swap the [brackets] for dynamic chips: <kbd class="ui">Request Subject</kbd>, <kbd class="ui">Status Value</kbd>, <kbd class="ui">CCD Notes</kbd>, <kbd class="ui">Link to item</kbd></dd></div>
+        </dl>
+        <p class="fxlabel">Subject · paste first — the trailing space is part of the value</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Your communication request status: </code></div>
+        <p class="fxlabel">Body · paste, then swap [brackets] for dynamic content</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Hello,
+
+The Corporate Communications team has updated your request.
+
+Request: [Request Subject]
+New status: [Status Value]
+
+Notes from the team:
+[CCD Notes]
+
+Open your request: [Link to item]</code></div>
+      </div>
+      <ol class="steps2" start="6">
+        <li>Click <kbd class="ui">Save</kbd>.</li>
       </ol>
       <div class="note why"><b>Why the second condition row</b>Without <code>Created ≠ Modified</code>, brand-new items (whose Status "changed" from nothing to Submitted) would email the requester about their own submission.</div>
       <div class="note check"><b>Check before moving on</b>Either the flow is built and a dashboard status change emails the requester — or CCD said no and you skipped it. Both count.</div>
@@ -357,8 +536,14 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E9</span><span class="stitle">Go-live — clean the test data</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>In Communication Requests, filter or search for <code class="cc">TEST</code> and delete every seeded item (a9, b9, e3, e7 and any strays).</li>
-        <li>Delete the matching Audit Log rows the tests created.</li>
+        <li>Open the <strong>Communication Requests</strong> list in SharePoint. In the search box at the top of the list, paste:</li>
+      </ol>
+      <p class="fxlabel">List search</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>TEST</code></div>
+      <ol class="steps2" start="2">
+        <li>Tick the circle next to every seeded item — from a9, b9, e3, e7 and any strays — then <kbd class="ui">Delete</kbd> → confirm.</li>
+        <li>Open the <strong>Audit Log</strong> list, search <code class="cc">TEST</code> the same way, and delete the rows those tests created.</li>
+        <li>Clear the search in both lists and scan once more — zero TEST rows left anywhere.</li>
       </ol>
       <div class="note tip"><b>Recycle bin ≠ hard delete</b>Deleted items sit in the site recycle bin for 93 days — consistent with the "no hard-delete" spirit of FR-8; real requests are never deleted at all, only archived by status.</div>
       <div class="note check"><b>Check before moving on</b>Both lists contain zero TEST rows.</div>
@@ -370,8 +555,14 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E10</span><span class="stitle">Acceptance walkthrough — requester half</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Share the app: studio → <kbd class="ui">Share</kbd> → add <code class="cc">Everyone except external users</code> (or your pilot group) as users; when the panel lists the SharePoint connection, share that too.</li>
-        <li>Send the app link to a colleague and have them run the checks below from their own account.</li>
+        <li>In Power Apps studio, click <kbd class="ui">Share</kbd> (top-right).</li>
+        <li>In the share panel's search box, paste the group below and add it as a <strong>User</strong> (not Co-owner) — or use your pilot group instead:</li>
+      </ol>
+      <p class="fxlabel">Share with · group name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Everyone except external users</code></div>
+      <ol class="steps2" start="3">
+        <li>When the panel lists the <strong>SharePoint</strong> connection under data permissions, share/grant that too — without it users hit a data-source error on first open.</li>
+        <li>Send the app link to a colleague and have them run every check below from their own account.</li>
       </ol>
       <table class="cols">
         <tr><th>Colleague does…</th><th>Acceptance criterion</th></tr>
@@ -391,6 +582,7 @@ Open the request: [Link to item]</code></div>
   <details class="step" id="e11">
     <summary><span class="dot"></span><span class="num">E11</span><span class="stitle">Acceptance walkthrough — CCD half</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <p class="do">Your half, run from your own (Owner) account:</p>
       <table class="cols">
         <tr><th>You (Owner) do…</th><th>Acceptance criterion</th></tr>
         <tr><td>Dashboard shows all requests including the colleague's</td><td>AC-6 CCD full view ✓</td></tr>
@@ -398,6 +590,7 @@ Open the request: [Link to item]</code></div>
         <tr><td>Walk every screen and flow: no approve/reject step exists anywhere</td><td>AC-9 no approval workflow ✓</td></tr>
         <tr><td>List settings still show versioning on</td><td>AC-10 version history ✓</td></tr>
       </table>
+      <p class="do">For AC-10: list → <kbd class="ui">⚙</kbd> → <kbd class="ui">List settings</kbd> → <kbd class="ui">Versioning settings</kbd> → "Create a version each time…" is <strong>Yes</strong>. For AC-9, the honest check is a walk-through of every screen and both flows — nothing anywhere should ask anyone to approve or reject a request.</p>
       <div class="note check"><b>Check before moving on</b>Ten of ten acceptance criteria green. The system is live.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -407,10 +600,15 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E12</span><span class="stitle">Hand over</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Confirm the five CCD emails in App OnStart are the real ones and remove your own if you added it in d1; save + publish one last time.</li>
+        <li>In studio, select <kbd class="ui">App</kbd> and open <strong>OnStart</strong>: confirm the five CCD emails are the real team members' addresses, and remove your own if you added it for testing in d1. Then <kbd class="ui">Save</kbd> → <kbd class="ui">Publish</kbd> one last time.</li>
         <li>Send the CCD team the app link and this guide series' address.</li>
-        <li>Tell IT what now exists and is theirs to maintain: the <code>Communication Briefing</code> site (two lists), the <code>Communication Briefing Form</code> canvas app, and the CBF flows.</li>
+        <li>Tell IT what now exists and is theirs to maintain — the full inventory:</li>
       </ol>
+      <dl class="props">
+        <div><dt>SharePoint site</dt><dd><code class="cc">Communication Briefing</code> — with the lists <code class="cc">Communication Requests</code> and <code class="cc">Audit Log</code></dd></div>
+        <div><dt>Canvas app</dt><dd><code class="cc">Communication Briefing Form</code></dd></div>
+        <div><dt>Flows</dt><dd><code class="cc">CBF - New Request Notification</code>, <code class="cc">CBF - Audit Logger</code> — plus <code class="cc">CBF - Status Change Notification</code> if e8 was built</dd></div>
+      </dl>
       <div class="note tip"><b>Parked for Phase 2</b>Deliberately not built, per the spec: approval/rejection workflow, edit-lock after Completed, service-account email sender. If someone asks for them, they're enhancements — not bugs.</div>
       <div class="note check"><b>Check before moving on</b>Handover message sent. You're done — the whole system is live and documented.</div>
       <button class="done" type="button">Mark step done</button>
@@ -437,7 +635,7 @@ Open the request: [Link to item]</code></div>
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart5_v1";
+  var KEY="cbfPart5_v2";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){
