@@ -6,11 +6,11 @@ REPO = Path(__file__).resolve().parent.parent
 ALL = ["index.html", "part1-foundation.html", "part2-submission-form.html",
        "part3-my-requests.html", "part4-ccd-dashboard.html", "part5-flows-golive.html"]
 PAGES = {
-    "part1-foundation.html": {"prefix": "a", "key": "cbfPart1_v1"},
+    "part1-foundation.html": {"prefix": "a", "key": "cbfPart1_v2"},
     "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v3"},
-    "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v2"},
-    "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v1"},
-    "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v1"},
+    "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v3"},
+    "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v2"},
+    "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v2"},
 }
 SNIPPETS = {  # filename -> [verbatim decoded formula strings]
     "part1-foundation.html": [
