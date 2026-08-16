@@ -493,12 +493,41 @@
   <details class="step" id="d6">
     <summary><span class="dot"></span><span class="num">D6</span><span class="stitle">Update panel — notes + save</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <ol class="steps2">
-        <li><kbd class="ui">Text input</kbd> → <code class="cc">txtCCDNotes</code>: X <code>ddStatus.X</code>, Y <code>296</code>, Width <code>Parent.Width - Self.X - 24</code>, Height <code>160</code>, Mode <code>TextMode.MultiLine</code>, Default <code>galAllRequests.Selected.'CCD Notes'</code>, HintText <code>"Notes the requester will see…"</code>.</li>
-        <li><kbd class="ui">Button</kbd> → <code class="cc">btnSaveUpdate</code>: Text <code>"Save update"</code>, X <code>ddStatus.X</code>, Y <code>472</code>, Width <code>220</code>, Height <code>48</code>, DisplayMode <code>If(IsBlank(galAllRequests.Selected), DisplayMode.Disabled, DisplayMode.Edit)</code>. OnSelect:</li>
-      </ol>
-      <p class="fxlabel">btnSaveUpdate · OnSelect</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Patch('Communication Requests', galAllRequests.Selected, {Status: ddStatus.Selected, 'CCD Notes': txtCCDNotes.Text}); Notify("Request updated.", NotificationType.Success)</code></div>
+      <div class="fxgroup">
+        <p class="gh">txtCCDNotes — Text input</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Text input</kbd>, rename it <code class="cc">txtCCDNotes</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">ddStatus.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">296</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">Parent.Width - Self.X - 24</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">160</code></dd></div>
+          <div><dt>Mode</dt><dd><code class="cc">TextMode.MultiLine</code></dd></div>
+        </dl>
+        <p class="fxlabel">txtCCDNotes · Default</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>galAllRequests.Selected.'CCD Notes'</code></div>
+        <p class="fxlabel">txtCCDNotes · HintText</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Notes the requester will see…"</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">btnSaveUpdate — Button</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Button</kbd>, rename it <code class="cc">btnSaveUpdate</code>. Text first:</p>
+        <p class="fxlabel">btnSaveUpdate · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Save update"</code></div>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">ddStatus.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">472</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
+          <div><dt>Fill</dt><dd><code class="cc">RGBA(224, 138, 30, 1)</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(20, 20, 20, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">btnSaveUpdate · DisplayMode</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galAllRequests.Selected), DisplayMode.Disabled, DisplayMode.Edit)</code></div>
+        <p class="fxlabel">btnSaveUpdate · OnSelect</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Patch('Communication Requests', galAllRequests.Selected, {Status: ddStatus.Selected, 'CCD Notes': txtCCDNotes.Text}); Notify("Request updated.", NotificationType.Success)</code></div>
+      </div>
+
       <div class="note why"><b>Why Patch, not a form</b>Patch writes exactly two columns and nothing else — the requester's own fields can't be clobbered from this screen, and the change appears on their My Requests view at the next refresh.</div>
       <div class="note check"><b>Check before moving on</b>No formula errors; button greys out when nothing is selected.</div>
       <button class="done" type="button">Mark step done</button>
@@ -509,9 +538,11 @@
     <summary><span class="dot"></span><span class="num">D7</span><span class="stitle">F5 test — the CCD loop</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="key">F5</kbd> → My requests → <kbd class="ui">CCD dashboard</kbd>.</li>
-        <li>Pick the TEST item; set status to <kbd class="ui">In Progress</kbd>; notes: <code class="cc">Reviewing — expect a draft by Thursday</code>; <kbd class="ui">Save update</kbd>.</li>
-        <li>Back to <kbd class="ui">My requests</kbd> (tap the refresh icon): the row's status is navy <em>In Progress</em>, and the detail panel shows your note.</li>
+        <li>Press <kbd class="key">F5</kbd>. Go to <kbd class="ui">My requests</kbd>, then click <kbd class="ui">CCD dashboard</kbd> — visible because your email is in the d1 list.</li>
+        <li>In the gallery, tap the <strong>TEST</strong> item. Watch the update panel: the dropdown preloads the item's current status, the notes box preloads its notes.</li>
+        <li>Set the dropdown to <kbd class="ui">In Progress</kbd>, then into the notes box type: <code class="cc">Reviewing — expect a draft by Thursday</code></li>
+        <li>Click <kbd class="ui">Save update</kbd> — the green <em>"Request updated."</em> banner appears at the top.</li>
+        <li>Go back to <kbd class="ui">My requests</kbd> and tap the refresh icon: the row's status is navy <em>In Progress</em>, and the detail panel shows your note. Press <kbd class="key">Esc</kbd>.</li>
       </ol>
       <div class="note check"><b>Check before moving on</b>The full CCD → requester loop works: update on the dashboard, visible in My Requests.</div>
       <button class="done" type="button">Mark step done</button>
@@ -521,10 +552,11 @@
   <details class="step" id="d8">
     <summary><span class="dot"></span><span class="num">D8</span><span class="stitle">Excel export</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">This one happens in SharePoint, not the app — and that's the point: it's built in.</p>
+      <p class="do">This one happens in SharePoint, not the app — and that's the point: it's built in, nothing to build or maintain.</p>
       <ol class="steps2">
-        <li>Open the <code>Communication Requests</code> list in the browser.</li>
-        <li>Toolbar → <kbd class="ui">Export</kbd> → <kbd class="ui">Export to Excel</kbd>; open the downloaded file and click <kbd class="ui">Enable</kbd> when Excel asks about the data connection.</li>
+        <li>Open the <code class="cc">Communication Requests</code> list in the browser.</li>
+        <li>In the list toolbar click <kbd class="ui">Export</kbd> → <kbd class="ui">Export to Excel</kbd>.</li>
+        <li>Open the downloaded file and click <kbd class="ui">Enable</kbd> when Excel asks about the data connection.</li>
       </ol>
       <div class="note tip"><b>Filtered exports</b>Filter the list view first (e.g. Status = Completed) — the export honors the view you're looking at. That plus the Audit Log list export covers FR-7's reporting needs.</div>
       <div class="note check"><b>Check before moving on</b>The workbook opens with every request as a refreshable Excel table.</div>
@@ -548,7 +580,8 @@
     <summary><span class="dot"></span><span class="num">D10</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="key">Ctrl+S</kbd>, then <kbd class="ui">Publish</kbd> → <kbd class="ui">Publish this version</kbd>.</li>
+        <li>Press <kbd class="key">Ctrl+S</kbd> to save.</li>
+        <li>Click <kbd class="ui">Publish</kbd> → <kbd class="ui">Publish this version</kbd>.</li>
       </ol>
       <div class="note check"><b>Check before moving on</b>Published. The app is feature-complete — <a href="part5-flows-golive.html">Part 5</a> adds the automation and takes it live.</div>
       <button class="done" type="button">Mark step done</button>
