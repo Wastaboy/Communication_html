@@ -207,7 +207,7 @@
         <li>In the tree view select <kbd class="ui">App</kbd> and <strong>replace</strong> its OnStart with this superset:</li>
       </ol>
       <p class="fxlabel">App · OnStart (replaces the whole property)</p>
-      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, Blank()); Set(gblShowCancelConfirm, false); Set(gblIsCCD, Lower(User().Email) in ["rawan.alqattan@bbkonline.com", "rafa.kaddoura@bbkonline.com", "abdulrahman.danish@bbkonline.com", "samar.qannati@bbkonline.com", "noora.alfaihani@bbkonline.com"]); Set(gblStatusFilter, "All")</code></div>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false); Set(gblIsCCD, Lower(User().Email) in ["rawan.alqattan@bbkonline.com", "rafa.kaddoura@bbkonline.com", "abdulrahman.danish@bbkonline.com", "samar.qannati@bbkonline.com", "noora.alfaihani@bbkonline.com"]); Set(gblStatusFilter, "All")</code></div>
       <div class="note warn"><b>Paste replaces everything</b>This formula replaces the <em>whole</em> OnStart — that's why it starts with the two <code>Set</code> lines you first wrote in b3. If you paste a version without them, the submit screen's edit mode and cancel dialog break.</div>
       <div class="note warn"><b>Confirm with CCD / IT</b>The five addresses above are a <em>guessed format</em> — replace every one with the real address from Outlook before go-live. A wrong address only hides the dashboard button from that person; the data itself is already safe (site Owners see everything, everyone else is fenced by Part 1's item-level permissions). While building, add <strong>your own email</strong> to the list too — remove it at go-live (e12).</div>
       <ol class="steps2" start="3">
@@ -358,7 +358,7 @@
 
   <footer>
     Part 4 of 5 — the Communication Briefing Form build.<br>
-    The series: &nbsp;<a href="index.html">Index</a> · <a href="part1-foundation.html">Part 1 — SharePoint Foundation</a> · <a href="part2-submission-form.html">Part 2 — Submission Form</a> · <a href="part3-my-requests.html">Part 3 — My Requests</a> · <a href="part5-flows-golive.html">Part 5 — Flows + Go-Live</a>
+    The series: &nbsp;<a href="index.html">Index</a> · <a href="part1-foundation.html">Part 1 — SharePoint Foundation</a> · <a href="part2-submission-form.html">Part 2 — Submission Form</a> · <a href="part2-detailed.html">Part 2 · Detailed</a> · <a href="part3-my-requests.html">Part 3 — My Requests</a> · <a href="part5-flows-golive.html">Part 5 — Flows + Go-Live</a>
   </footer>
 </main>
 
