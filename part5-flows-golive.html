@@ -173,7 +173,7 @@
 <div class="sticky">
   <div class="wrap">
     <div class="progress"><i id="bar"></i></div>
-    <div class="progtext"><span id="progLabel">0 of 12 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
+    <div class="progtext"><span id="progLabel">0 of 14 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
   </div>
 </div>
 
@@ -182,7 +182,7 @@
 
     <section class="block">
     <h2 class="sec">What Part 5 builds</h2>
-    <div class="tldr"><b>TL;DR</b>Two Power Automate flows — <code class="cc">CBF - New Request Notification</code> (email the CCD team on every submission) and <code class="cc">CBF - Audit Logger</code> (a reportable row in Audit Log for every create, edit and status change) — plus an optional requester notification, test-data cleanup, and the full ten-point acceptance walkthrough that takes the system live.</div>
+    <div class="tldr"><b>TL;DR</b>Two Power Automate flows — <code class="cc">CBF - New Request Notification</code> (email the CCD team on every submission, now carrying division, launch date and deliverables) and <code class="cc">CBF - Audit Logger</code> (a reportable row in Audit Log for every create, edit and status change) — plus two optional flows (status-change email to the requester, and an assignment email to the CCD member a request is assigned to), test-data cleanup, and the full acceptance walkthrough that takes the system live.</div>
   </section>
 
   <section class="block">
@@ -192,7 +192,7 @@
       <ul>
         <li>Parts <a href="part1-foundation.html">1</a>–<a href="part4-ccd-dashboard.html">4</a> finished and published.</li>
         <li>Access to <code class="cc">make.powerautomate.com</code> in the same environment as the app.</li>
-        <li>A colleague (or IT test account) for the two-person go-live walkthrough in e10.</li>
+        <li>A colleague (or IT test account) for the two-person go-live walkthrough in e12.</li>
       </ul>
     </div>
     <div class="note tip"><b>Two designers, one guide</b>Power Automate shows either the <strong>new designer</strong> (a "New designer" toggle top-right, <kbd class="ui">⊕</kbd> circles between cards, a left panel per card, <kbd class="ui">⚡</kbd> and <kbd class="ui">fx</kbd> buttons at each field's right edge) or the <strong>classic designer</strong> (<kbd class="ui">+ New step</kbd>, a bottom <em>Add dynamic content</em> panel with an Expression tab). Steps here give the new-designer wording first with the classic label in brackets — the values you paste are identical in both.</div>
@@ -237,13 +237,30 @@
   <details class="step" id="e2">
     <summary><span class="dot"></span><span class="num">E2</span><span class="stitle">Notification flow — the email</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <p class="do">Two actions this time: a tiny <strong>Select</strong> that turns the multi-choice deliverables into readable text, then the email itself.</p>
       <ol class="steps2">
-        <li>Under the trigger card, click the <kbd class="ui">⊕</kbd> circle → <kbd class="ui">Add an action</kbd> (classic designer: <kbd class="ui">+ New step</kbd>).</li>
-        <li>In the <em>Search for an action or connector</em> box, paste:</li>
+        <li>Under the trigger card, click the <kbd class="ui">⊕</kbd> circle → <kbd class="ui">Add an action</kbd> (classic designer: <kbd class="ui">+ New step</kbd>) → search <code class="cc">Select</code> → pick <kbd class="ui">Select</kbd> under <strong>Data Operations</strong>.</li>
+        <li>Rename the card (card menu <kbd class="ui">⋮</kbd> → <kbd class="ui">Rename</kbd>) — the email's expression finds it by this exact name:</li>
+      </ol>
+      <p class="fxlabel">Select card · name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Select - Deliverables</code></div>
+      <div class="fxgroup">
+        <p class="gh">Select - Deliverables — Data Operations</p>
+        <dl class="props">
+          <div><dt>From</dt><dd>the field's <kbd class="ui">fx</kbd> button → paste the expression below → <kbd class="ui">Add</kbd> (classic: Expression tab → OK)</dd></div>
+          <div><dt>Map</dt><dd>click the small <kbd class="ui">T</kbd>/text-mode toggle at the Map field's right, then <kbd class="ui">fx</kbd> → paste the second expression → <kbd class="ui">Add</kbd></dd></div>
+        </dl>
+        <p class="fxlabel">From (expression — the coalesce keeps the flow alive if a list item ever has no deliverables)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>coalesce(triggerOutputs()?['body/TypeOfDeliverables'], json('[]'))</code></div>
+        <p class="fxlabel">Map (expression, in text mode)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>item()?['Value']</code></div>
+      </div>
+      <ol class="steps2" start="3">
+        <li><kbd class="ui">⊕</kbd> → <kbd class="ui">Add an action</kbd> again. In the <em>Search for an action or connector</em> box, paste:</li>
       </ol>
       <p class="fxlabel">Action search</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>Send an email (V2)</code></div>
-      <ol class="steps2" start="3">
+      <ol class="steps2" start="4">
         <li>Pick <kbd class="ui">Send an email (V2)</kbd> with the <strong>Office 365 Outlook</strong> logo — not <em>Send an email notification (V3)</em>, not <em>Outlook.com</em>.</li>
         <li>Fill the action's three fields exactly as below.</li>
       </ol>
@@ -252,33 +269,36 @@
         <dl class="props">
           <div><dt>To</dt><dd><code class="cc">Corporate.Communications@bbkonline.com</code></dd></div>
           <div><dt>Subject</dt><dd>paste the prefix below, then add one dynamic chip after it</dd></div>
-          <div><dt>Body</dt><dd>paste the block below, then swap each [bracket] for a dynamic chip</dd></div>
+          <div><dt>Body</dt><dd>paste the block below, then swap each [bracket] per the table</dd></div>
         </dl>
         <p class="fxlabel">Subject · paste first — the trailing space is part of the value</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>New Communication Briefing Request: </code></div>
-        <p class="do">Click into Subject right after the pasted text, press the <kbd class="ui">⚡</kbd> lightning button that appears at the field's right edge (classic designer: the <em>Add dynamic content</em> panel), and click <kbd class="ui">Request Subject</kbd>.</p>
-        <p class="fxlabel">Body · paste, then swap [brackets] for dynamic content</p>
+        <p class="do">Click into Subject right after the pasted text, press the <kbd class="ui">⚡</kbd> lightning button that appears at the field's right edge (classic designer: the <em>Add dynamic content</em> panel), and click <kbd class="ui">Title</kbd>.</p>
+        <p class="fxlabel">Body · paste, then swap [brackets] per the table</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>A new communication briefing request has been submitted.
 
-Subject: [Request Subject]
-Department: [Department Value]
-Target date: [Target Date]
+Title: [Title]
+Division: [Division Value]
+Launch date: [Launch date]
+Deliverables: [Deliverables]
 
-Details:
-[Request Details]
+Purpose:
+[Purpose Objective]
 
 Open the request: [Link to item]</code></div>
-        <p class="do">Now swap the brackets: delete each placeholder, leave the cursor where it was, press the field's <kbd class="ui">⚡</kbd> button, and click the matching chip.</p>
+        <p class="do">Now swap the brackets: delete each placeholder, leave the cursor where it was, and insert either a <kbd class="ui">⚡</kbd> dynamic chip or an <kbd class="ui">fx</kbd> expression per this table:</p>
         <table class="cols">
-          <tr><th>Delete this placeholder</th><th>Insert this dynamic chip</th></tr>
-          <tr><td><code>[Request Subject]</code></td><td><kbd class="ui">Request Subject</kbd></td></tr>
-          <tr><td><code>[Department Value]</code></td><td><kbd class="ui">Department Value</kbd></td></tr>
-          <tr><td><code>[Target Date]</code></td><td><kbd class="ui">Target Date</kbd></td></tr>
-          <tr><td><code>[Request Details]</code></td><td><kbd class="ui">Request Details</kbd></td></tr>
-          <tr><td><code>[Link to item]</code></td><td><kbd class="ui">Link to item</kbd></td></tr>
+          <tr><th>Delete this placeholder</th><th>Insert</th></tr>
+          <tr><td><code>[Title]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Title</kbd></td></tr>
+          <tr><td><code>[Division Value]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Division Value</kbd></td></tr>
+          <tr><td><code>[Launch date]</code></td><td><kbd class="ui">fx</kbd> → <code class="cc">formatDateTime(triggerOutputs()?['body/LaunchDate'], 'dd MMM yyyy')</code></td></tr>
+          <tr><td><code>[Deliverables]</code></td><td><kbd class="ui">fx</kbd> → <code class="cc">join(body('Select_-_Deliverables'), ', ')</code></td></tr>
+          <tr><td><code>[Purpose Objective]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Purpose Objective</kbd></td></tr>
+          <tr><td><code>[Link to item]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Link to item</kbd></td></tr>
         </table>
+        <div class="note why"><b>Why the Select + join dance</b>A multi-select choice arrives as a list of records, not text — dropped straight into an email it renders as raw JSON. The Select action strips each record down to its value; <code>join</code> glues them with commas: <em>Event Support, Media &amp; PR</em>. The underscores in <code>body('Select_-_Deliverables')</code> are how expressions spell the card name's spaces.</div>
       </div>
-      <ol class="steps2" start="5">
+      <ol class="steps2" start="6">
         <li>Click <kbd class="ui">Save</kbd> (top-right).</li>
       </ol>
       <div class="note warn"><b>Confirm with CCD</b>Shared mailbox vs individuals: the spec allows either <code>Corporate.Communications@bbkonline.com</code> or the five members directly. For individuals, put all five addresses in To separated by <code>;</code>.</div>
@@ -292,13 +312,13 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E3</span><span class="stitle">Test the notification</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Open the published app (or press <kbd class="key">F5</kbd> in studio) and start a fresh request. Request Subject — paste:</li>
+        <li>Open the published app (or press <kbd class="key">F5</kbd> in studio) and start a fresh request. Title — paste:</li>
       </ol>
-      <p class="fxlabel">Test request · Request Subject</p>
+      <p class="fxlabel">Test request · Title</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>TEST notify - delete me later</code></div>
       <ol class="steps2" start="2">
-        <li>Pick any Department, type anything into Request Details, pick any Target Date, then <kbd class="ui">Submit request</kbd>.</li>
-        <li>Within about a minute the CCD address receives the email — the subject starts with <code>New Communication Briefing Request:</code> and the <em>Open the request</em> link opens the item.</li>
+        <li>Pick any Division, a Launch Date, tick <strong>two</strong> deliverable types (say Event Support and Media &amp; PR), type anything into Purpose Objective, then <kbd class="ui">Submit request</kbd>.</li>
+        <li>Within about a minute the CCD address receives the email — subject starts with <code>New Communication Briefing Request:</code>, the Deliverables line reads <em>Event Support, Media &amp; PR</em>, the launch date is formatted like <em>21 Aug 2026</em>, and the <em>Open the request</em> link opens the item.</li>
         <li>In Power Automate: <kbd class="ui">My flows</kbd> → open <code class="cc">CBF - New Request Notification</code> → the 28-day run history shows <strong>Succeeded</strong>.</li>
       </ol>
       <div class="note warn"><b>Emails come from you</b>The flow sends through <em>your</em> Outlook connection — recipients see your name as sender. That's fine for Phase 1; a service-account sender is an IT enhancement for later.</div>
@@ -360,7 +380,7 @@ Open the request: [Link to item]</code></div>
         <dl class="props">
           <div><dt>Site Address</dt><dd>your site — same as the trigger</dd></div>
           <div><dt>List Name</dt><dd><code class="cc">Audit Log</code></dd></div>
-          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Request Subject</kbd></dd></div>
+          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Title</kbd></dd></div>
           <div><dt>RequestID</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
           <div><dt>Action Value</dt><dd><code class="cc">Created</code> — pick it from the dropdown</dd></div>
           <div><dt>ModifiedBy</dt><dd>dynamic content <kbd class="ui">Modified By DisplayName</kbd></dd></div>
@@ -414,7 +434,7 @@ Open the request: [Link to item]</code></div>
         <dl class="props">
           <div><dt>Site Address</dt><dd>your site</dd></div>
           <div><dt>List Name</dt><dd><code class="cc">Audit Log</code></dd></div>
-          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Request Subject</kbd></dd></div>
+          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Title</kbd></dd></div>
           <div><dt>RequestID</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
           <div><dt>Action Value</dt><dd><code class="cc">Status Changed</code> — pick it from the dropdown</dd></div>
           <div><dt>ModifiedBy</dt><dd>dynamic content <kbd class="ui">Modified By DisplayName</kbd></dd></div>
@@ -432,7 +452,7 @@ Open the request: [Link to item]</code></div>
         <dl class="props">
           <div><dt>Site Address</dt><dd>your site</dd></div>
           <div><dt>List Name</dt><dd><code class="cc">Audit Log</code></dd></div>
-          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Request Subject</kbd></dd></div>
+          <div><dt>Title</dt><dd>dynamic content <kbd class="ui">Title</kbd></dd></div>
           <div><dt>RequestID</dt><dd>dynamic content <kbd class="ui">ID</kbd></dd></div>
           <div><dt>Action Value</dt><dd><code class="cc">Edited</code> — pick it from the dropdown</dd></div>
           <div><dt>ModifiedBy</dt><dd>dynamic content <kbd class="ui">Modified By DisplayName</kbd></dd></div>
@@ -453,12 +473,12 @@ Open the request: [Link to item]</code></div>
     <summary><span class="dot"></span><span class="num">E7</span><span class="stitle">Test the audit trail</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Submit a new request from the app. Request Subject — paste:</li>
+        <li>Submit a new request from the app. Title — paste:</li>
       </ol>
-      <p class="fxlabel">Test request · Request Subject</p>
+      <p class="fxlabel">Test request · Title</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>TEST audit - delete me later</code></div>
       <ol class="steps2" start="2">
-        <li>Open <kbd class="ui">My Requests</kbd> in the app, open that item, change the Request Details text and save — this exercises the <strong>Edited</strong> path.</li>
+        <li>Open <kbd class="ui">My Requests</kbd> in the app, open that item, change the Purpose Objective text and save — this exercises the <strong>Edited</strong> path.</li>
         <li>From the CCD dashboard, change the same item's status (e.g. <code class="cc">In Progress</code>) — this exercises the <strong>Status Changed</strong> path.</li>
         <li>Open the <strong>Audit Log</strong> list in SharePoint: three new rows — <strong>Created</strong>, <strong>Edited</strong>, <strong>Status Changed</strong> — each with the editor's name and timestamp, and the status row's ChangeSummary reading <code>Status is now: In Progress</code>.</li>
       </ol>
@@ -507,7 +527,7 @@ Open the request: [Link to item]</code></div>
         <dl class="props">
           <div><dt>To</dt><dd>dynamic content <kbd class="ui">Created By Email</kbd></dd></div>
           <div><dt>Subject</dt><dd>paste the prefix below, then dynamic content <kbd class="ui">Status Value</kbd> right after it</dd></div>
-          <div><dt>Body</dt><dd>paste the block below, then swap the [brackets] for dynamic chips: <kbd class="ui">Request Subject</kbd>, <kbd class="ui">Status Value</kbd>, <kbd class="ui">CCD Notes</kbd>, <kbd class="ui">Link to item</kbd></dd></div>
+          <div><dt>Body</dt><dd>paste the block below, then swap the [brackets]: <kbd class="ui">⚡</kbd> chips <kbd class="ui">Title</kbd>, <kbd class="ui">Status Value</kbd>, <kbd class="ui">CCM Notes</kbd>, <kbd class="ui">Link to item</kbd> — and for <code>[Priority]</code> the <kbd class="ui">fx</kbd> expression <code class="cc">coalesce(triggerOutputs()?['body/Priority/Value'], 'Not set')</code></dd></div>
         </dl>
         <p class="fxlabel">Subject · paste first — the trailing space is part of the value</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>Your communication request status: </code></div>
@@ -516,11 +536,12 @@ Open the request: [Link to item]</code></div>
 
 The Corporate Communications team has updated your request.
 
-Request: [Request Subject]
+Request: [Title]
 New status: [Status Value]
+Priority: [Priority]
 
 Notes from the team:
-[CCD Notes]
+[CCM Notes]
 
 Open your request: [Link to item]</code></div>
       </div>
@@ -534,7 +555,98 @@ Open your request: [Link to item]</code></div>
   </details>
 
   <details class="step" id="e9">
-    <summary><span class="dot"></span><span class="num">E9</span><span class="stitle">Go-live — clean the test data</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">E9</span><span class="stitle">Optional — assignment email to the CCD owner</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <div class="note tip"><b>Optional step</b>When a request is assigned on the Part 4 dashboard, should the assignee get an email? <strong>Confirm with CCD</strong> — a five-person team sitting together may not need it. Skip this step and e10 entirely and mark them done if they say no.</div>
+      <ol class="steps2">
+        <li><kbd class="ui">+ Create</kbd> → <kbd class="ui">Automated cloud flow</kbd>. Flow name — paste exactly:</li>
+      </ol>
+      <p class="fxlabel">Flow name</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>CBF - Assignment Notification</code></div>
+      <ol class="steps2" start="2">
+        <li>Trigger: <kbd class="ui">When an item is created or modified</kbd> (SharePoint) → <kbd class="ui">Create</kbd>. On the trigger card: Site Address = your site, List Name = <code class="cc">Communication Requests</code>.</li>
+        <li><kbd class="ui">⊕</kbd> → <kbd class="ui">Add an action</kbd> → SharePoint <kbd class="ui">Get changes for an item or a file (properties only)</kbd>: Site Address = your site, List Name = <code class="cc">Communication Requests</code>, Id = dynamic content <kbd class="ui">ID</kbd> — and the same two <kbd class="ui">fx</kbd> expression values as e6:</li>
+      </ol>
+      <p class="fxlabel">Get changes · Since (expression)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowStartToken}']</code></div>
+      <p class="fxlabel">Get changes · Until (expression)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>triggerOutputs()?['body/{TriggerWindowEndToken}']</code></div>
+      <ol class="steps2" start="4">
+        <li><kbd class="ui">⊕</kbd> → <kbd class="ui">Add an action</kbd> → <kbd class="ui">Condition</kbd>, with <strong>two</strong> rows joined by <kbd class="ui">And</kbd> (click <kbd class="ui">+ Add</kbd> → <kbd class="ui">Add row</kbd>):</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Condition — assignee changed AND someone is actually assigned</p>
+        <dl class="props">
+          <div><dt>Row 1 · left</dt><dd>dynamic content <kbd class="ui">Has Column Changed: Assigned to</kbd> — listed under the Get changes action</dd></div>
+          <div><dt>Row 1 · operator</dt><dd><kbd class="ui">is equal to</kbd></dd></div>
+          <div><dt>Row 1 · right</dt><dd>the field's <kbd class="ui">fx</kbd> button → paste <code class="cc">true</code> → <kbd class="ui">Add</kbd> (classic: Expression tab → OK)</dd></div>
+          <div><dt>Row 2 · left</dt><dd><kbd class="ui">fx</kbd> → <code class="cc">coalesce(triggerOutputs()?['body/AssignedTo/Email'], '')</code></dd></div>
+          <div><dt>Row 2 · operator</dt><dd><kbd class="ui">is not equal to</kbd></dd></div>
+          <div><dt>Row 2 · right</dt><dd><kbd class="ui">fx</kbd> → <code class="cc">''</code> — two single quotes, an empty text</dd></div>
+        </dl>
+      </div>
+      <ol class="steps2" start="5">
+        <li>In <strong>If yes</strong>: <kbd class="ui">Add an action</kbd> → <kbd class="ui">Send an email (V2)</kbd> (Office 365 Outlook):</li>
+      </ol>
+      <div class="fxgroup">
+        <p class="gh">Send an email (V2) — If yes branch</p>
+        <dl class="props">
+          <div><dt>To</dt><dd><kbd class="ui">fx</kbd> → <code class="cc">triggerOutputs()?['body/AssignedTo/Email']</code></dd></div>
+          <div><dt>Subject</dt><dd>paste the prefix below, then <kbd class="ui">⚡</kbd> chip <kbd class="ui">Title</kbd> right after it</dd></div>
+          <div><dt>Body</dt><dd>paste the block below, then swap the [brackets] per the table under it</dd></div>
+        </dl>
+        <p class="fxlabel">Subject · paste first — the trailing space is part of the value</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>New assignment: </code></div>
+        <p class="fxlabel">Body · paste, then swap [brackets]</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Hi,
+
+A communication request has been assigned to you.
+
+Request: [Title]
+Division: [Division Value]
+Launch date: [Launch date]
+Priority: [Priority]
+
+Open it in the CCD dashboard to review the details and update the status:
+[Link to item]
+
+— Communication Briefing (automated)</code></div>
+        <table class="cols">
+          <tr><th>Delete this placeholder</th><th>Insert</th></tr>
+          <tr><td><code>[Title]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Title</kbd></td></tr>
+          <tr><td><code>[Division Value]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Division Value</kbd></td></tr>
+          <tr><td><code>[Launch date]</code></td><td><kbd class="ui">fx</kbd> → <code class="cc">formatDateTime(triggerOutputs()?['body/LaunchDate'], 'dd MMM yyyy')</code></td></tr>
+          <tr><td><code>[Priority]</code></td><td><kbd class="ui">fx</kbd> → <code class="cc">coalesce(triggerOutputs()?['body/Priority/Value'], 'Not set')</code></td></tr>
+          <tr><td><code>[Link to item]</code></td><td><kbd class="ui">⚡</kbd> chip <kbd class="ui">Link to item</kbd></td></tr>
+        </table>
+      </div>
+      <ol class="steps2" start="6">
+        <li>Click <kbd class="ui">Save</kbd>.</li>
+      </ol>
+      <div class="note why"><b>Why the second condition row</b><em>Has Column Changed</em> also fires when an assignee is <em>removed</em> — the second row stops the flow emailing nobody about an un-assignment. Re-assignments email the new owner, which is exactly right.</div>
+      <div class="note check"><b>Check before moving on</b>Flow saved with the two-row condition and the email in If yes — or CCD said no and you skipped it. Both count.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="e10">
+    <summary><span class="dot"></span><span class="num">E10</span><span class="stitle">Test the assignment email</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <div class="note tip"><b>Skip if e9 was skipped</b>No flow, nothing to test — mark done and move on.</div>
+      <ol class="steps2">
+        <li>Open the app's CCD dashboard, select the e7 TEST item (<code>TEST audit - delete me later</code>).</li>
+        <li>In the assign combo pick <strong>yourself</strong>, then <kbd class="ui">Save update</kbd>.</li>
+        <li>Within about a minute your inbox gets the <code>New assignment:</code> email — division, launch date and priority filled, the link opening the item.</li>
+        <li>Click <kbd class="ui">Save update</kbd> again <em>without</em> changing the assignee — no second email arrives (the condition saw no change).</li>
+        <li>In Power Automate: <kbd class="ui">My flows</kbd> → <code class="cc">CBF - Assignment Notification</code> → run history shows Succeeded runs, including one that took the "no" branch.</li>
+      </ol>
+      <div class="note check"><b>Check before moving on</b>Assignment emails once per change, never on a mere re-save.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="e11">
+    <summary><span class="dot"></span><span class="num">E11</span><span class="stitle">Go-live — clean the test data</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>Open the <strong>Communication Requests</strong> list in SharePoint. In the search box at the top of the list, paste:</li>
@@ -542,7 +654,7 @@ Open your request: [Link to item]</code></div>
       <p class="fxlabel">List search</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>TEST</code></div>
       <ol class="steps2" start="2">
-        <li>Tick the circle next to every seeded item — from a9, b9, e3, e7 and any strays — then <kbd class="ui">Delete</kbd> → confirm.</li>
+        <li>Tick the circle next to every seeded item — from a15, b15, e3, e7 and any strays — then <kbd class="ui">Delete</kbd> → confirm.</li>
         <li>Open the <strong>Audit Log</strong> list, search <code class="cc">TEST</code> the same way, and delete the rows those tests created.</li>
         <li>Clear the search in both lists and scan once more — zero TEST rows left anywhere.</li>
       </ol>
@@ -552,8 +664,8 @@ Open your request: [Link to item]</code></div>
     </div>
   </details>
 
-  <details class="step" id="e10">
-    <summary><span class="dot"></span><span class="num">E10</span><span class="stitle">Acceptance walkthrough — requester half</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="e12">
+    <summary><span class="dot"></span><span class="num">E12</span><span class="stitle">Acceptance walkthrough — requester half</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>In Power Apps studio, click <kbd class="ui">Share</kbd> (top-right).</li>
@@ -574,31 +686,32 @@ Open your request: [Link to item]</code></div>
         <tr><td>Sees the live status on My Requests</td><td>AC-5 status visible ✓</td></tr>
         <tr><td>Sees <em>only their own</em> request — none of yours</td><td>AC-7 item privacy ✓</td></tr>
       </table>
-      <div class="note warn"><b>If they see your items</b>Item-level permissions (a6) didn't stick, or they're accidentally an Owner (a8). Fix and re-test before going further.</div>
+      <div class="note warn"><b>If they see your items</b>Item-level permissions (a12) didn't stick, or they're accidentally an Owner (a14). Fix and re-test before going further.</div>
       <div class="note check"><b>Check before moving on</b>All six requester-side criteria ticked.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="e11">
-    <summary><span class="dot"></span><span class="num">E11</span><span class="stitle">Acceptance walkthrough — CCD half</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="e13">
+    <summary><span class="dot"></span><span class="num">E13</span><span class="stitle">Acceptance walkthrough — CCD half</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Your half, run from your own (Owner) account:</p>
       <table class="cols">
         <tr><th>You (Owner) do…</th><th>Acceptance criterion</th></tr>
         <tr><td>Dashboard shows all requests including the colleague's</td><td>AC-6 CCD full view ✓</td></tr>
-        <tr><td>Export to Excel from the list works (d8)</td><td>AC-8 Excel export ✓</td></tr>
+        <tr><td>Export to Excel from the list works (d11)</td><td>AC-8 Excel export ✓</td></tr>
+        <tr><td>Assign the colleague's request to a member; Assigned on stamps; the assignee gets the e9 email (if built)</td><td>AC-11 assignment workflow ✓</td></tr>
         <tr><td>Walk every screen and flow: no approve/reject step exists anywhere</td><td>AC-9 no approval workflow ✓</td></tr>
         <tr><td>List settings still show versioning on</td><td>AC-10 version history ✓</td></tr>
       </table>
       <p class="do">For AC-10: list → <kbd class="ui">⚙</kbd> → <kbd class="ui">List settings</kbd> → <kbd class="ui">Versioning settings</kbd> → "Create a version each time…" is <strong>Yes</strong>. For AC-9, the honest check is a walk-through of every screen and both flows — nothing anywhere should ask anyone to approve or reject a request.</p>
-      <div class="note check"><b>Check before moving on</b>Ten of ten acceptance criteria green. The system is live.</div>
+      <div class="note check"><b>Check before moving on</b>Eleven of eleven acceptance criteria green. The system is live.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="e12">
-    <summary><span class="dot"></span><span class="num">E12</span><span class="stitle">Hand over</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="e14">
+    <summary><span class="dot"></span><span class="num">E14</span><span class="stitle">Hand over</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>In studio, select <kbd class="ui">App</kbd> and open <strong>OnStart</strong>: confirm the five CCD emails are the real team members' addresses, and remove your own if you added it for testing in d1. Then <kbd class="ui">Save</kbd> → <kbd class="ui">Publish</kbd> one last time.</li>
@@ -608,7 +721,7 @@ Open your request: [Link to item]</code></div>
       <dl class="props">
         <div><dt>SharePoint site</dt><dd><code class="cc">Communication Briefing</code> — with the lists <code class="cc">Communication Requests</code> and <code class="cc">Audit Log</code></dd></div>
         <div><dt>Canvas app</dt><dd><code class="cc">Communication Briefing Form</code></dd></div>
-        <div><dt>Flows</dt><dd><code class="cc">CBF - New Request Notification</code>, <code class="cc">CBF - Audit Logger</code> — plus <code class="cc">CBF - Status Change Notification</code> if e8 was built</dd></div>
+        <div><dt>Flows</dt><dd><code class="cc">CBF - New Request Notification</code>, <code class="cc">CBF - Audit Logger</code> — plus <code class="cc">CBF - Status Change Notification</code> (e8) and <code class="cc">CBF - Assignment Notification</code> (e9) if built</dd></div>
       </dl>
       <div class="note tip"><b>Parked for Phase 2</b>Deliberately not built, per the spec: approval/rejection workflow, edit-lock after Completed, service-account email sender. If someone asks for them, they're enhancements — not bugs.</div>
       <div class="note check"><b>Check before moving on</b>Handover message sent. You're done — the whole system is live and documented.</div>
@@ -636,7 +749,7 @@ Open your request: [Link to item]</code></div>
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart5_v2";
+  var KEY="cbfPart5_v3";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){

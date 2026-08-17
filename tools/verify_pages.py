@@ -10,7 +10,7 @@ PAGES = {
     "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v4"},
     "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v3"},
     "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v3"},
-    "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v2"},
+    "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v3"},
 }
 SNIPPETS = {  # filename -> [verbatim decoded formula strings]
     "part1-foundation.html": [
@@ -59,6 +59,10 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "triggerOutputs()?['body/{TriggerWindowStartToken}']",
         "triggerOutputs()?['body/{TriggerWindowEndToken}']",
         "concat('Status is now: ', triggerOutputs()?['body/Status/Value'])",
+        "join(body('Select_-_Deliverables'), ', ')",
+        "formatDateTime(triggerOutputs()?['body/LaunchDate'], 'dd MMM yyyy')",
+        "coalesce(triggerOutputs()?['body/Priority/Value'], 'Not set')",
+        "triggerOutputs()?['body/AssignedTo/Email']",
     ],
 }
 
