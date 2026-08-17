@@ -164,7 +164,7 @@
       <h1>SharePoint Foundation</h1>
       <p class="sub">Two lists, versioning, and item-level privacy — the data layer the whole Communication Briefing system stands on.</p>
       <div class="meta">
-        <span><b>~40 min</b> hands-on</span> <span><b>SharePoint</b> only</span> <span><b>No code</b> yet</span>
+        <span><b>~90 min</b> hands-on</span> <span><b>SharePoint</b> only</span> <span><b>No code</b> yet</span>
       </div>
     </div>
   </div>
@@ -173,7 +173,7 @@
 <div class="sticky">
   <div class="wrap">
     <div class="progress"><i id="bar"></i></div>
-    <div class="progtext"><span id="progLabel">0 of 9 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
+    <div class="progtext"><span id="progLabel">0 of 15 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
   </div>
 </div>
 
@@ -182,7 +182,7 @@
 
       <section class="block">
     <h2 class="sec">What Part 1 builds</h2>
-    <div class="tldr"><b>TL;DR</b>A private SharePoint team site with a <code class="cc">Communication Requests</code> list (six columns, versioning on, attachments on, item-level privacy) and an <code class="cc">Audit Log</code> list the Part 5 flows will write to. Every name and value below is tap-to-copy: nothing to retype, nothing to guess. Finish this part and the data layer is done.</div>
+    <div class="tldr"><b>TL;DR</b>A private SharePoint team site with a <code class="cc">Communication Requests</code> list (the full 34-column schema in eight groups — basics, request details, budget, PR, event, branding, and the CCD workflow — with versioning, attachments and item-level privacy) and an <code class="cc">Audit Log</code> list the Part 5 flows will write to. Every name and value below is tap-to-copy: nothing to retype, nothing to guess. Finish this part and the data layer is done.</div>
     <div class="pane">
       <p class="ph">How to create any column</p>
       <ol>
@@ -214,7 +214,7 @@
       <ul>
         <li>A BBK Microsoft 365 account that can create SharePoint team sites (if <kbd class="ui">+ Create site</kbd> is missing in a1, ask IT to create the site and make you an <strong>Owner</strong>).</li>
         <li>The five CCD member names handy: Rawan AlQattan, Rafa Kaddoura, Abdulrahman Danish, Samar Qannati, Noora AlFaihani.</li>
-        <li>About 40 uninterrupted minutes.</li>
+        <li>About 90 uninterrupted minutes — the column build (a3–a9) is the long half; it splits cleanly across sittings.</li>
       </ul>
     </div>
   </section>
@@ -270,28 +270,26 @@
   </details>
 
   <details class="step" id="a3">
-    <summary><span class="dot"></span><span class="num">A3</span><span class="stitle">Add the five columns</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">A3</span><span class="stitle">Basics columns (1–3 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Five columns, one box each below. Create every one with the <strong>space-free name</strong> exactly as shown — a4 renames the display labels afterwards. The clicks are always the same (see the "How to create any column" pane at the top of this page): <kbd class="ui">+ Add column</kbd> → pick the type → <kbd class="ui">Next</kbd> → paste the name → set the listed options → <kbd class="ui">Save</kbd>. Overview first, then each column in full:</p>
+      <p class="do">The real request schema is <strong>34 columns in eight groups</strong>, built over steps a3–a9. Create every one with the <strong>space-free name</strong> exactly as shown — a10 renames the display labels afterwards. The clicks are always the same (see the "How to create any column" pane at the top of this page): <kbd class="ui">+ Add column</kbd> → pick the type → <kbd class="ui">Next</kbd> → paste the name → set the listed options → <kbd class="ui">Save</kbd>. This step: the three basics every request starts with.</p>
       <table class="cols">
         <tr><th>Name</th><th>Type</th><th>Details</th></tr>
-        <tr><td><code class="cc">Department</code></td><td><kbd class="ui">Choice</kbd></td><td>Paste the division list below</td></tr>
-        <tr><td><code class="cc">RequestDetails</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
-        <tr><td><code class="cc">TargetDate</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">No</kbd></td></tr>
-        <tr><td><code class="cc">Status</code></td><td><kbd class="ui">Choice</kbd></td><td>Three choices, default below</td></tr>
-        <tr><td><code class="cc">CCDNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">Division</code></td><td><kbd class="ui">Choice</kbd></td><td>Paste the division list below</td></tr>
+        <tr><td><code class="cc">LaunchDate</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">No</kbd></td></tr>
+        <tr><td><code class="cc">TypeOfDeliverables</code></td><td><kbd class="ui">Choice</kbd></td><td>Multi-select — drives the form's conditional sections</td></tr>
       </table>
 
       <div class="fxgroup">
-        <p class="gh">Department — column 1 of 5</p>
+        <p class="gh">Division — column 1 of 34</p>
         <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
         <dl class="props">
-          <div><dt>Name</dt><dd><code class="cc">Department</code></dd></div>
+          <div><dt>Name</dt><dd><code class="cc">Division</code></dd></div>
           <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
           <div><dt>Default value</dt><dd>Leave empty — requesters must pick their own division.</dd></div>
         </dl>
         <p class="do">Click into the <strong>first</strong> choice box and paste the whole block — it splits into one pill per line:</p>
-        <p class="fxlabel">Department · Choices (all 22, paste as one block)</p>
+        <p class="fxlabel">Division · Choices (all 22, paste as one block)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>CE Office
 Operations &amp; Administration
 Information Technology
@@ -316,32 +314,314 @@ Internal Audit
 Legal</code></div>
         <p class="do">Click <kbd class="ui">Save</kbd>.</p>
       </div>
-      <div class="note tip"><b>If the paste doesn't split</b>Add the choices one per box manually — same values, same order. Tap each line's chip in the block above one at a time if that's easier.</div>
+      <div class="note tip"><b>If the paste doesn't split</b>Add the choices one per box manually — same values, same order. Tap each line's chip in the block above one at a time if that's easier. The same trick applies to every choice block in a3–a9.</div>
 
       <div class="fxgroup">
-        <p class="gh">RequestDetails — column 2 of 5</p>
-        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Multiple lines of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
-        <dl class="props">
-          <div><dt>Name</dt><dd><code class="cc">RequestDetails</code> — one word, no space</dd></div>
-          <div><dt>Type</dt><dd><code class="cc">Multiple lines of text</code></dd></div>
-          <div><dt>Use enhanced rich text</dt><dd><code class="cc">No</code> — under <kbd class="ui">More options</kbd>; plain text keeps Part 5's emails clean</dd></div>
-        </dl>
-        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
-      </div>
-
-      <div class="fxgroup">
-        <p class="gh">TargetDate — column 3 of 5</p>
+        <p class="gh">LaunchDate — column 2 of 34</p>
         <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Date and time</kbd> → <kbd class="ui">Next</kbd>, then:</p>
         <dl class="props">
-          <div><dt>Name</dt><dd><code class="cc">TargetDate</code> — one word, no space</dd></div>
+          <div><dt>Name</dt><dd><code class="cc">LaunchDate</code> — one word, no space</dd></div>
           <div><dt>Type</dt><dd><code class="cc">Date and time</code></dd></div>
-          <div><dt>Include time</dt><dd><code class="cc">No</code> — a target is a day, not a minute</dd></div>
+          <div><dt>Include time</dt><dd><code class="cc">No</code> — a launch is a day, not a minute</dd></div>
         </dl>
         <p class="do">Click <kbd class="ui">Save</kbd>.</p>
       </div>
 
       <div class="fxgroup">
-        <p class="gh">Status — column 4 of 5</p>
+        <p class="gh">TypeOfDeliverables — column 3 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">TypeOfDeliverables</code> — one word, no spaces</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+          <div><dt>Allow multiple selections</dt><dd><code class="cc">Yes</code> — under <kbd class="ui">More options</kbd>; a request can need an event <em>and</em> branding <em>and</em> PR at once</dd></div>
+          <div><dt>Default value</dt><dd>None</dd></div>
+        </dl>
+        <p class="do">Paste the whole block into the first choice box:</p>
+        <p class="fxlabel">TypeOfDeliverables · Choices</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Event Support
+Media &amp; PR
+Branding &amp; Design
+Digital &amp; Social Media
+Internal Communication
+Print &amp; Publications
+Video &amp; Photography</code></div>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="note warn"><b>Confirm with CCD</b>Three of the choice lists in a3–a5 are <strong>proposed defaults</strong>: the deliverable types above, the Target Audience list (a4), and the Budget Status list (a5). The division list and the three status names are carried over from the current process. If CCD wants different values, change them here — every later part reads whatever these columns hold. One warning: Part 2's conditional sections key off the exact texts <code class="cc">Event Support</code>, <code class="cc">Media &amp; PR</code> and <code class="cc">Branding &amp; Design</code> — if you rename those three, Part 2 tells you where to update the matching formulas.</div>
+      <div class="note check"><b>Check before moving on</b>The list shows Title · Division · LaunchDate · TypeOfDeliverables, and opening <kbd class="ui">+ Add column</kbd> → the TypeOfDeliverables header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Edit</kbd> shows seven choices with multiple selections allowed (press <kbd class="key">Esc</kbd> to close without saving).</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a4">
+    <summary><span class="dot"></span><span class="num">A4</span><span class="stitle">Request-detail columns (4–8 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Five columns describing what the request is actually about. Four are plain-text boxes with identical settings; one is the audience choice list.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">PurposeObjective</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">BackgroundContext</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">TargetAudience</code></td><td><kbd class="ui">Choice</kbd></td><td>Multi-select, list below</td></tr>
+        <tr><td><code class="cc">AudienceNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">DesiredOutcome</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+      </table>
+
+      <div class="pane">
+        <p class="ph">The plain-text drill (used by every multi-line column in a3–a9)</p>
+        <ol>
+          <li><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Multiple lines of text</kbd> → <kbd class="ui">Next</kbd>.</li>
+          <li>Paste the name chip. No spaces, exactly as written.</li>
+          <li>Open <kbd class="ui">More options</kbd> and set <strong>Use enhanced rich text</strong> to <code class="cc">No</code> — plain text keeps Part 5's emails clean.</li>
+          <li>Click <kbd class="ui">Save</kbd>.</li>
+        </ol>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">PurposeObjective — column 4 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">PurposeObjective</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">BackgroundContext — column 5 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">BackgroundContext</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">TargetAudience — column 6 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">TargetAudience</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+          <div><dt>Allow multiple selections</dt><dd><code class="cc">Yes</code> — under <kbd class="ui">More options</kbd></dd></div>
+          <div><dt>Default value</dt><dd>None</dd></div>
+        </dl>
+        <p class="fxlabel">TargetAudience · Choices (proposed — confirm with CCD)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Internal Staff
+External Public
+Media
+Customers
+Partners &amp; Stakeholders
+VIPs &amp; Dignitaries</code></div>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">AudienceNotes — column 7 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">AudienceNotes</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">DesiredOutcome — column 8 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">DesiredOutcome</code></p>
+      </div>
+
+      <div class="note check"><b>Check before moving on</b>Eight columns exist so far: Title · Division · LaunchDate · TypeOfDeliverables · PurposeObjective · BackgroundContext · TargetAudience · AudienceNotes · DesiredOutcome.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a5">
+    <summary><span class="dot"></span><span class="num">A5</span><span class="stitle">Budget columns (9–11 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">A yes/no switch plus the two fields it unlocks. In Part 2's form, Budget and BudgetStatus only appear when BudgetRequired is switched on — but the columns exist regardless.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">BudgetRequired</code></td><td><kbd class="ui">Yes/No</kbd></td><td>Default: <kbd class="ui">No</kbd></td></tr>
+        <tr><td><code class="cc">Budget</code></td><td><kbd class="ui">Currency</kbd></td><td>Leave the currency format on the tenant default</td></tr>
+        <tr><td><code class="cc">BudgetStatus</code></td><td><kbd class="ui">Choice</kbd></td><td>Three choices, list below</td></tr>
+      </table>
+
+      <div class="fxgroup">
+        <p class="gh">BudgetRequired — column 9 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Yes/No</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">BudgetRequired</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Yes/No</code></dd></div>
+          <div><dt>Default value</dt><dd><code class="cc">No</code></dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">Budget — column 10 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Currency</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">Budget</code></dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Currency</code></dd></div>
+          <div><dt>Currency format</dt><dd>Leave as the tenant default — do not change it per list</dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">BudgetStatus — column 11 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">BudgetStatus</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+          <div><dt>Default value</dt><dd>None — blank until the requester says a budget exists</dd></div>
+        </dl>
+        <p class="fxlabel">BudgetStatus · Choices (proposed — confirm with CCD)</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Approved
+Pending Approval
+Not Yet Requested</code></div>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="note check"><b>Check before moving on</b>Eleven columns exist; a <kbd class="ui">+ New</kbd> item (press <kbd class="key">Esc</kbd> after looking) shows Budget Required pre-set to <strong>No</strong>.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a6">
+    <summary><span class="dot"></span><span class="num">A6</span><span class="stitle">PR &amp; reference columns (12–14 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">The media/PR pair (shown in the form only when the request includes Media &amp; PR deliverables) plus the always-available supporting-references box.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">PRKeyMessages</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">PRSpokespersons</code></td><td><kbd class="ui">Single line of text</kbd></td><td>&nbsp;</td></tr>
+        <tr><td><code class="cc">SupportingReferences</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+      </table>
+
+      <div class="fxgroup">
+        <p class="gh">PRKeyMessages — column 12 of 34</p>
+        <p class="do">Plain-text drill (see a4's pane) with this name: <code class="cc">PRKeyMessages</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">PRSpokespersons — column 13 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Single line of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">PRSpokespersons</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Single line of text</code></dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">SupportingReferences — column 14 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">SupportingReferences</code></p>
+      </div>
+
+      <div class="note check"><b>Check before moving on</b>Fourteen columns exist, ending in PRKeyMessages · PRSpokespersons · SupportingReferences.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a7">
+    <summary><span class="dot"></span><span class="num">A7</span><span class="stitle">Event columns (15–24 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">The biggest group — ten columns, all about one thing: an event. The form shows them only when the request includes Event Support. Work top to bottom; the types vary, the drill doesn't.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">EventName</code></td><td><kbd class="ui">Single line of text</kbd></td><td>&nbsp;</td></tr>
+        <tr><td><code class="cc">EventDescription</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">EventStartDate</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
+        <tr><td><code class="cc">EventEndDate</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
+        <tr><td><code class="cc">EventLocation</code></td><td><kbd class="ui">Single line of text</kbd></td><td>&nbsp;</td></tr>
+        <tr><td><code class="cc">EventExpectedAttendance</code></td><td><kbd class="ui">Number</kbd></td><td>Decimal places: <kbd class="ui">0</kbd></td></tr>
+        <tr><td><code class="cc">EventSpeakers</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">EventVIPsAttending</code></td><td><kbd class="ui">Yes/No</kbd></td><td>Default: <kbd class="ui">No</kbd></td></tr>
+        <tr><td><code class="cc">VIPProtocols</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">EventMediaExpected</code></td><td><kbd class="ui">Yes/No</kbd></td><td>Default: <kbd class="ui">No</kbd></td></tr>
+      </table>
+
+      <div class="fxgroup">
+        <p class="gh">EventName — column 15 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Single line of text</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">EventName</code> → <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventDescription — column 16 of 34</p>
+        <p class="do">Plain-text drill (see a4's pane) with this name: <code class="cc">EventDescription</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventStartDate — column 17 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Date and time</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">EventStartDate</code> — one word, no spaces</dd></div>
+          <div><dt>Include time</dt><dd><code class="cc">Yes</code> — an event starts at an hour, not just a day</dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventEndDate — column 18 of 34</p>
+        <p class="do">Same as EventStartDate — <kbd class="ui">Date and time</kbd>, include time <code class="cc">Yes</code> — with this name: <code class="cc">EventEndDate</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventLocation — column 19 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Single line of text</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">EventLocation</code> → <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventExpectedAttendance — column 20 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Number</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">EventExpectedAttendance</code> — one word, no spaces</dd></div>
+          <div><dt>Number of decimal places</dt><dd><code class="cc">0</code> — under <kbd class="ui">More options</kbd>; you can't invite half a person</dd></div>
+        </dl>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventSpeakers — column 21 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">EventSpeakers</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventVIPsAttending — column 22 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Yes/No</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">EventVIPsAttending</code> → default <code class="cc">No</code> → <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">VIPProtocols — column 23 of 34</p>
+        <p class="do">Plain-text drill with this name: <code class="cc">VIPProtocols</code> — this is the "VIPs Dignitaries Attending Protocols" box; a10 gives it that longer label.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">EventMediaExpected — column 24 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Yes/No</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">EventMediaExpected</code> → default <code class="cc">No</code> → <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="note check"><b>Check before moving on</b>Twenty-four columns exist; the last ten all start with Event, except <code>VIPProtocols</code> sitting between EventVIPsAttending and EventMediaExpected.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a8">
+    <summary><span class="dot"></span><span class="num">A8</span><span class="stitle">Branding columns (25–27 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Three columns for design work, shown in the form only when the request includes Branding &amp; Design.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">BrandingRequirements</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">BrandingDesignExists</code></td><td><kbd class="ui">Yes/No</kbd></td><td>Default: <kbd class="ui">No</kbd></td></tr>
+        <tr><td><code class="cc">BrandingPartnerAssets</code></td><td><kbd class="ui">Yes/No</kbd></td><td>Default: <kbd class="ui">No</kbd></td></tr>
+      </table>
+
+      <div class="fxgroup">
+        <p class="gh">BrandingRequirements — column 25 of 34</p>
+        <p class="do">Plain-text drill (see a4's pane) with this name: <code class="cc">BrandingRequirements</code></p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">BrandingDesignExists — column 26 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Yes/No</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">BrandingDesignExists</code> → default <code class="cc">No</code> → <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">BrandingPartnerAssets — column 27 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Yes/No</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">BrandingPartnerAssets</code> → default <code class="cc">No</code> → <kbd class="ui">Save</kbd>.</p>
+      </div>
+
+      <div class="note check"><b>Check before moving on</b>Twenty-seven columns exist, ending in the three Branding columns.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="a9">
+    <summary><span class="dot"></span><span class="num">A9</span><span class="stitle">CCD workflow columns (28–34 of 34)</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">The last seven columns belong to the CCD team, not the requester: status, assignment, priority, notes, and completion stamps. Requesters never fill these — Part 4's dashboard does.</p>
+      <table class="cols">
+        <tr><th>Name</th><th>Type</th><th>Details</th></tr>
+        <tr><td><code class="cc">Status</code></td><td><kbd class="ui">Choice</kbd></td><td>Three choices, default <code>Submitted</code></td></tr>
+        <tr><td><code class="cc">AssignedTo</code></td><td><kbd class="ui">Person</kbd></td><td>Single person</td></tr>
+        <tr><td><code class="cc">AssignedOn</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
+        <tr><td><code class="cc">Priority</code></td><td><kbd class="ui">Choice</kbd></td><td>Four choices, no default</td></tr>
+        <tr><td><code class="cc">CCMNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">CompletedOn</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
+        <tr><td><code class="cc">CompletedBy</code></td><td><kbd class="ui">Person</kbd></td><td>Single person</td></tr>
+      </table>
+
+      <div class="fxgroup">
+        <p class="gh">Status — column 28 of 34</p>
         <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
         <dl class="props">
           <div><dt>Name</dt><dd><code class="cc">Status</code></dd></div>
@@ -354,44 +634,100 @@ In Progress
 Completed</code></div>
         <p class="do">Then open <kbd class="ui">More options</kbd> and set <strong>Default value</strong> to <code class="cc">Submitted</code> — this is what makes every new request arrive as Submitted without the requester doing anything. Click <kbd class="ui">Save</kbd>.</p>
       </div>
-
       <div class="fxgroup">
-        <p class="gh">CCDNotes — column 5 of 5</p>
-        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Multiple lines of text</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <p class="gh">AssignedTo — column 29 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Person</kbd> → <kbd class="ui">Next</kbd>, then:</p>
         <dl class="props">
-          <div><dt>Name</dt><dd><code class="cc">CCDNotes</code> — one word, no space</dd></div>
-          <div><dt>Type</dt><dd><code class="cc">Multiple lines of text</code></dd></div>
-          <div><dt>Use enhanced rich text</dt><dd><code class="cc">No</code> — under <kbd class="ui">More options</kbd></dd></div>
+          <div><dt>Name</dt><dd><code class="cc">AssignedTo</code> — one word, no space</dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Person</code></dd></div>
+          <div><dt>Allow multiple selections</dt><dd><code class="cc">No</code> — one owner per request</dd></div>
         </dl>
         <p class="do">Click <kbd class="ui">Save</kbd>.</p>
       </div>
+      <div class="fxgroup">
+        <p class="gh">AssignedOn — column 30 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Date and time</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">AssignedOn</code> → include time <code class="cc">Yes</code> → <kbd class="ui">Save</kbd>. Part 4's dashboard stamps this automatically — nobody types it.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">Priority — column 31 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
+        <dl class="props">
+          <div><dt>Name</dt><dd><code class="cc">Priority</code></dd></div>
+          <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
+          <div><dt>Default value</dt><dd>None — CCD sets priority at triage, not the requester</dd></div>
+        </dl>
+        <p class="fxlabel">Priority · Choices</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Low
+Medium
+High
+Urgent</code></div>
+        <p class="do">Click <kbd class="ui">Save</kbd>.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">CCMNotes — column 32 of 34</p>
+        <p class="do">Plain-text drill (see a4's pane) with this name: <code class="cc">CCMNotes</code> — note the M: the column is called <strong>CCM Notes</strong> in the requested schema even though the team is CCD.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">CompletedOn — column 33 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Date and time</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">CompletedOn</code> → include time <code class="cc">Yes</code> → <kbd class="ui">Save</kbd>. Stamped by Part 4, never typed.</p>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">CompletedBy — column 34 of 34</p>
+        <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Person</kbd> → <kbd class="ui">Next</kbd> → name <code class="cc">CompletedBy</code> → multiple selections <code class="cc">No</code> → <kbd class="ui">Save</kbd>. Also stamped by Part 4.</p>
+      </div>
 
-      <div class="note warn"><b>Confirm with CCD</b>Two of these are working defaults: the division list (is it current?) and the three status names. If CCD wants different ones, change them here in a3 — every later part reads whatever this column holds.</div>
-      <div class="note check"><b>Check before moving on</b>The list shows columns, left to right: Title · Department · RequestDetails · TargetDate · Status · CCDNotes — and clicking <kbd class="ui">+ New</kbd> shows Status pre-filled with <strong>Submitted</strong> (press <kbd class="key">Esc</kbd> to close without saving).</div>
+      <div class="note why"><b>Why these live on the same list</b>Item-level privacy (a12) hides other people's requests from requesters, and the Part 2 form simply never shows these seven fields — so one list serves both sides without a second "tracking" list to keep in sync.</div>
+      <div class="note check"><b>Check before moving on</b>All 34 columns exist. Spot-check the last seven: Status · AssignedTo · AssignedOn · Priority · CCMNotes · CompletedOn · CompletedBy — and a <kbd class="ui">+ New</kbd> item shows Status pre-filled with <strong>Submitted</strong> (press <kbd class="key">Esc</kbd> to close without saving).</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="a4">
-    <summary><span class="dot"></span><span class="num">A4</span><span class="stitle">Rename the display labels</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="a10">
+    <summary><span class="dot"></span><span class="num">A10</span><span class="stitle">Rename the display labels</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Four renames, same clicks each time: click the column's <strong>header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the new label → <kbd class="ui">Save</kbd>. Tap each amber chip to copy its label:</p>
+      <p class="do">Thirty renames, same clicks each time: click the column's <strong>header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the new label → <kbd class="ui">Save</kbd>. Tap each amber chip to copy its label. <code class="cc">Title</code>, <code class="cc">Division</code>, <code class="cc">Budget</code>, <code class="cc">Status</code> and <code class="cc">Priority</code> keep their names — they were readable already.</p>
       <table class="cols">
         <tr><th>Column</th><th>Rename to</th></tr>
-        <tr><td><code>Title</code></td><td><code class="cc">Request Subject</code></td></tr>
-        <tr><td><code>RequestDetails</code></td><td><code class="cc">Request Details</code></td></tr>
-        <tr><td><code>TargetDate</code></td><td><code class="cc">Target Date</code></td></tr>
-        <tr><td><code>CCDNotes</code></td><td><code class="cc">CCD Notes</code></td></tr>
+        <tr><td><code>LaunchDate</code></td><td><code class="cc">Launch Date</code></td></tr>
+        <tr><td><code>TypeOfDeliverables</code></td><td><code class="cc">Type of Deliverables Required</code></td></tr>
+        <tr><td><code>PurposeObjective</code></td><td><code class="cc">Purpose Objective</code></td></tr>
+        <tr><td><code>BackgroundContext</code></td><td><code class="cc">Background Context</code></td></tr>
+        <tr><td><code>TargetAudience</code></td><td><code class="cc">Target Audience</code></td></tr>
+        <tr><td><code>AudienceNotes</code></td><td><code class="cc">Audience Notes</code></td></tr>
+        <tr><td><code>DesiredOutcome</code></td><td><code class="cc">Desired Outcome</code></td></tr>
+        <tr><td><code>BudgetRequired</code></td><td><code class="cc">Budget Required</code></td></tr>
+        <tr><td><code>BudgetStatus</code></td><td><code class="cc">Budget Status</code></td></tr>
+        <tr><td><code>PRKeyMessages</code></td><td><code class="cc">PR - Key Messages</code></td></tr>
+        <tr><td><code>PRSpokespersons</code></td><td><code class="cc">PR - Spokespersons</code></td></tr>
+        <tr><td><code>SupportingReferences</code></td><td><code class="cc">Supporting References</code></td></tr>
+        <tr><td><code>EventName</code></td><td><code class="cc">Event Name</code></td></tr>
+        <tr><td><code>EventDescription</code></td><td><code class="cc">Event Description</code></td></tr>
+        <tr><td><code>EventStartDate</code></td><td><code class="cc">Event Start Date</code></td></tr>
+        <tr><td><code>EventEndDate</code></td><td><code class="cc">Event End Date</code></td></tr>
+        <tr><td><code>EventLocation</code></td><td><code class="cc">Event Location</code></td></tr>
+        <tr><td><code>EventExpectedAttendance</code></td><td><code class="cc">Event Expected Attendance</code></td></tr>
+        <tr><td><code>EventSpeakers</code></td><td><code class="cc">Event Speakers</code></td></tr>
+        <tr><td><code>EventVIPsAttending</code></td><td><code class="cc">Event VIPs Attending</code></td></tr>
+        <tr><td><code>VIPProtocols</code></td><td><code class="cc">VIPs Dignitaries Attending Protocols</code></td></tr>
+        <tr><td><code>EventMediaExpected</code></td><td><code class="cc">Event Media Expected</code></td></tr>
+        <tr><td><code>BrandingRequirements</code></td><td><code class="cc">Branding Requirements</code></td></tr>
+        <tr><td><code>BrandingDesignExists</code></td><td><code class="cc">Branding Design Exists</code></td></tr>
+        <tr><td><code>BrandingPartnerAssets</code></td><td><code class="cc">Branding Partner Assets</code></td></tr>
+        <tr><td><code>AssignedTo</code></td><td><code class="cc">Assigned to</code></td></tr>
+        <tr><td><code>AssignedOn</code></td><td><code class="cc">Assigned on</code></td></tr>
+        <tr><td><code>CCMNotes</code></td><td><code class="cc">CCM Notes</code></td></tr>
+        <tr><td><code>CompletedOn</code></td><td><code class="cc">Completed on</code></td></tr>
+        <tr><td><code>CompletedBy</code></td><td><code class="cc">Completed by</code></td></tr>
       </table>
-      <p class="do"><code class="cc">Department</code> and <code class="cc">Status</code> keep their names — they were readable already.</p>
-      <div class="note why"><b>Why create-then-rename</b>A column's <em>internal</em> name is frozen at creation. Space-free names first means the Part 5 flows see clean names like <code>RequestDetails</code> instead of <code>Request_x0020_Details</code>; renaming afterwards only changes the label people see.</div>
-      <div class="note check"><b>Check before moving on</b>Headers now read: Request Subject · Department · Request Details · Target Date · Status · CCD Notes.</div>
+      <div class="note why"><b>Why create-then-rename</b>A column's <em>internal</em> name is frozen at creation. Space-free names first means the Part 5 flows see clean names like <code>LaunchDate</code> instead of <code>Launch_x0020_Date</code>; renaming afterwards only changes the label people see.</div>
+      <div class="note tip"><b>Faster than the header menu</b>For a run of 30 renames, gear icon → <kbd class="ui">List settings</kbd> → click each column name under <strong>Columns</strong> works too — same rename, one page.</div>
+      <div class="note check"><b>Check before moving on</b>Headers now show spaced labels — spot-check four: <strong>Launch Date</strong> · <strong>Type of Deliverables Required</strong> · <strong>VIPs Dignitaries Attending Protocols</strong> · <strong>CCM Notes</strong>.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="a5">
-    <summary><span class="dot"></span><span class="num">A5</span><span class="stitle">Versioning and attachments</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="a11">
+    <summary><span class="dot"></span><span class="num">A11</span><span class="stitle">Versioning and attachments</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Both switches live in the classic settings page — it looks older than the rest of SharePoint; that's normal.</p>
       <ol class="steps2">
@@ -409,8 +745,8 @@ Completed</code></div>
     </div>
   </details>
 
-  <details class="step" id="a6">
-    <summary><span class="dot"></span><span class="num">A6</span><span class="stitle">Item-level privacy</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="a12">
+    <summary><span class="dot"></span><span class="num">A12</span><span class="stitle">Item-level privacy</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">This is the setting that keeps requesters from seeing each other's requests. Two radio buttons — pick them exactly as written or the privacy model breaks.</p>
       <ol class="steps2">
@@ -421,14 +757,14 @@ Completed</code></div>
         <li>Click <kbd class="ui">OK</kbd>.</li>
       </ol>
       <div class="note warn"><b>The two traps on this page</b>Don't pick <em>"Read all items"</em> (everyone would see everyone's requests) and don't pick <em>"None"</em> under Create and Edit (nobody could submit at all). Both correct answers end in <em>"…that were created by the user"</em>.</div>
-      <div class="note why"><b>Who still sees everything</b>Users with <strong>Manage Lists</strong> permission — the site Owners you add in a8 — bypass item-level restrictions. That is exactly how the CCD team gets the full picture while staff stay in their lane.</div>
+      <div class="note why"><b>Who still sees everything</b>Users with <strong>Manage Lists</strong> permission — the site Owners you add in a14 — bypass item-level restrictions. That is exactly how the CCD team gets the full picture while staff stay in their lane.</div>
       <div class="note check"><b>Check before moving on</b>Advanced settings shows both item-level options set to the "created by the user" choices.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="a7">
-    <summary><span class="dot"></span><span class="num">A7</span><span class="stitle">Create the Audit Log list</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="a13">
+    <summary><span class="dot"></span><span class="num">A13</span><span class="stitle">Create the Audit Log list</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Part 5's flow writes one row here for every create, edit, and status change — humans never type into this list. Same drill as a2: site home → <kbd class="ui">+ New</kbd> → <kbd class="ui">List</kbd> → <kbd class="ui">Blank list</kbd> → paste the name → <kbd class="ui">Create</kbd>.</p>
       <p class="fxlabel">List name</p>
@@ -506,10 +842,10 @@ Status Changed</code></div>
     </div>
   </details>
 
-  <details class="step" id="a8">
-    <summary><span class="dot"></span><span class="num">A8</span><span class="stitle">Grant access — CCD as Owners, staff as Members</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="a14">
+    <summary><span class="dot"></span><span class="num">A14</span><span class="stitle">Grant access — CCD as Owners, staff as Members</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Two kinds of people, two roles: the five CCD members become <strong>Owners</strong> (they see and manage everything), and all staff become <strong>Members</strong> (they can submit, and a6 keeps them inside their own items).</p>
+      <p class="do">Two kinds of people, two roles: the five CCD members become <strong>Owners</strong> (they see and manage everything), and all staff become <strong>Members</strong> (they can submit, and a12 keeps them inside their own items).</p>
       <ol class="steps2">
         <li>Go to the site home page → gear icon (top-right) → <kbd class="ui">Site permissions</kbd>.</li>
         <li>Click <kbd class="ui">Add members</kbd> → <kbd class="ui">Add members to group</kbd>.</li>
@@ -528,19 +864,19 @@ Status Changed</code></div>
     </div>
   </details>
 
-  <details class="step" id="a9">
-    <summary><span class="dot"></span><span class="num">A9</span><span class="stitle">Verify the foundation</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="a15">
+    <summary><span class="dot"></span><span class="num">A15</span><span class="stitle">Verify the foundation</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">One test item proves the whole part: default status, versioning, and the audit trail all show themselves in a two-minute pass.</p>
       <ol class="steps2">
         <li>Open <strong>Communication Requests</strong> and click <kbd class="ui">+ New</kbd>.</li>
-        <li>Request Subject — paste exactly: <code class="cc">TEST - delete me later</code></li>
-        <li>Pick any Department, leave everything else alone, and click <kbd class="ui">Save</kbd>. Note the item's Status arrived as <strong>Submitted</strong> on its own.</li>
-        <li>Click the item to reopen it, change Request Details to: <code class="cc">Edited once to test version history</code> — then save it.</li>
+        <li>Title — paste exactly: <code class="cc">TEST - delete me later</code></li>
+        <li>Pick any Division, pick <strong>Event Support</strong> under Type of Deliverables Required, leave everything else alone, and click <kbd class="ui">Save</kbd>. Note the item's Status arrived as <strong>Submitted</strong> and Budget Required as <strong>No</strong> on their own.</li>
+        <li>Click the item to reopen it, change Purpose Objective to: <code class="cc">Edited once to test version history</code> — then save it.</li>
         <li>Back in the list, select the item's row → click <kbd class="ui">⋮</kbd> (or right-click the item) → <kbd class="ui">Version history</kbd>.</li>
       </ol>
       <div class="note tip"><b>Keep the test item</b>Part 2's first F5 test looks for it, and Part 5's go-live step sweeps all TEST items out at the end.</div>
-      <div class="note check"><b>Check before moving on</b>All six: ① both lists exist ② headers read Request Subject / Department / Request Details / Target Date / Status / CCD Notes ③ versioning on ④ item-level permissions set to "created by the user" ⑤ five CCD Owners + staff Members ⑥ version history shows 2.0 with your name and timestamps, and the item's Status defaulted to <strong>Submitted</strong>.</div>
+      <div class="note check"><b>Check before moving on</b>All six: ① both lists exist ② all 34 columns present with spaced display labels (spot-check Launch Date · Type of Deliverables Required · CCM Notes · Completed by) ③ versioning on ④ item-level permissions set to "created by the user" ⑤ five CCD Owners + staff Members ⑥ version history shows 2.0 with your name and timestamps, and the item's Status defaulted to <strong>Submitted</strong>.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -565,7 +901,7 @@ Status Changed</code></div>
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart1_v2";
+  var KEY="cbfPart1_v3";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){
