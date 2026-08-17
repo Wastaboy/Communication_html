@@ -85,8 +85,9 @@ Modified, Created, Created By, Modified By are built-in — no steps.
 
 Existing conventions carry over: typed globals in App.OnStart (`gblEditItem`
 seeded with `LookUp('Communication Requests', false)`), dialog overlays with
-explicit Visible on every control, Patch-based save, red FIX-tag styling where
-the old build differs.
+explicit Visible on every control, form-based save (`SubmitForm(frmSubmit)` —
+matching the existing build; conditional sections are data cards with Visible
+formulas), red FIX-tag styling where the old build differs.
 
 **Always visible:** Title, Division, Launch Date, Type of Deliverables Required,
 Purpose Objective, Background Context, Target Audience, Audience Notes,
