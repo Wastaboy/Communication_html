@@ -191,7 +191,7 @@
       <p class="ph">Prerequisites</p>
       <ul>
         <li><a href="part1-foundation.html">Part 1</a> and <a href="part2-submission-form.html">Part 2</a> finished.</li>
-        <li>The app open in Power Apps Studio with at least one TEST item submitted (b11).</li>
+        <li>The app open in Power Apps Studio with at least one TEST item submitted (b15).</li>
       </ul>
     </div>
   </section>
@@ -316,7 +316,7 @@
         <p class="gh">lblReqTitle — Text label (the Title slot)</p>
         <p class="do">Rename the <strong>top</strong> label in the template <code class="cc">lblReqTitle</code>. Text first:</p>
         <p class="fxlabel">lblReqTitle · Text</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.'Request Subject'</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Title</code></div>
         <dl class="props">
           <div><dt>Size</dt><dd><code class="cc">16</code></dd></div>
           <div><dt>FontWeight</dt><dd><code class="cc">FontWeight.Semibold</code></dd></div>
@@ -340,7 +340,7 @@
         <p class="gh">lblReqDate — Text label (the Body slot)</p>
         <p class="do">Rename the <strong>bottom</strong> label <code class="cc">lblReqDate</code>:</p>
         <p class="fxlabel">lblReqDate · Text</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>"Target: " &amp; Text(ThisItem.'Target Date', ShortDate)</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Launch: " &amp; Text(ThisItem.'Launch Date', ShortDate)</code></div>
         <dl class="props">
           <div><dt>Size</dt><dd><code class="cc">12</code></dd></div>
           <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
@@ -348,7 +348,7 @@
       </div>
 
       <div class="note why"><b>Why the Switch formula</b>Each status gets its own color — amber for Submitted, navy for In Progress, green for Completed. The last <code>RGBA(120, 130, 145, 1)</code> is the fallback gray, shown if a status ever arrives that the formula doesn't recognize.</div>
-      <div class="note check"><b>Check before moving on</b>Rows show the subject in bold, a colored status word — amber for Submitted — and a gray "Target: …" date line.</div>
+      <div class="note check"><b>Check before moving on</b>Rows show the title in bold, a colored status word — amber for Submitted — and a gray "Launch: …" date line.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -366,7 +366,23 @@
           <div><dt>Height</dt><dd><code class="cc">240</code></dd></div>
         </dl>
         <p class="fxlabel">lblDetNotes · Text</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "Select a request on the left.", "Status: " &amp; galMyRequests.Selected.Status.Value &amp; Char(10) &amp; Char(10) &amp; "CCD notes:" &amp; Char(10) &amp; If(IsBlank(galMyRequests.Selected.'CCD Notes'), "— none yet —", galMyRequests.Selected.'CCD Notes'))</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "Select a request on the left.", "Status: " &amp; galMyRequests.Selected.Status.Value &amp; Char(10) &amp; Char(10) &amp; "CCD notes:" &amp; Char(10) &amp; If(IsBlank(galMyRequests.Selected.'CCM Notes'), "— none yet —", galMyRequests.Selected.'CCM Notes'))</code></div>
+      </div>
+
+      <div class="fxgroup">
+        <p class="gh">lblDetSummary — Text label</p>
+        <p class="do">A compact recap of what was asked for, above the notes. <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblDetSummary</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">lblDetNotes.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">lblDetNotes.Y + lblDetNotes.Height + 8</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">lblDetNotes.Width</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">160</code></dd></div>
+          <div><dt>Size</dt><dd><code class="cc">12</code></dd></div>
+          <div><dt>Color</dt><dd><code class="cc">RGBA(91, 102, 120, 1)</code></dd></div>
+        </dl>
+        <p class="fxlabel">lblDetSummary · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galMyRequests.Selected), "", "Division: " &amp; galMyRequests.Selected.Division.Value &amp; Char(10) &amp; "Launch: " &amp; Text(galMyRequests.Selected.'Launch Date', ShortDate) &amp; Char(10) &amp; "Deliverables: " &amp; Concat(galMyRequests.Selected.'Type of Deliverables Required', Value, ", ") &amp; If(IsBlank(galMyRequests.Selected.Priority), "", Char(10) &amp; "Priority: " &amp; galMyRequests.Selected.Priority.Value))</code></div>
+        <div class="note why"><b>Record-driven, not control-driven</b>Part 2's sections key off form controls (<code>cmbDeliverables.SelectedItems</code>); this label reads the <em>stored record</em> instead — <code>galMyRequests.Selected.…</code> — because on this screen there is no form, only saved data. The Priority line only appears once CCD sets one in Part 4.</div>
       </div>
 
       <div class="fxgroup">
@@ -383,7 +399,7 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>"Submitted = waiting for CCD   ·   In Progress = being worked on   ·   Completed = done"</code></div>
       </div>
       <div class="note why"><b>This is FR-6 working — legibly</b>Status and any notes CCD writes (Part 4) appear here, live, to the person who asked. The legend means the colored words decode themselves — nobody has to guess what "In Progress" implies.</div>
-      <div class="note check"><b>Check before moving on</b>Selecting a gallery row shows its status and "— none yet —" for notes; the legend line sits under the header.</div>
+      <div class="note check"><b>Check before moving on</b>Selecting a gallery row shows its status, "— none yet —" for notes, and the division/launch/deliverables recap under them; the legend line sits under the header.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -437,8 +453,8 @@
     <div class="body">
       <div class="fxgroup">
         <p class="gh">frmSubmit — OnSuccess, edit-aware</p>
-        <p class="do">On <code class="cc">scrSubmit</code>: select <code class="cc">frmSubmit</code>, pick <strong>OnSuccess</strong> in the property dropdown, delete the whole b9 formula and paste the edit-aware final:</p>
-        <p class="fxlabel">frmSubmit · OnSuccess (replaces the b9 version)</p>
+        <p class="do">On <code class="cc">scrSubmit</code>: select <code class="cc">frmSubmit</code>, pick <strong>OnSuccess</strong> in the property dropdown, delete the whole b13 formula and paste the edit-aware final:</p>
+        <p class="fxlabel">frmSubmit · OnSuccess (replaces the b13 version)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(gblEditItem), ResetForm(frmSubmit); Navigate(scrDone, ScreenTransition.None), Notify("Changes saved.", NotificationType.Success); Set(gblEditItem, Blank()); ResetForm(frmSubmit); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
       </div>
       <div class="note why"><b>Two exits, both explained</b>A new submission still gets the full confirmation screen. An edit doesn't detour — a "Changes saved." toast and straight back to My Requests, where the updated row is already showing.</div>
@@ -450,19 +466,19 @@
   <details class="step" id="c8">
     <summary><span class="dot"></span><span class="num">C8</span><span class="stitle">Edit-aware cancel + the second next-step button</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Cancelling an <em>edit</em> should return you to your list, not strand you on the form. Two b10 formulas get upgraded, then the confirmation screen gets its second button.</p>
+      <p class="do">Cancelling an <em>edit</em> should return you to your list, not strand you on the form. Two b14 formulas get upgraded, then the confirmation screen gets its second button.</p>
 
       <div class="fxgroup">
         <p class="gh">btnCancel — Button (on scrSubmit)</p>
-        <p class="do">Select <code class="cc">btnCancel</code>, pick <strong>OnSelect</strong> in the property dropdown, delete the whole b10 formula and paste:</p>
-        <p class="fxlabel">btnCancel · OnSelect (replaces the b10 version)</p>
+        <p class="do">Select <code class="cc">btnCancel</code>, pick <strong>OnSelect</strong> in the property dropdown, delete the whole b14 formula and paste:</p>
+        <p class="fxlabel">btnCancel · OnSelect (replaces the b14 version)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None)))</code></div>
       </div>
 
       <div class="fxgroup">
         <p class="gh">btnDialogDiscard — Button (on scrSubmit)</p>
-        <p class="do">Select <code class="cc">btnDialogDiscard</code>, pick <strong>OnSelect</strong>, delete the b10 formula and paste:</p>
-        <p class="fxlabel">btnDialogDiscard · OnSelect (replaces the b10 version)</p>
+        <p class="do">Select <code class="cc">btnDialogDiscard</code>, pick <strong>OnSelect</strong>, delete the b14 formula and paste:</p>
+        <p class="fxlabel">btnDialogDiscard · OnSelect (replaces the b14 version)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblShowCancelConfirm, false); ResetForm(frmSubmit); If(!IsBlank(gblEditItem), Set(gblEditItem, Blank()); Navigate(scrMyRequests, ScreenTransition.None))</code></div>
       </div>
 
@@ -485,7 +501,7 @@
 
       <div class="fxgroup">
         <p class="gh">btnDoneAnother — reposition (on scrDone)</p>
-        <p class="do">Select <code class="cc">btnDoneAnother</code> (from b8) and change one property so the pair sits centered:</p>
+        <p class="do">Select <code class="cc">btnDoneAnother</code> (from b12) and change one property so the pair sits centered:</p>
         <dl class="props">
           <div><dt>X</dt><dd><code class="cc">(Parent.Width - 452) / 2 + 232</code></dd></div>
         </dl>
@@ -540,10 +556,10 @@
     <summary><span class="dot"></span><span class="num">C10</span><span class="stitle">F5 test — the edit loop, cancel included</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li><kbd class="key">F5</kbd> → <kbd class="ui">My requests</kbd> → select the b11 TEST item.</li>
+        <li><kbd class="key">F5</kbd> → <kbd class="ui">My requests</kbd> → select the b15 TEST item.</li>
         <li><kbd class="ui">Edit this request</kbd> — the form opens pre-filled, titled <em>Edit request</em>; the button reads <em>Save changes</em> and the hint reads <em>"Ready — saving updates your request instantly…"</em>.</li>
-        <li>Change Request Details, then <kbd class="ui">Cancel changes</kbd> → the discard dialog appears → <kbd class="ui">Discard</kbd> → you land back on My Requests, the item unchanged.</li>
-        <li><kbd class="ui">Edit this request</kbd> again, change Request Details, click <kbd class="ui">Save changes</kbd> — toast says <em>Changes saved.</em> and you land back on My Requests.</li>
+        <li>Change Purpose Objective, then <kbd class="ui">Cancel changes</kbd> → the discard dialog appears → <kbd class="ui">Discard</kbd> → you land back on My Requests, the item unchanged.</li>
+        <li><kbd class="ui">Edit this request</kbd> again, change Purpose Objective, click <kbd class="ui">Save changes</kbd> — toast says <em>Changes saved.</em> and you land back on My Requests. Notice the form re-opened with the sections the request actually used — the conditional cards read the saved deliverable types.</li>
         <li><kbd class="ui">+ New request</kbd> → submit a fresh <code class="cc">TEST confirm - delete me later</code> → the confirmation screen shows <strong>both</strong> buttons → <kbd class="ui">View my requests</kbd> lands here with the new row on top.</li>
         <li>In the SharePoint list, open the edited item's <kbd class="ui">Version history</kbd> — a new version, your name, right now.</li>
       </ol>
