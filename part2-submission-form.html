@@ -195,7 +195,8 @@
         <li>For Text values, the quotes <code>"…"</code> are part of the value. Copy them too.</li>
       </ol>
     </div>
-    <div class="note warn"><b>Built the app against the old six-column list?</b>The requested schema replaced that list wholesale — this part is now a <strong>fresh build</strong>, not a patch list. Rebuilding on the new list is faster and safer than rewiring 30 data cards in the old app: create the new app in b1, keep the old one unpublished until the switch-over in Part 5.</div>
+    <p class="lead">The route: <a href="#b1">b1–b4</a> app shell and form · <a href="#b5">b5–b6</a> pick, order and prep the 29 cards · <a href="#b7">b7–b10</a> the four conditional sections · <a href="#b11">b11–b14</a> submit, confirm and cancel behavior · <a href="#b15">b15–b16</a> test and publish.</p>
+    <div class="note warn"><b>Built the app against the old six-column list?</b>The requested schema replaced that list wholesale — this part is now a <strong>fresh build</strong>, not a patch list. Rebuilding on the new list is faster and safer than rewiring 29 data cards in the old app: create the new app in b1, keep the old one unpublished until the switch-over in Part 5.</div>
   </section>
 
   <section class="block">
@@ -301,7 +302,7 @@
         </dl>
       </div>
 
-      <div class="note why"><b>Why the intro and the variables</b>Users should know where their words go and that submitting isn't final-final <em>before</em> they type. The two variables get real jobs soon: <code>gblEditItem</code> (Part 3's edit mode) and <code>gblShowCancelConfirm</code> (b10's discard dialog) — initializing them now lets every formula reference them safely.</div>
+      <div class="note why"><b>Why the intro and the variables</b>Users should know where their words go and that submitting isn't final-final <em>before</em> they type. The two variables get real jobs soon: <code>gblEditItem</code> (Part 3's edit mode) and <code>gblShowCancelConfirm</code> (b14's discard dialog) — initializing them now lets every formula reference them safely.</div>
       <div class="note check"><b>Check before moving on</b>Navy band, white title, grey intro line under it — Run OnStart executed without error, and no red errors anywhere in the tree.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -319,9 +320,10 @@
           <div><dt>Width</dt><dd><code class="cc">Parent.Width - 48</code></dd></div>
           <div><dt>Height</dt><dd><code class="cc">Parent.Height - 216</code></dd></div>
         </dl>
-        <p class="do">With the form selected, in the properties pane set <strong>Data source</strong> to <kbd class="ui">Communication Requests</kbd>. Then pick <strong>DefaultMode</strong> in the property dropdown and paste:</p>
+        <p class="do">With the form selected, in the properties pane set <strong>Data source</strong> to <kbd class="ui">Communication Requests</kbd> and <strong>Columns</strong> to <kbd class="ui">1</kbd> (with <kbd class="ui">Snap to columns</kbd> on). Then pick <strong>DefaultMode</strong> in the property dropdown and paste:</p>
         <p class="fxlabel">frmSubmit · DefaultMode</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>FormMode.New</code></div>
+        <div class="note why"><b>Why one column</b>With 29 cards, the tablet default of three columns scatters the b7–b10 sections across the grid, and cards folding in and out would reshuffle their neighbours. One column keeps the form a single top-to-bottom story — each section unfolds in place, like a paper form growing extra pages.</div>
       </div>
       <div class="note check"><b>Check before moving on</b>The form shows data cards for the list's fields, sitting below the intro line.</div>
       <button class="done" type="button">Mark step done</button>
@@ -421,6 +423,7 @@
         </ol>
       </div>
       <div class="note why"><b>Why the Update guard</b>Hidden is not cleared. Without the guard, someone who fills the Budget fields and then flips Budget Required off submits the stale numbers invisibly — finance reads a budget the requester withdrew. With the guard, hiding a section really blanks it on save.</div>
+      <div class="note warn"><b>Work in this order: rename → Update → Visible last</b>The moment you paste a card's Visible, the card <em>disappears from the canvas</em> whenever its condition is false in the studio — that's the feature working, not a crash. Do each card's rename and Update first, paste Visible last. To reach a card that's already hidden: select it in the <kbd class="ui">Tree view</kbd> (it's still listed under frmSubmit), or make its section show — hold <kbd class="key">Alt</kbd> and click the deliverable types in <code>cmbDeliverables</code> / the toggles right on the canvas to flip them while editing.</div>
 
       <p class="do">Now apply it to the Budget pair. Both cards use the same condition — the Budget Required toggle:</p>
       <p class="fxlabel">Visible — Budget and Budget Status cards</p>
@@ -482,19 +485,27 @@
       <p class="do">Ten cards — nine share one condition; the VIP-protocols card adds the VIP toggle to it. The section condition:</p>
       <p class="fxlabel">Visible — nine Event cards (all except VIPs Dignitaries Attending Protocols)</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>"Event Support" in cmbDeliverables.SelectedItems.Value</code></div>
-      <p class="do">Work down the nine cards — Event Name · Event Description · Event Start Date · Event End Date · Event Location · Event Expected Attendance · Event Speakers · Event VIPs Attending · Event Media Expected. For each: unlock, rename the inner control per the table, paste the Visible above, paste the Update from the table:</p>
+      <p class="do">Work down the nine cards — Event Name · Event Description · Event Start Date · Event End Date · Event Location · Event Expected Attendance · Event Speakers · Event VIPs Attending · Event Media Expected. For each: unlock, rename the inner control per the table (the two date cards need no rename), paste the Visible above onto the card, then set the card's Update per the table:</p>
       <table class="cols">
         <tr><th>Card</th><th>Rename inner control to</th><th>Card · Update</th></tr>
         <tr><td>Event Name</td><td><code class="cc">inpEventName</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventName.Text)</code></td></tr>
         <tr><td>Event Description</td><td><code class="cc">inpEventDescription</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventDescription.Text)</code></td></tr>
-        <tr><td>Event Start Date</td><td><code class="cc">dteEventStart</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, dteEventStart.SelectedDate)</code></td></tr>
-        <tr><td>Event End Date</td><td><code class="cc">dteEventEnd</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, dteEventEnd.SelectedDate)</code></td></tr>
+        <tr><td>Event Start Date</td><td>no rename needed</td><td><em>wrap the existing formula — see the box below the table</em></td></tr>
+        <tr><td>Event End Date</td><td>no rename needed</td><td><em>wrap the existing formula — see the box below the table</em></td></tr>
         <tr><td>Event Location</td><td><code class="cc">inpEventLocation</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventLocation.Text)</code></td></tr>
         <tr><td>Event Expected Attendance</td><td><code class="cc">inpEventAttendance</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, Value(inpEventAttendance.Text))</code></td></tr>
         <tr><td>Event Speakers</td><td><code class="cc">inpEventSpeakers</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventSpeakers.Text)</code></td></tr>
         <tr><td>Event VIPs Attending</td><td><code class="cc">tglVIPs</code> (renamed in b6)</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, tglVIPs.Value, false)</code></td></tr>
         <tr><td>Event Media Expected</td><td><code class="cc">tglEventMedia</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, tglEventMedia.Value, false)</code></td></tr>
       </table>
+      <div class="fxgroup">
+        <p class="gh">The two date cards — wrap, don't replace</p>
+        <p class="do">Event Start Date and Event End Date include a <em>time</em>, so their default Update already combines the date picker with the hour and minute dropdowns — replacing it would silently drop the time. Instead, <strong>wrap what's already there</strong>: open the card's <strong>Update</strong>, click into the formula bar, paste this before the existing formula (note the trailing space):</p>
+        <p class="fxlabel">Update · paste at the very start</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If("Event Support" in cmbDeliverables.SelectedItems.Value, </code></div>
+        <p class="do">…then type a single closing <code class="cc">)</code> at the very end. A formula that looked like <code>DataCardValue18.SelectedDate + Time(…)</code> now reads <code>If("Event Support" in …, DataCardValue18.SelectedDate + Time(…))</code>. Same wrap on both date cards.</p>
+      </div>
+
       <p class="do">Then the tenth card — visible only when the event section is showing <em>and</em> VIPs are coming:</p>
       <div class="fxgroup">
         <p class="gh">VIPs Dignitaries Attending Protocols — data card</p>

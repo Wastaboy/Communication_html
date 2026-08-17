@@ -238,7 +238,7 @@
       <p class="fxlabel">App · OnStart (replaces the whole property)</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false); Set(gblIsCCD, Lower(User().Email) in ["rawan.alqattan@bbkonline.com", "rafa.kaddoura@bbkonline.com", "abdulrahman.danish@bbkonline.com", "samar.qannati@bbkonline.com", "noora.alfaihani@bbkonline.com"]); Set(gblStatusFilter, "All")</code></div>
       <div class="note warn"><b>Paste replaces everything</b>This formula replaces the <em>whole</em> OnStart — that's why it starts with the two <code>Set</code> lines you first wrote in b3. If you paste a version without them, the submit screen's edit mode and cancel dialog break.</div>
-      <div class="note warn"><b>Confirm with CCD / IT</b>The five addresses above are a <em>guessed format</em> — replace every one with the real address from Outlook before go-live. A wrong address only hides the dashboard button from that person; the data itself is already safe (site Owners see everything, everyone else is fenced by Part 1's item-level permissions). While building, add <strong>your own email</strong> to the list too — remove it at go-live (e12).</div>
+      <div class="note warn"><b>Confirm with CCD / IT</b>The five addresses above are a <em>guessed format</em> — replace every one with the real address from Outlook before go-live. A wrong address only hides the dashboard button from that person; the data itself is already safe (site Owners see everything, everyone else is fenced by Part 1's item-level permissions). While building, add <strong>your own email</strong> to the list too — remove it at hand-over (e14).</div>
 
       <div class="fxgroup">
         <p class="gh">btnGoDashboard — Button (lives on scrMyRequests)</p>
@@ -494,6 +494,7 @@
           <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
           <div><dt>IsSearchable</dt><dd><code class="cc">true</code></dd></div>
           <div><dt>SelectMultiple</dt><dd><code class="cc">false</code> — one owner per request</dd></div>
+          <div><dt>InputTextPlaceholder</dt><dd><code class="cc">"Assign to…"</code> — this is the control's only label, so it has to say what it is</dd></div>
         </dl>
         <p class="fxlabel">cmbAssign · Items</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>Office365Users.SearchUserV2({searchTerm: cmbAssign.SearchText, top: 15}).value</code></div>
@@ -520,6 +521,7 @@
           <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
           <div><dt>IsSearchable</dt><dd><code class="cc">false</code></dd></div>
           <div><dt>SelectMultiple</dt><dd><code class="cc">false</code></dd></div>
+          <div><dt>InputTextPlaceholder</dt><dd><code class="cc">"Priority…"</code></dd></div>
         </dl>
         <p class="fxlabel">cmbPriority · Items</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>Choices('Communication Requests'.Priority)</code></div>
