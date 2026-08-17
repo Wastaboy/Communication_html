@@ -167,7 +167,7 @@
       <h1>App Shell + Submission Form</h1>
       <p class="sub">A canvas app whose submit screen feels like a Google Form — and every control name, property value and label text is its own copy block. Nothing to retype, nothing to guess.</p>
       <div class="meta">
-        <span><b>~50 min</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>Everything</b> copy-paste</span>
+        <span><b>~2 hrs</b> hands-on</span> <span><b>Power Apps</b> studio</span> <span><b>Everything</b> copy-paste</span>
       </div>
     </div>
   </div>
@@ -176,7 +176,7 @@
 <div class="sticky">
   <div class="wrap">
     <div class="progress"><i id="bar"></i></div>
-    <div class="progtext"><span id="progLabel">0 of 12 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
+    <div class="progtext"><span id="progLabel">0 of 16 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
   </div>
 </div>
 
@@ -185,7 +185,7 @@
 
   <section class="block">
     <h2 class="sec">What Part 2 builds</h2>
-    <div class="tldr"><b>TL;DR</b>The canvas app itself — <code class="cc">Communication Briefing Form</code> — with a submit screen that explains itself: what the form does, why the button is (or isn't) ready, a full confirmation screen after submitting, and a "discard?" safety net so nobody loses typed work. Everything here is spelled out property by property: every amber chip is tap-to-copy, every dark box has a Copy button.</div>
+    <div class="tldr"><b>TL;DR</b>The canvas app itself — <code class="cc">Communication Briefing Form</code> — with a submit screen built on the real 34-column schema. The trick that keeps it friendly: a core of always-visible fields, plus four <strong>conditional sections</strong> (Budget · PR · Event · Branding) that appear only when the request needs them — a flyer request stays a short form; a VIP event unfolds the full checklist. Same self-explaining submit button, confirmation screen and discard safety net as before. Everything is spelled out property by property: every amber chip is tap-to-copy, every dark box has a Copy button.</div>
     <div class="pane">
       <p class="ph">How to set any property</p>
       <ol>
@@ -195,7 +195,7 @@
         <li>For Text values, the quotes <code>"…"</code> are part of the value. Copy them too.</li>
       </ol>
     </div>
-    <div class="note fix"><b>Already built the app? Fix it in 3 steps</b>Your app is 90% right — skip everything except the three steps tagged <strong style="color:#c83737">FIX</strong> below. Inside each one, a red box like this points at the exact formula to change:<br><br><strong>1.</strong> <a href="#b3">b3</a> — replace App OnStart (kills the red <code>gblEditItem</code> errors on the button and hint).<br><strong>2.</strong> <a href="#b7">b7</a> — fix the hint label's broken Width formula.<br><strong>3.</strong> <a href="#b10">b10</a> — set Visible on all six dialog controls (right now the dark overlay never goes away).<br><br>Then re-run the F5 test (<a href="#b11">b11</a>) and publish (<a href="#b12">b12</a>). About 10 minutes total.</div>
+    <div class="note warn"><b>Built the app against the old six-column list?</b>The requested schema replaced that list wholesale — this part is now a <strong>fresh build</strong>, not a patch list. Rebuilding on the new list is faster and safer than rewiring 30 data cards in the old app: create the new app in b1, keep the old one unpublished until the switch-over in Part 5.</div>
   </section>
 
   <section class="block">
@@ -248,13 +248,12 @@
   </details>
 
   <details class="step" id="b3">
-    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Rename the screen first. Tree view (left rail): click the <kbd class="ui">⋮</kbd> next to <code>Screen1</code> → <kbd class="ui">Rename</kbd> → paste:</p>
       <p class="fxlabel">Screen name</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>scrSubmit</code></div>
       <p class="do">Tree view: select <kbd class="ui">App</kbd>, pick <strong>OnStart</strong> in the property dropdown, and paste:</p>
-      <div class="note fix"><b>Fixing your build? Change this</b>Your OnStart currently says <code>Set(gblEditItem, Blank()); …</code>. Select <kbd class="ui">App</kbd>, open <strong>OnStart</strong>, delete the whole formula and paste the box below. Then run <kbd class="ui">App</kbd> → <kbd class="ui">⋮</kbd> → <kbd class="ui">Run OnStart</kbd>. The red errors on <code>btnSubmit</code>, <code>btnCancel</code> and <code>lblSubmitHint</code> disappear. That's the whole fix for this step — skip the rest.</div>
       <p class="fxlabel">App · OnStart</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false)</code></div>
       <div class="note why"><b>Why LookUp instead of Blank()</b><code>LookUp('Communication Requests', false)</code> never finds anything, so <code>gblEditItem</code> starts empty — but Power Apps now knows it holds a <em>list item</em>. Initialize it with plain <code>Blank()</code> and the variable has no type, and every formula that asks <code>IsBlank(gblEditItem)</code> shows a red error. Part 3 later sets it to a real item; this line makes both work.</div>
@@ -334,45 +333,202 @@
     <div class="body">
       <ol class="steps2">
         <li>Select <code class="cc">frmSubmit</code> → properties pane → <kbd class="ui">Edit fields</kbd>.</li>
-        <li>Keep exactly these five, in this order (drag to reorder): <kbd class="ui">Request Subject</kbd> → <kbd class="ui">Department</kbd> → <kbd class="ui">Request Details</kbd> → <kbd class="ui">Target Date</kbd> → <kbd class="ui">Attachments</kbd>.</li>
-        <li>Remove <kbd class="ui">Status</kbd> and <kbd class="ui">CCD Notes</kbd> if present (⋮ next to the field → <kbd class="ui">Remove</kbd>).</li>
+        <li>Click <kbd class="ui">+ Add field</kbd> and tick every missing requester field until the list below is complete, then drag into this order — core first, then the four sections:</li>
       </ol>
-      <div class="note why"><b>Why no Status or CCD Notes here</b>Those two are CCD-managed. Requesters never set them — Status lands as the list default, <strong>Submitted</strong>, all by itself.</div>
+      <table class="cols">
+        <tr><th>#</th><th>Field</th><th>Section</th></tr>
+        <tr><td>1</td><td>Title</td><td rowspan="11">Core — always visible</td></tr>
+        <tr><td>2</td><td>Division</td></tr>
+        <tr><td>3</td><td>Launch Date</td></tr>
+        <tr><td>4</td><td>Type of Deliverables Required</td></tr>
+        <tr><td>5</td><td>Purpose Objective</td></tr>
+        <tr><td>6</td><td>Background Context</td></tr>
+        <tr><td>7</td><td>Target Audience</td></tr>
+        <tr><td>8</td><td>Audience Notes</td></tr>
+        <tr><td>9</td><td>Desired Outcome</td></tr>
+        <tr><td>10</td><td>Supporting References</td></tr>
+        <tr><td>11</td><td>Budget Required</td></tr>
+        <tr><td>12</td><td>Budget</td><td rowspan="2">Budget — b7</td></tr>
+        <tr><td>13</td><td>Budget Status</td></tr>
+        <tr><td>14</td><td>PR - Key Messages</td><td rowspan="2">PR — b8</td></tr>
+        <tr><td>15</td><td>PR - Spokespersons</td></tr>
+        <tr><td>16</td><td>Event Name</td><td rowspan="10">Event — b9</td></tr>
+        <tr><td>17</td><td>Event Description</td></tr>
+        <tr><td>18</td><td>Event Start Date</td></tr>
+        <tr><td>19</td><td>Event End Date</td></tr>
+        <tr><td>20</td><td>Event Location</td></tr>
+        <tr><td>21</td><td>Event Expected Attendance</td></tr>
+        <tr><td>22</td><td>Event Speakers</td></tr>
+        <tr><td>23</td><td>Event VIPs Attending</td></tr>
+        <tr><td>24</td><td>VIPs Dignitaries Attending Protocols</td></tr>
+        <tr><td>25</td><td>Event Media Expected</td></tr>
+        <tr><td>26</td><td>Branding Requirements</td><td rowspan="3">Branding — b10</td></tr>
+        <tr><td>27</td><td>Branding Design Exists</td></tr>
+        <tr><td>28</td><td>Branding Partner Assets</td></tr>
+        <tr><td>29</td><td>Attachments</td><td>Core — last card</td></tr>
+      </table>
+      <ol class="steps2" start="3">
+        <li>Remove the seven CCD-side fields if present (⋮ next to the field → <kbd class="ui">Remove</kbd>): <kbd class="ui">Status</kbd> · <kbd class="ui">Assigned to</kbd> · <kbd class="ui">Assigned on</kbd> · <kbd class="ui">Priority</kbd> · <kbd class="ui">CCM Notes</kbd> · <kbd class="ui">Completed on</kbd> · <kbd class="ui">Completed by</kbd>.</li>
+      </ol>
+      <div class="note why"><b>Why no CCD fields here</b>Those seven are CCD-managed — Part 4's dashboard sets them. Requesters never see them; Status lands as the list default, <strong>Submitted</strong>, all by itself.</div>
       <div class="note warn"><b>Attachments live inside the form</b>The attachment control only works inside a form bound to SharePoint. Don't drag it out of its card.</div>
-      <div class="note check"><b>Check before moving on</b>Five cards, in the order above, Status and CCD Notes gone.</div>
+      <div class="note check"><b>Check before moving on</b>29 cards in the order above; none of the seven CCD fields anywhere in the form.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="b6">
-    <summary><span class="dot"></span><span class="num">B6</span><span class="stitle">Make the fields friendly</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B6</span><span class="stitle">Make the fields friendly — and name the three section drivers</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Cards are locked by default: select a card, then in the right pane open <kbd class="ui">Advanced</kbd> and click <kbd class="ui">Unlock to change properties</kbd> before editing it.</p>
+      <p class="do">Cards are locked by default: select a card, then in the right pane open <kbd class="ui">Advanced</kbd> and click <kbd class="ui">Unlock to change properties</kbd> before editing it. <strong>Unlock every card you touch in b6–b10.</strong></p>
+
       <div class="fxgroup">
-        <p class="gh">Request Subject — data card</p>
-        <p class="do">Unlock the card, then set on the <em>card</em> itself:</p>
-        <dl class="props">
-          <div><dt>Required</dt><dd><code class="cc">true</code> — it usually already is; Title is required in SharePoint.</dd></div>
-        </dl>
+        <p class="gh">The three section drivers — rename their inner controls</p>
+        <p class="do">Three controls decide which sections show. Unlock each card, click the control <em>inside</em> it (not the card), and rename it in the tree view (⋮ → <kbd class="ui">Rename</kbd>):</p>
+        <table class="cols">
+          <tr><th>Card</th><th>Control inside</th><th>Rename to</th></tr>
+          <tr><td>Type of Deliverables Required</td><td>Combo box</td><td><code class="cc">cmbDeliverables</code></td></tr>
+          <tr><td>Budget Required</td><td>Toggle</td><td><code class="cc">tglBudgetRequired</code></td></tr>
+          <tr><td>Event VIPs Attending</td><td>Toggle</td><td><code class="cc">tglVIPs</code></td></tr>
+        </table>
+        <div class="note warn"><b>Rename before b7</b>Every conditional formula in b7–b10 references these three names. If a formula errors with "name isn't recognized", one of these renames was skipped.</div>
       </div>
+
       <div class="fxgroup">
-        <p class="gh">Request Details — text input inside the card</p>
-        <p class="do">Unlock the card, select the <strong>text input inside it</strong> (not the card), and set:</p>
-        <dl class="props">
-          <div><dt>Mode</dt><dd><code class="cc">TextMode.MultiLine</code></dd></div>
-          <div><dt>Height</dt><dd><code class="cc">120</code></dd></div>
-        </dl>
-        <p class="fxlabel">text input · HintText</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>"What is this communication about, audience, key messages…"</code></div>
+        <p class="gh">The ten multi-line boxes</p>
+        <p class="do">Same two settings on each. Unlock the card, select the <strong>text input inside it</strong>, and set <strong>Mode</strong> to <code class="cc">TextMode.MultiLine</code> and <strong>Height</strong> to <code class="cc">120</code>. The ten cards: Purpose Objective · Background Context · Audience Notes · Desired Outcome · Supporting References · PR - Key Messages · Event Description · Event Speakers · VIPs Dignitaries Attending Protocols · Branding Requirements.</p>
+        <p class="do">One hint text, on the <strong>Purpose Objective</strong> input:</p>
+        <p class="fxlabel">Purpose Objective input · HintText</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"What is this communication about, and what should it achieve?"</code></div>
       </div>
-      <p class="do"><strong>Target Date</strong>: the date picker default is fine. <strong>Department</strong>: the default combo box is fine.</p>
-      <div class="note check"><b>Check before moving on</b>Request Details is a tall multi-line box with the hint text; no card shows a red error triangle.</div>
+
+      <p class="do"><strong>Launch Date</strong> and the two event dates: the date pickers' defaults are fine. <strong>Division</strong> and <strong>Target Audience</strong>: the default combo boxes are fine.</p>
+      <div class="note check"><b>Check before moving on</b>Tree view shows <code>cmbDeliverables</code>, <code>tglBudgetRequired</code> and <code>tglVIPs</code>; the multi-line boxes are tall; no card shows a red error triangle.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="b7">
-    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">The submit button — and its honest helper line</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">Conditional sections — the pattern, applied to Budget</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">This step teaches the pattern once; b8–b10 repeat it per section. Every conditional card gets <strong>two formulas</strong>:</p>
+      <div class="pane">
+        <p class="ph">The conditional-card pattern</p>
+        <ol>
+          <li><strong>Visible</strong> — on the <em>card</em>: the section's show/hide condition. Hidden cards collapse and the form closes the gap on its own.</li>
+          <li><strong>Update</strong> — on the <em>card</em>: <code>If(&lt;same condition&gt;, &lt;inner control's value&gt;)</code>. The missing else means a hidden card saves <em>blank</em> instead of whatever was typed before it was hidden.</li>
+          <li>Unlock the card first (b6's drill), and rename the inner control so the Update formula has a stable name to point at.</li>
+        </ol>
+      </div>
+      <div class="note why"><b>Why the Update guard</b>Hidden is not cleared. Without the guard, someone who fills the Budget fields and then flips Budget Required off submits the stale numbers invisibly — finance reads a budget the requester withdrew. With the guard, hiding a section really blanks it on save.</div>
+
+      <p class="do">Now apply it to the Budget pair. Both cards use the same condition — the Budget Required toggle:</p>
+      <p class="fxlabel">Visible — Budget and Budget Status cards</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>tglBudgetRequired.Value</code></div>
+
+      <div class="fxgroup">
+        <p class="gh">Budget — data card</p>
+        <p class="do">Unlock, rename the text input inside to <code class="cc">inpBudget</code>, then on the <em>card</em>:</p>
+        <dl class="props">
+          <div><dt>Visible</dt><dd><code class="cc">tglBudgetRequired.Value</code></dd></div>
+          <div><dt>Update</dt><dd><code class="cc">If(tglBudgetRequired.Value, Value(inpBudget.Text))</code></dd></div>
+        </dl>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">Budget Status — data card</p>
+        <p class="do">Unlock, rename the combo box inside to <code class="cc">cmbBudgetStatus</code>, then on the <em>card</em>:</p>
+        <dl class="props">
+          <div><dt>Visible</dt><dd><code class="cc">tglBudgetRequired.Value</code></dd></div>
+          <div><dt>Update</dt><dd><code class="cc">If(tglBudgetRequired.Value, cmbBudgetStatus.Selected)</code></dd></div>
+        </dl>
+      </div>
+
+      <div class="note check"><b>Check before moving on</b>With Budget Required off, the Budget and Budget Status cards vanish and the cards below slide up; flip the toggle on and they return.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="b8">
+    <summary><span class="dot"></span><span class="num">B8</span><span class="stitle">Conditional PR section</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Two cards, shown when the deliverables include <strong>Media &amp; PR</strong>. One condition for both:</p>
+      <p class="fxlabel">Visible — both PR cards</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Media &amp; PR" in cmbDeliverables.SelectedItems.Value</code></div>
+      <div class="fxgroup">
+        <p class="gh">PR - Key Messages — data card</p>
+        <p class="do">Unlock, rename the text input inside to <code class="cc">inpPRKeyMessages</code>, then on the <em>card</em>:</p>
+        <dl class="props">
+          <div><dt>Visible</dt><dd><code class="cc">"Media &amp; PR" in cmbDeliverables.SelectedItems.Value</code></dd></div>
+          <div><dt>Update</dt><dd><code class="cc">If("Media &amp; PR" in cmbDeliverables.SelectedItems.Value, inpPRKeyMessages.Text)</code></dd></div>
+        </dl>
+      </div>
+      <div class="fxgroup">
+        <p class="gh">PR - Spokespersons — data card</p>
+        <p class="do">Unlock, rename the text input inside to <code class="cc">inpPRSpokespersons</code>, then on the <em>card</em>:</p>
+        <dl class="props">
+          <div><dt>Visible</dt><dd><code class="cc">"Media &amp; PR" in cmbDeliverables.SelectedItems.Value</code></dd></div>
+          <div><dt>Update</dt><dd><code class="cc">If("Media &amp; PR" in cmbDeliverables.SelectedItems.Value, inpPRSpokespersons.Text)</code></dd></div>
+        </dl>
+      </div>
+      <div class="note warn"><b>The quotes must match a3's choice text exactly</b><code>"Media &amp; PR"</code> compares against the choice value created in Part 1 a3. If CCD renamed that choice, use their exact wording here and in the check below.</div>
+      <div class="note check"><b>Check before moving on</b>Ticking <strong>Media &amp; PR</strong> in the deliverables combo makes both PR cards appear; unticking hides them.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="b9">
+    <summary><span class="dot"></span><span class="num">B9</span><span class="stitle">Conditional Event section</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Ten cards — nine share one condition; the VIP-protocols card adds the VIP toggle to it. The section condition:</p>
+      <p class="fxlabel">Visible — nine Event cards (all except VIPs Dignitaries Attending Protocols)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Event Support" in cmbDeliverables.SelectedItems.Value</code></div>
+      <p class="do">Work down the nine cards — Event Name · Event Description · Event Start Date · Event End Date · Event Location · Event Expected Attendance · Event Speakers · Event VIPs Attending · Event Media Expected. For each: unlock, rename the inner control per the table, paste the Visible above, paste the Update from the table:</p>
+      <table class="cols">
+        <tr><th>Card</th><th>Rename inner control to</th><th>Card · Update</th></tr>
+        <tr><td>Event Name</td><td><code class="cc">inpEventName</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventName.Text)</code></td></tr>
+        <tr><td>Event Description</td><td><code class="cc">inpEventDescription</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventDescription.Text)</code></td></tr>
+        <tr><td>Event Start Date</td><td><code class="cc">dteEventStart</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, dteEventStart.SelectedDate)</code></td></tr>
+        <tr><td>Event End Date</td><td><code class="cc">dteEventEnd</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, dteEventEnd.SelectedDate)</code></td></tr>
+        <tr><td>Event Location</td><td><code class="cc">inpEventLocation</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventLocation.Text)</code></td></tr>
+        <tr><td>Event Expected Attendance</td><td><code class="cc">inpEventAttendance</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, Value(inpEventAttendance.Text))</code></td></tr>
+        <tr><td>Event Speakers</td><td><code class="cc">inpEventSpeakers</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventSpeakers.Text)</code></td></tr>
+        <tr><td>Event VIPs Attending</td><td><code class="cc">tglVIPs</code> (renamed in b6)</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, tglVIPs.Value, false)</code></td></tr>
+        <tr><td>Event Media Expected</td><td><code class="cc">tglEventMedia</code></td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, tglEventMedia.Value, false)</code></td></tr>
+      </table>
+      <p class="do">Then the tenth card — visible only when the event section is showing <em>and</em> VIPs are coming:</p>
+      <div class="fxgroup">
+        <p class="gh">VIPs Dignitaries Attending Protocols — data card</p>
+        <p class="do">Unlock, rename the text input inside to <code class="cc">inpVIPProtocols</code>, then on the <em>card</em>:</p>
+        <dl class="props">
+          <div><dt>Visible</dt><dd><code class="cc">"Event Support" in cmbDeliverables.SelectedItems.Value &amp;&amp; tglVIPs.Value</code></dd></div>
+          <div><dt>Update</dt><dd><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value &amp;&amp; tglVIPs.Value, inpVIPProtocols.Text)</code></dd></div>
+        </dl>
+      </div>
+      <div class="note why"><b>Why the toggles get an explicit false</b>A Yes/No column can't store blank — SharePoint would quietly read blank as No anyway; writing <code>false</code> says so on purpose and keeps the App Checker quiet.</div>
+      <div class="note check"><b>Check before moving on</b>Ticking <strong>Event Support</strong> unfolds nine event cards; switching <strong>Event VIPs Attending</strong> on adds the protocols box; unticking Event Support hides all ten at once.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="b10">
+    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Conditional Branding section</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Last section — three cards, shown when the deliverables include <strong>Branding &amp; Design</strong>:</p>
+      <p class="fxlabel">Visible — all three Branding cards</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Branding &amp; Design" in cmbDeliverables.SelectedItems.Value</code></div>
+      <table class="cols">
+        <tr><th>Card</th><th>Rename inner control to</th><th>Card · Update</th></tr>
+        <tr><td>Branding Requirements</td><td><code class="cc">inpBrandingReqs</code></td><td><code class="cc">If("Branding &amp; Design" in cmbDeliverables.SelectedItems.Value, inpBrandingReqs.Text)</code></td></tr>
+        <tr><td>Branding Design Exists</td><td><code class="cc">tglDesignExists</code></td><td><code class="cc">If("Branding &amp; Design" in cmbDeliverables.SelectedItems.Value, tglDesignExists.Value, false)</code></td></tr>
+        <tr><td>Branding Partner Assets</td><td><code class="cc">tglPartnerAssets</code></td><td><code class="cc">If("Branding &amp; Design" in cmbDeliverables.SelectedItems.Value, tglPartnerAssets.Value, false)</code></td></tr>
+      </table>
+      <div class="note check"><b>Check before moving on</b>Ticking <strong>Branding &amp; Design</strong> shows the three cards. Try the full sweep: tick all of Media &amp; PR + Event Support + Branding &amp; Design and flip Budget Required on — the form unfolds every section; untick everything and it shrinks back to the 11-card core + Attachments.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="b11">
+    <summary><span class="dot"></span><span class="num">B11</span><span class="stitle">The submit button — and its honest helper line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
         <p class="gh">btnSubmit — Button</p>
@@ -393,7 +549,10 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)</code></div>
       </div>
 
-      <div class="note fix"><b>Fixing your build? Change this</b>Select <code>lblSubmitHint</code>, open its <strong>Width</strong> property — yours says <code>Width Parent.Width - 48</code> (the word "Width" was pasted in by mistake). Replace the whole formula with <code class="cc">Parent.Width - 48</code>. While you're here, set <strong>Size</strong> to <code class="cc">13</code>. That's the whole fix for this step — skip the rest.</div>
+      <div class="fxgroup">
+        <p class="gh">The five required cards</p>
+        <p class="do">List-level Required is off for every column, so the form enforces it. Unlock each of these five cards and set its <strong>Required</strong> property to <code class="cc">true</code>: <strong>Title</strong> (usually already is) · <strong>Division</strong> · <strong>Launch Date</strong> · <strong>Type of Deliverables Required</strong> · <strong>Purpose Objective</strong>. Each card's star turns on and <code>frmSubmit.Valid</code> now waits for all five.</p>
+      </div>
       <div class="fxgroup">
         <p class="gh">lblSubmitHint — Text label</p>
         <p class="do">The helper line that always says why the button is or isn't ready. <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblSubmitHint</code>, then set:</p>
@@ -410,13 +569,13 @@
 
       <div class="note warn"><b>Paste the value, not the property name</b>The Width formula is exactly <code>Parent.Width - 48</code>. If the formula bar shows <code>Width Parent.Width - 48</code>, the word "Width" came along on the paste — delete it or the formula errors.</div>
       <div class="note why"><b>Why a hint label</b>A greyed-out button with no explanation is a dead end; this one always says what to do next. (Its "Save changes" wording becomes reachable in Part 3, when editing arrives.)</div>
-      <div class="note check"><b>Check before moving on</b>With Request Subject empty: button greyed, hint says fill the * fields. Type anything into Request Subject: button wakes up, hint flips to "Ready —…".</div>
+      <div class="note check"><b>Check before moving on</b>With the form empty: button greyed, hint says fill the * fields, and all five required cards show a star. Fill Title, Division, Launch Date, one deliverable type and a Purpose Objective: button wakes up, hint flips to "Ready —…".</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="b8">
-    <summary><span class="dot"></span><span class="num">B8</span><span class="stitle">The confirmation screen</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="b12">
+    <summary><span class="dot"></span><span class="num">B12</span><span class="stitle">The confirmation screen</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">After submitting, users get a whole screen that says what just happened and what happens next — not a toast that vanishes. <kbd class="ui">New screen</kbd> → <kbd class="ui">Blank</kbd> → rename it:</p>
       <p class="fxlabel">Screen name</p>
@@ -484,8 +643,8 @@
     </div>
   </details>
 
-  <details class="step" id="b9">
-    <summary><span class="dot"></span><span class="num">B9</span><span class="stitle">Success and failure behavior</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="b13">
+    <summary><span class="dot"></span><span class="num">B13</span><span class="stitle">Success and failure behavior</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Back on <code>scrSubmit</code>: select <code class="cc">frmSubmit</code> and set two properties via the property dropdown:</p>
       <p class="fxlabel">frmSubmit · OnSuccess</p>
@@ -498,8 +657,8 @@
     </div>
   </details>
 
-  <details class="step" id="b10">
-    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Cancel — with a discard safety net</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="b14">
+    <summary><span class="dot"></span><span class="num">B14</span><span class="stitle">Cancel — with a discard safety net</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
         <p class="gh">btnCancel — Button</p>
@@ -518,7 +677,6 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Unsaved, Set(gblShowCancelConfirm, true), ResetForm(frmSubmit))</code></div>
       </div>
 
-      <div class="note fix"><b>Fixing your build? Change this</b>You already inserted all six dialog controls — only their <strong>Visible</strong> is missing, which is why the dark overlay never goes away. For each of <code>recDimmer</code>, <code>recDialog</code>, <code>lblDialogTitle</code>, <code>lblDialogBody</code>, <code>btnDialogKeep</code>, <code>btnDialogDiscard</code>: select it, pick <strong>Visible</strong> in the property dropdown, paste <code class="cc">gblShowCancelConfirm</code>. Six controls, same formula six times — the overlay vanishes as soon as the first one is set. Optional polish while you're here: on <code>btnDialogDiscard</code> set Fill <code class="cc">White</code> and Color <code class="cc">RGBA(200, 55, 55, 1)</code> so the destructive button stops looking like the safe one. That's the whole fix for this step — skip the rest.</div>
       <p class="do">Now the dialog — six controls, inserted <strong>in this exact order</strong> (later inserts stack on top). Every single one gets the same Visible formula:</p>
       <p class="fxlabel">Visible — for ALL six dialog controls</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>gblShowCancelConfirm</code></div>
@@ -620,26 +778,27 @@
     </div>
   </details>
 
-  <details class="step" id="b11">
-    <summary><span class="dot"></span><span class="num">B11</span><span class="stitle">F5 test — submit, confirm, cancel</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="b15">
+    <summary><span class="dot"></span><span class="num">B15</span><span class="stitle">F5 test — sections, submit, confirm, cancel</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
-        <li>Press <kbd class="key">F5</kbd>. With the form empty, read the hint: <em>"Fill the fields marked * to enable Submit."</em> — the button is greyed. No dark overlay anywhere.</li>
-        <li>Request Subject: <code class="cc">TEST from app - delete me later</code>; watch the hint flip to <em>"Ready —…"</em>. Pick a Department, type details, pick a date, <kbd class="ui">Attach file</kbd> → any small file.</li>
+        <li>Press <kbd class="key">F5</kbd>. With the form empty, read the hint: <em>"Fill the fields marked * to enable Submit."</em> — the button is greyed. No dark overlay, and <strong>no Budget / PR / Event / Branding cards anywhere</strong> — just the core.</li>
+        <li>Title: <code class="cc">TEST from app - delete me later</code>. Pick a Division, a Launch Date, and tick <strong>Event Support</strong> under Type of Deliverables — <strong>the nine event cards unfold</strong>. Switch <strong>Event VIPs Attending</strong> on — the protocols box appears; switch it off again and it goes.</li>
+        <li>Tick <strong>Media &amp; PR</strong> and <strong>Branding &amp; Design</strong> too, and flip <strong>Budget Required</strong> on — every section is now open. Untick <strong>Event Support</strong> — all ten event cards fold away at once.</li>
+        <li>Type a Purpose Objective; the hint flips to <em>"Ready —…"</em>. Fill anything you like in the open sections, <kbd class="ui">Attach file</kbd> → any small file.</li>
         <li><kbd class="ui">Submit request</kbd> → the <strong>confirmation screen</strong>: green check, "Request submitted", the what-happens-next text.</li>
-        <li><kbd class="ui">Submit another request</kbd> → an empty form.</li>
-        <li>Type anything into Request Subject, then <kbd class="ui">Clear form</kbd> → the discard dialog appears. <kbd class="ui">Keep editing</kbd> → your text is still there.</li>
-        <li><kbd class="ui">Clear form</kbd> again → <kbd class="ui">Discard</kbd> → the form is empty. Press <kbd class="key">Esc</kbd>.</li>
-        <li>In the SharePoint list: the submitted item exists, paper-clip icon, Status <strong>Submitted</strong>.</li>
+        <li><kbd class="ui">Submit another request</kbd> → an empty form, folded back to the core.</li>
+        <li>Type anything into Title, then <kbd class="ui">Clear form</kbd> → the discard dialog appears. <kbd class="ui">Keep editing</kbd> → your text is still there. <kbd class="ui">Clear form</kbd> again → <kbd class="ui">Discard</kbd> → empty form. Press <kbd class="key">Esc</kbd>.</li>
+        <li>In the SharePoint list: the submitted item exists, paper-clip icon, Status <strong>Submitted</strong> — and the columns of sections you left <em>closed</em> are empty.</li>
       </ol>
-      <div class="note warn"><b>If submit fails with a permission error</b>Re-check Part 1: a6 (item-level permissions) and a8 (you're an Owner; staff are Members).</div>
-      <div class="note check"><b>Check before moving on</b>Hint changes with validity · confirmation screen appears · Submit another works · dialog protects typed work · Discard clears quietly · item in the list with attachment.</div>
+      <div class="note warn"><b>If submit fails with a permission error</b>Re-check Part 1: a12 (item-level permissions) and a14 (you're an Owner; staff are Members).</div>
+      <div class="note check"><b>Check before moving on</b>Sections fold and unfold with their drivers · hint changes with validity · confirmation screen appears · dialog protects typed work · item lands in the list with closed sections blank.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="b12">
-    <summary><span class="dot"></span><span class="num">B12</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="b16">
+    <summary><span class="dot"></span><span class="num">B16</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>Press <kbd class="key">Ctrl+S</kbd> — if asked for a name, keep <code class="cc">Communication Briefing Form</code>.</li>
@@ -671,7 +830,7 @@
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart2_v3";
+  var KEY="cbfPart2_v4";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){
