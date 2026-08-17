@@ -9,7 +9,7 @@ PAGES = {
     "part1-foundation.html": {"prefix": "a", "key": "cbfPart1_v3"},
     "part2-submission-form.html": {"prefix": "b", "key": "cbfPart2_v4"},
     "part3-my-requests.html": {"prefix": "c", "key": "cbfPart3_v3"},
-    "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v2"},
+    "part4-ccd-dashboard.html": {"prefix": "d", "key": "cbfPart4_v3"},
     "part5-flows-golive.html": {"prefix": "e", "key": "cbfPart5_v2"},
 }
 SNIPPETS = {  # filename -> [verbatim decoded formula strings]
@@ -49,7 +49,11 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "Set(gblEditItem, LookUp('Communication Requests', false)); Set(gblShowCancelConfirm, false); Set(gblIsCCD",
         "Set(gblIsCCD, Lower(User().Email) in [",
         "Choices('Communication Requests'.Status)",
-        "Patch('Communication Requests', galAllRequests.Selected, {Status: ddStatus.Selected, 'CCD Notes': txtCCDNotes.Text}); Notify(\"Request updated.\", NotificationType.Success)",
+        "Office365Users.SearchUserV2({searchTerm: cmbAssign.SearchText, top: 15}).value",
+        "Choices('Communication Requests'.Priority)",
+        "'CCM Notes': txtCCMNotes.Text",
+        "Coalesce(galAllRequests.Selected.'Completed on', Now())",
+        '"i:0#.f|membership|" & Lower(User().Email)',
     ],
     "part5-flows-golive.html": [
         "triggerOutputs()?['body/{TriggerWindowStartToken}']",

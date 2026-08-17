@@ -173,7 +173,7 @@
 <div class="sticky">
   <div class="wrap">
     <div class="progress"><i id="bar"></i></div>
-    <div class="progtext"><span id="progLabel">0 of 10 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
+    <div class="progtext"><span id="progLabel">0 of 13 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
   </div>
 </div>
 
@@ -182,7 +182,7 @@
 
     <section class="block">
     <h2 class="sec">What Part 4 builds</h2>
-    <div class="tldr"><b>TL;DR</b>The third and final screen, <code class="cc">scrDashboard</code> — visible only to the five CCD members. Every request in one place, status filter chips, search, a side panel to update status and notes (which requesters see instantly on My Requests), and the native Excel export.</div>
+    <div class="tldr"><b>TL;DR</b>The third and final screen, <code class="cc">scrDashboard</code> — visible only to the five CCD members. Every request in one place, status filter chips, search, and a side panel that now runs the whole workflow: <strong>assign a request to a person</strong> (Assigned on stamps itself), <strong>set its Priority</strong>, write CCM notes the requester sees instantly, and mark it <strong>Completed</strong> — the Completed on/by stamps write themselves too. Plus the native Excel export.</div>
   </section>
 
   <section class="block">
@@ -374,7 +374,7 @@
         <p class="fxlabel">txtDashSearch · Default</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>""</code></div>
         <p class="fxlabel">txtDashSearch · HintText</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>"Search by request subject…"</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>"Search by request title…"</code></div>
       </div>
       <div class="note why"><b>Why Default is two quote marks</b>That's an <em>empty text</em>. d4's gallery formula checks <code>IsBlank(txtDashSearch.Text)</code>, so the box must start genuinely empty for "no search typed" to mean "show everything".</div>
       <div class="note check"><b>Check before moving on</b>The box renders with its hint text under the chips.</div>
@@ -405,7 +405,7 @@
         <p class="gh">lblDashReqTitle — Text label (inside the gallery template)</p>
         <p class="do">With the template active: <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>, rename it <code class="cc">lblDashReqTitle</code>. Text first:</p>
         <p class="fxlabel">lblDashReqTitle · Text</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.'Request Subject'</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Title</code></div>
         <dl class="props">
           <div><dt>X</dt><dd><code class="cc">16</code></dd></div>
           <div><dt>Y</dt><dd><code class="cc">6</code></dd></div>
@@ -433,10 +433,10 @@
       </div>
 
       <div class="fxgroup">
-        <p class="gh">lblDashReqDept — Text label (inside the gallery template)</p>
-        <p class="do">Last template label, renamed <code class="cc">lblDashReqDept</code>:</p>
-        <p class="fxlabel">lblDashReqDept · Text</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Department.Value &amp; " · " &amp; Text(ThisItem.Created, ShortDate)</code></div>
+        <p class="gh">lblDashReqMeta — Text label (inside the gallery template)</p>
+        <p class="do">Last template label, renamed <code class="cc">lblDashReqMeta</code> — division, date, and (once CCD sets them in d6–d7) priority and owner:</p>
+        <p class="fxlabel">lblDashReqMeta · Text</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>ThisItem.Division.Value &amp; " · " &amp; Text(ThisItem.Created, ShortDate) &amp; If(IsBlank(ThisItem.Priority), "", " · " &amp; ThisItem.Priority.Value) &amp; If(IsBlank(ThisItem.'Assigned to'), "", " · " &amp; ThisItem.'Assigned to'.DisplayName)</code></div>
         <dl class="props">
           <div><dt>X</dt><dd><code class="cc">16</code></dd></div>
           <div><dt>Y</dt><dd><code class="cc">58</code></dd></div>
@@ -467,14 +467,80 @@
   </details>
 
   <details class="step" id="d5">
-    <summary><span class="dot"></span><span class="num">D5</span><span class="stitle">Update panel — status dropdown</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">D5</span><span class="stitle">Connect Office 365 Users</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">The assign picker searches the company directory, which needs one more connector — same drill as b2:</p>
+      <ol class="steps2">
+        <li>Left rail: click <kbd class="ui">Data</kbd> → <kbd class="ui">Add data</kbd>.</li>
+        <li>Search <code class="cc">Office 365 Users</code> and pick the <strong>Office 365 Users</strong> connector (not "Office 365 Outlook").</li>
+        <li>If it asks to sign in, use your BBK account.</li>
+      </ol>
+      <div class="note why"><b>Why a directory connector</b>SharePoint stores the assignee as a person record, but the app needs somewhere to <em>search people by name</em> — that's this connector's one job here. It reads the same directory Outlook uses; nothing to maintain.</div>
+      <div class="note check"><b>Check before moving on</b><code>Office365Users</code> is listed under Data in the left rail.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="d6">
+    <summary><span class="dot"></span><span class="num">D6</span><span class="stitle">Update panel — the assign picker</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
-        <p class="gh">ddStatus — Drop down</p>
-        <p class="do">The right half of the screen is the update panel. <kbd class="ui">Insert</kbd> → <kbd class="ui">Drop down</kbd>, rename it <code class="cc">ddStatus</code>, then set:</p>
+        <p class="gh">cmbAssign — Combo box</p>
+        <p class="do">The right half of the screen is the update panel; this is its first control. <kbd class="ui">Insert</kbd> → <kbd class="ui">Combo box</kbd>, rename it <code class="cc">cmbAssign</code>, then set:</p>
         <dl class="props">
           <div><dt>X</dt><dd><code class="cc">galAllRequests.X + galAllRequests.Width + 24</code></dd></div>
           <div><dt>Y</dt><dd><code class="cc">228</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">300</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
+          <div><dt>IsSearchable</dt><dd><code class="cc">true</code></dd></div>
+          <div><dt>SelectMultiple</dt><dd><code class="cc">false</code> — one owner per request</dd></div>
+        </dl>
+        <p class="fxlabel">cmbAssign · Items</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Office365Users.SearchUserV2({searchTerm: cmbAssign.SearchText, top: 15}).value</code></div>
+        <p class="do">In the properties pane set the combo's <strong>Fields</strong> (Edit) so the primary text is <kbd class="ui">DisplayName</kbd>. Then seed it with the item's current assignee:</p>
+        <p class="fxlabel">cmbAssign · DefaultSelectedItems</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galAllRequests.Selected.'Assigned to'), [], [{DisplayName: galAllRequests.Selected.'Assigned to'.DisplayName, Mail: galAllRequests.Selected.'Assigned to'.Email}])</code></div>
+      </div>
+      <div class="note why"><b>How the search works</b>The Items formula re-queries the directory with whatever is typed in the box (<code>cmbAssign.SearchText</code>), top 15 matches. The DefaultSelectedItems formula reshapes the stored SharePoint person (<code>.Email</code>) into the same shape the directory returns (<code>.Mail</code>) so the current owner shows up pre-selected.</div>
+      <div class="note check"><b>Check before moving on</b>Typing a colleague's name in the combo lists directory matches; selecting a gallery row with no assignee shows the combo empty.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="d7">
+    <summary><span class="dot"></span><span class="num">D7</span><span class="stitle">Update panel — priority</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <div class="fxgroup">
+        <p class="gh">cmbPriority — Combo box</p>
+        <p class="do">A combo box, not a dropdown, on purpose — a combo can be <em>empty</em>, and a fresh request has no priority yet. <kbd class="ui">Insert</kbd> → <kbd class="ui">Combo box</kbd>, rename it <code class="cc">cmbPriority</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">cmbAssign.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">284</code></dd></div>
+          <div><dt>Width</dt><dd><code class="cc">300</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
+          <div><dt>IsSearchable</dt><dd><code class="cc">false</code></dd></div>
+          <div><dt>SelectMultiple</dt><dd><code class="cc">false</code></dd></div>
+        </dl>
+        <p class="fxlabel">cmbPriority · Items</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Choices('Communication Requests'.Priority)</code></div>
+        <p class="fxlabel">cmbPriority · DefaultSelectedItems</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galAllRequests.Selected.Priority), [], [galAllRequests.Selected.Priority])</code></div>
+      </div>
+      <div class="note why"><b>Why a dropdown would misfire here</b>A classic dropdown always has <em>something</em> selected, so every save would silently write "Low" onto requests CCD never triaged. The combo stays blank until a human picks — blank in, blank out.</div>
+      <div class="note check"><b>Check before moving on</b>The combo lists Low / Medium / High / Urgent, and shows empty for a request with no priority.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="d8">
+    <summary><span class="dot"></span><span class="num">D8</span><span class="stitle">Update panel — status dropdown</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <div class="fxgroup">
+        <p class="gh">ddStatus — Drop down</p>
+        <p class="do">Third control in the panel, under the priority combo. <kbd class="ui">Insert</kbd> → <kbd class="ui">Drop down</kbd>, rename it <code class="cc">ddStatus</code>, then set:</p>
+        <dl class="props">
+          <div><dt>X</dt><dd><code class="cc">cmbAssign.X</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">340</code></dd></div>
           <div><dt>Width</dt><dd><code class="cc">300</code></dd></div>
           <div><dt>Height</dt><dd><code class="cc">44</code></dd></div>
         </dl>
@@ -483,29 +549,29 @@
         <p class="fxlabel">ddStatus · Default (classic dropdown)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>galAllRequests.Selected.Status.Value</code></div>
       </div>
-      <div class="note why"><b>Why Choices(), not typed values</b><code>Choices('Communication Requests'.Status)</code> reads the options straight from the SharePoint Status column — rename or add a status there later (see d9) and this dropdown follows automatically, nothing to retype.</div>
+      <div class="note why"><b>Why Choices(), not typed values</b><code>Choices('Communication Requests'.Status)</code> reads the options straight from the SharePoint Status column — rename or add a status there later (see d12) and this dropdown follows automatically, nothing to retype.</div>
       <div class="note tip"><b>Modern control instead?</b>If your studio inserts the modern dropdown, the property is <strong>DefaultSelectedItems</strong> = <code>[galAllRequests.Selected.Status]</code> — same effect.</div>
       <div class="note check"><b>Check before moving on</b>Selecting different gallery rows preloads each one's current status into the dropdown.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="d6">
-    <summary><span class="dot"></span><span class="num">D6</span><span class="stitle">Update panel — notes + save</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="d9">
+    <summary><span class="dot"></span><span class="num">D9</span><span class="stitle">Update panel — notes + the save patch</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
-        <p class="gh">txtCCDNotes — Text input</p>
-        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Text input</kbd>, rename it <code class="cc">txtCCDNotes</code>, then set:</p>
+        <p class="gh">txtCCMNotes — Text input</p>
+        <p class="do"><kbd class="ui">Insert</kbd> → <kbd class="ui">Text input</kbd>, rename it <code class="cc">txtCCMNotes</code>, then set:</p>
         <dl class="props">
           <div><dt>X</dt><dd><code class="cc">ddStatus.X</code></dd></div>
-          <div><dt>Y</dt><dd><code class="cc">296</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">396</code></dd></div>
           <div><dt>Width</dt><dd><code class="cc">Parent.Width - Self.X - 24</code></dd></div>
-          <div><dt>Height</dt><dd><code class="cc">160</code></dd></div>
+          <div><dt>Height</dt><dd><code class="cc">200</code></dd></div>
           <div><dt>Mode</dt><dd><code class="cc">TextMode.MultiLine</code></dd></div>
         </dl>
-        <p class="fxlabel">txtCCDNotes · Default</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>galAllRequests.Selected.'CCD Notes'</code></div>
-        <p class="fxlabel">txtCCDNotes · HintText</p>
+        <p class="fxlabel">txtCCMNotes · Default</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>galAllRequests.Selected.'CCM Notes'</code></div>
+        <p class="fxlabel">txtCCMNotes · HintText</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>"Notes the requester will see…"</code></div>
       </div>
 
@@ -516,7 +582,7 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>"Save update"</code></div>
         <dl class="props">
           <div><dt>X</dt><dd><code class="cc">ddStatus.X</code></dd></div>
-          <div><dt>Y</dt><dd><code class="cc">472</code></dd></div>
+          <div><dt>Y</dt><dd><code class="cc">620</code></dd></div>
           <div><dt>Width</dt><dd><code class="cc">220</code></dd></div>
           <div><dt>Height</dt><dd><code class="cc">48</code></dd></div>
           <div><dt>Fill</dt><dd><code class="cc">RGBA(224, 138, 30, 1)</code></dd></div>
@@ -524,33 +590,65 @@
         </dl>
         <p class="fxlabel">btnSaveUpdate · DisplayMode</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(IsBlank(galAllRequests.Selected), DisplayMode.Disabled, DisplayMode.Edit)</code></div>
+        <p class="do">And the centerpiece — one Patch that saves everything the panel edits <em>and</em> writes the workflow stamps by itself:</p>
         <p class="fxlabel">btnSaveUpdate · OnSelect</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>Patch('Communication Requests', galAllRequests.Selected, {Status: ddStatus.Selected, 'CCD Notes': txtCCDNotes.Text}); Notify("Request updated.", NotificationType.Success)</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Patch('Communication Requests', galAllRequests.Selected, {
+    Status: ddStatus.Selected,
+    Priority: First(cmbPriority.SelectedItems),
+    'CCM Notes': txtCCMNotes.Text,
+    'Assigned to': If(IsBlank(cmbAssign.Selected), Blank(), {
+        Claims: "i:0#.f|membership|" &amp; Lower(cmbAssign.Selected.Mail),
+        DisplayName: cmbAssign.Selected.DisplayName,
+        Email: cmbAssign.Selected.Mail,
+        Department: "", JobTitle: "", Picture: ""
+    }),
+    'Assigned on': If(
+        Lower(cmbAssign.Selected.Mail) &lt;&gt; Lower(galAllRequests.Selected.'Assigned to'.Email),
+        Now(),
+        galAllRequests.Selected.'Assigned on'
+    ),
+    'Completed on': If(ddStatus.Selected.Value = "Completed",
+        Coalesce(galAllRequests.Selected.'Completed on', Now())
+    ),
+    'Completed by': If(ddStatus.Selected.Value = "Completed",
+        If(IsBlank(galAllRequests.Selected.'Completed by'), {
+            Claims: "i:0#.f|membership|" &amp; Lower(User().Email),
+            DisplayName: User().FullName,
+            Email: User().Email,
+            Department: "", JobTitle: "", Picture: ""
+        }, galAllRequests.Selected.'Completed by')
+    )
+});
+Notify("Request updated.", NotificationType.Success)</code></div>
       </div>
 
-      <div class="note why"><b>Why Patch, not a form</b>Patch writes exactly two columns and nothing else — the requester's own fields can't be clobbered from this screen, and the change appears on their My Requests view at the next refresh.</div>
+      <div class="note why"><b>What the stamp logic does</b>Four rules, all in the one formula: <strong>Assigned on</strong> updates only when the assignee actually <em>changes</em> (re-saving keeps the original stamp). <strong>Completed on/by</strong> write themselves the first time Status is saved as Completed — <code>Coalesce</code>/<code>IsBlank</code> keep the <em>first</em> completion stamp on later saves. Moving a request <em>out</em> of Completed clears both stamps (the <code>If</code> with no else). And the <code>Claims:</code> record is just how SharePoint wants a person written — the <code>"i:0#.f|membership|"</code> prefix is boilerplate, not something to edit.</div>
+      <div class="note why"><b>Why Patch, not a form</b>Patch writes exactly the workflow columns and nothing else — the requester's own fields can't be clobbered from this screen, and the change appears on their My Requests view at the next refresh.</div>
       <div class="note check"><b>Check before moving on</b>No formula errors; button greys out when nothing is selected.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="d7">
-    <summary><span class="dot"></span><span class="num">D7</span><span class="stitle">F5 test — the CCD loop</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="d10">
+    <summary><span class="dot"></span><span class="num">D10</span><span class="stitle">F5 test — assign, prioritise, complete</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>Press <kbd class="key">F5</kbd>. Go to <kbd class="ui">My requests</kbd>, then click <kbd class="ui">CCD dashboard</kbd> — visible because your email is in the d1 list.</li>
-        <li>In the gallery, tap the <strong>TEST</strong> item. Watch the update panel: the dropdown preloads the item's current status, the notes box preloads its notes.</li>
-        <li>Set the dropdown to <kbd class="ui">In Progress</kbd>, then into the notes box type: <code class="cc">Reviewing — expect a draft by Thursday</code></li>
-        <li>Click <kbd class="ui">Save update</kbd> — the green <em>"Request updated."</em> banner appears at the top.</li>
-        <li>Go back to <kbd class="ui">My requests</kbd> and tap the refresh icon: the row's status is navy <em>In Progress</em>, and the detail panel shows your note. Press <kbd class="key">Esc</kbd>.</li>
+        <li>In the gallery, tap the <strong>TEST</strong> item. The panel preloads: assignee empty, priority empty, current status, current notes.</li>
+        <li>In the assign combo, search and pick <strong>yourself</strong>. Set priority to <kbd class="ui">High</kbd>, the status dropdown to <kbd class="ui">In Progress</kbd>, and type into the notes box: <code class="cc">Reviewing — expect a draft by Thursday</code></li>
+        <li>Click <kbd class="ui">Save update</kbd> — the green <em>"Request updated."</em> banner appears, and the gallery row's meta line now shows <em>High</em> and your name.</li>
+        <li>Open the SharePoint list in the browser: the item shows <strong>Assigned to</strong> you and an <strong>Assigned on</strong> timestamp of right now.</li>
+        <li>Back in the app, set the status dropdown to <kbd class="ui">Completed</kbd> → <kbd class="ui">Save update</kbd>. In SharePoint: <strong>Completed on</strong> and <strong>Completed by</strong> filled themselves in.</li>
+        <li>Set status back to <kbd class="ui">In Progress</kbd> → <kbd class="ui">Save update</kbd>. In SharePoint: both Completed stamps cleared — the request is honestly "not completed" again.</li>
+        <li>Go to <kbd class="ui">My requests</kbd> and tap the refresh icon: the row's status is navy <em>In Progress</em>, the detail panel shows your note and <em>Priority: High</em>. Press <kbd class="key">Esc</kbd>.</li>
       </ol>
-      <div class="note check"><b>Check before moving on</b>The full CCD → requester loop works: update on the dashboard, visible in My Requests.</div>
+      <div class="note check"><b>Check before moving on</b>Assign stamps Assigned on · Completed stamps and un-stamps itself · the requester's view shows status, note and priority.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
-  <details class="step" id="d8">
-    <summary><span class="dot"></span><span class="num">D8</span><span class="stitle">Excel export</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="d11">
+    <summary><span class="dot"></span><span class="num">D11</span><span class="stitle">Excel export</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">This one happens in SharePoint, not the app — and that's the point: it's built in, nothing to build or maintain.</p>
       <ol class="steps2">
@@ -564,10 +662,10 @@
     </div>
   </details>
 
-  <details class="step" id="d9">
-    <summary><span class="dot"></span><span class="num">D9</span><span class="stitle">Status-names sanity check</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="d12">
+    <summary><span class="dot"></span><span class="num">D12</span><span class="stitle">Status-names sanity check</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <div class="note warn"><b>Confirm with CCD</b>The spec left the exact status names open. If CCD wants different ones (say <em>Received / Working / Done</em>), change them in <strong>one</strong> place — the Status column choices in SharePoint (a3) — then update the three chip Texts (d2) and the c4/d4 Switch color formulas to the same words. Everything else reads the column dynamically.</div>
+      <div class="note warn"><b>Confirm with CCD</b>The spec left the exact status names open. If CCD wants different ones (say <em>Received / Working / Done</em>), change them in <strong>one</strong> place — the Status column choices in SharePoint (a9) — then update the three chip Texts (d2) and the c4/d4 Switch color formulas to the same words. Everything else reads the column dynamically.</div>
       <ol class="steps2">
         <li>Ask CCD; if the defaults stand, tick this step and move on.</li>
       </ol>
@@ -576,8 +674,8 @@
     </div>
   </details>
 
-  <details class="step" id="d10">
-    <summary><span class="dot"></span><span class="num">D10</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+  <details class="step" id="d13">
+    <summary><span class="dot"></span><span class="num">D13</span><span class="stitle">Save and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <ol class="steps2">
         <li>Press <kbd class="key">Ctrl+S</kbd> to save.</li>
@@ -608,7 +706,7 @@
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
     del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
   };
-  var KEY="cbfPart4_v2";
+  var KEY="cbfPart4_v3";
 
   function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
   function copyText(text,onDone){
