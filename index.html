@@ -164,7 +164,7 @@
       <h1>Communication Briefing Form</h1>
       <p class="sub">Five guided parts that take a blank SharePoint tenant to a working briefing-request system — form, tracking, audit trail, notifications.</p>
       <div class="meta">
-        <span><b>5 parts</b></span> <span><b>~3.5 hours</b> total</span> <span><b>SharePoint · Power Apps · Power Automate</b></span>
+        <span><b>5 parts</b></span> <span><b>~6 hours</b> total</span> <span><b>SharePoint · Power Apps · Power Automate</b></span>
       </div>
     </div>
   </div>
@@ -175,7 +175,7 @@
 
     <section class="block">
     <h2 class="sec">What this series builds</h2>
-    <div class="tldr"><b>The system</b>Staff submit communication briefing requests through a form as simple as a Google Form — with attachments. The CCD team gets an email on every submission, tracks and updates each request on a dashboard, and every edit lands in an audit trail with name and timestamp. Requesters see their own requests (and only their own), live status included. Everything exports to Excel.</div>
+    <div class="tldr"><b>The system</b>Staff submit communication briefing requests through a form that stays as simple as a Google Form — the full 34-column schema (budget, PR, event and branding details) hides behind conditional sections that only unfold when a request needs them. The CCD team gets an email on every submission, then assigns, prioritises, tracks and completes each request on a dashboard; every edit lands in an audit trail with name and timestamp. Requesters see their own requests (and only their own), live status included. Everything exports to Excel.</div>
     <div class="note why"><b>Phase-1 rule</b>By explicit business decision there is <strong>no approval or rejection workflow</strong> anywhere in this build. Keeping the requester experience simple is the core principle every part protects.</div>
   </section>
 
@@ -186,12 +186,12 @@
       <ul>
         <li>A BBK Microsoft 365 account that can create SharePoint team sites, canvas apps and flows (or IT on call for the site).</li>
         <li>The five CCD member names — and, by Part 4, their real email addresses.</li>
-        <li>Roughly 3.5 focused hours across the five parts. Each part ends with a working, tested layer — safe places to pause.</li>
+        <li>Roughly 6 focused hours across the five parts. Each part ends with a working, tested layer — safe places to pause.</li>
       </ul>
     </div>
   </section>
 
-  <a class="nextpart" href="part1-foundation.html"><b>Start with Part 1 — SharePoint Foundation →</b><span>~40 min · no code yet, just the data layer</span></a>
+  <a class="nextpart" href="part1-foundation.html"><b>Start with Part 1 — SharePoint Foundation →</b><span>~90 min · no code yet, just the data layer</span></a>
 
   <section class="block">
     <h2 class="sec">The five parts</h2>
@@ -201,8 +201,8 @@
       <span class="n">1</span>
       <span class="cbody">
         <h3>SharePoint Foundation</h3>
-        <p>The private team site, the <code>Communication Requests</code> and <code>Audit Log</code> lists, versioning, attachments, item-level privacy, and CCD access. The data layer, finished and verified.</p>
-        <span class="cmeta">SharePoint · 9 steps · ~40 min</span>
+        <p>The private team site, the <code>Communication Requests</code> list with the full 34-column schema in eight guided groups, the <code>Audit Log</code> list, versioning, attachments, item-level privacy, and CCD access. The data layer, finished and verified.</p>
+        <span class="cmeta">SharePoint · 15 steps · ~90 min</span>
       </span>
       <span class="go">→</span>
     </a>
@@ -211,8 +211,8 @@
       <span class="n">2</span>
       <span class="cbody">
         <h3>App Shell + Submission Form</h3>
-        <p>The canvas app and its Google-Form-simple submit screen: five fields, validation with a live helper line, attachments, a full confirmation screen, and a discard-safety dialog on Cancel. Every property is copy-paste ready, and the three build-fix steps are flagged in red.</p>
-        <span class="cmeta">Power Apps · 12 steps · ~50 min · everything copy-paste</span>
+        <p>The canvas app and its submit screen: an always-simple core plus Budget, PR, Event and Branding sections that unfold only when the request needs them, validation with a live helper line, attachments, a full confirmation screen, and a discard-safety dialog on Cancel. Every property is copy-paste ready.</p>
+        <span class="cmeta">Power Apps · 16 steps · ~2 hrs · everything copy-paste</span>
       </span>
       <span class="go">→</span>
     </a>
@@ -221,7 +221,7 @@
       <span class="n">3</span>
       <span class="cbody">
         <h3>My Requests</h3>
-        <p>Requesters see their own submissions with live status colors (plus a plain-words legend) and CCD notes, and reopen any request to edit it. The shared form learns Edit mode, and Cancel knows the way back.</p>
+        <p>Requesters see their own submissions with live status colors (plus a plain-words legend), CCD notes and a what-was-asked recap, and reopen any request to edit it. The shared form learns Edit mode, and Cancel knows the way back.</p>
         <span class="cmeta">Power Apps · 11 steps · ~50 min</span>
       </span>
       <span class="go">→</span>
@@ -231,8 +231,8 @@
       <span class="n">4</span>
       <span class="cbody">
         <h3>CCD Dashboard</h3>
-        <p>The team-only screen: every request, status filter chips, search, a status + notes update panel requesters see instantly, and the native Excel export.</p>
-        <span class="cmeta">Power Apps · 10 steps · ~45 min</span>
+        <p>The team-only screen: every request, status filter chips, search — and the full workflow panel: assign to a person (Assigned on stamps itself), set priority, write CCM notes requesters see instantly, and mark Completed with self-writing stamps. Plus the native Excel export.</p>
+        <span class="cmeta">Power Apps · 13 steps · ~1 hr</span>
       </span>
       <span class="go">→</span>
     </a>
@@ -241,8 +241,8 @@
       <span class="n">5</span>
       <span class="cbody">
         <h3>Flows + Go-Live</h3>
-        <p>The CCD notification email, the audit-logger flow (created / edited / status changed), an optional requester notification, test-data cleanup, and the full ten-point acceptance walkthrough.</p>
-        <span class="cmeta">Power Automate · 12 steps · ~50 min</span>
+        <p>The CCD notification email (division, launch date, deliverables), the audit-logger flow (created / edited / status changed), optional status-change and assignment emails, test-data cleanup, and the full acceptance walkthrough.</p>
+        <span class="cmeta">Power Automate · 14 steps · ~1 hr</span>
       </span>
       <span class="go">→</span>
     </a>
