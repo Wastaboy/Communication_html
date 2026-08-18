@@ -196,7 +196,8 @@
       </ol>
     </div>
     <p class="lead">The route: <a href="#b1">b1–b4</a> app shell and form · <a href="#b5">b5–b6</a> pick, order and prep the 29 cards · <a href="#b7">b7–b10</a> the four conditional sections · <a href="#b11">b11–b14</a> submit, confirm and cancel behavior · <a href="#b15">b15–b16</a> test and publish.</p>
-    <div class="note warn"><b>Built the app against the old six-column list?</b>The requested schema replaced that list wholesale — this part is now a <strong>fresh build</strong>, not a patch list. Rebuilding on the new list is faster and safer than rewiring 29 data cards in the old app: create the new app in b1, keep the old one unpublished until the switch-over in Part 5.</div>
+    <div class="note warn"><b>Changed since the last guide (17 Aug edition)</b>Column internal names now match the live list (see Part 1's delta table) — since this part's formulas use <em>display</em> names, nothing here changed except the fixes below. Every step whose state differs in the <strong>18 Aug build evaluation</strong> carries a red <strong style="color:#c83737">FIX</strong> tag with a box saying exactly what to change.</div>
+    <div class="note fix"><b>Fixing the 18 Aug build? Your route</b>Do Part 1 a10's FIX renames first, then work the FIX boxes in order: <a href="#b3">b3</a> delete a stray label · <a href="#b5">b5</a> remove 7 cards, add the 15 missing ones (the whole Event section, Launch Date, the deliverables combo…) · <a href="#b6">b6</a>–<a href="#b7">b7</a> unwind the two wrong renames that cause <strong>all five App-Checker High errors</strong> · <a href="#b8">b8</a>–<a href="#b10">b10</a> apply the section formulas that were never set · <a href="#b11">b11</a> extend the required fields · <a href="#b15">b15</a> clear the 22 accessibility warnings, re-test, publish. Steps without a FIX box are already correct in your build — the dialog Visibles, OnStart, hint label and OnSuccess/OnFailure all check out.</div>
   </section>
 
   <section class="block">
@@ -249,8 +250,9 @@
   </details>
 
   <details class="step" id="b3">
-    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B3</span><span class="stitle">Screen, header, app variables, intro line</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build? One deletion</b>Your tree has a duplicate title label, <code>lblSubmitTitle1</code>, sitting under the real <code>lblSubmitTitle</code>. Tree view → <kbd class="ui">⋮</kbd> next to it → <kbd class="ui">Delete</kbd>. Everything else in this step is already correct in your build — OnStart, header, intro all check out. Skip the rest.</div>
       <p class="do">Rename the screen first. Tree view (left rail): click the <kbd class="ui">⋮</kbd> next to <code>Screen1</code> → <kbd class="ui">Rename</kbd> → paste:</p>
       <p class="fxlabel">Screen name</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>scrSubmit</code></div>
@@ -331,8 +333,12 @@
   </details>
 
   <details class="step" id="b5">
-    <summary><span class="dot"></span><span class="num">B5</span><span class="stitle">Pick and order the fields</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B5</span><span class="stitle">Pick and order the fields</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build? Your form has the wrong 21 cards</b>Do Part 1 a10's renames first, then in <kbd class="ui">Edit fields</kbd>:<br><br>
+      <strong>Remove these 7</strong> (⋮ → Remove): <kbd class="ui">Request Details</kbd> · <kbd class="ui">Target Date</kbd> · <kbd class="ui">Assigned to</kbd> · <kbd class="ui">Assigned on</kbd> · <kbd class="ui">Completed on</kbd> · <kbd class="ui">Completed by</kbd> · <kbd class="ui">CCM Notes</kbd> — the first two are the dead old-schema columns (delete them in SharePoint afterwards, per a10's FIX box), the rest are CCD-side.<br><br>
+      <strong>Add these 15</strong> (+ Add field): <kbd class="ui">Launch Date</kbd> · <kbd class="ui">Type of Deliverables Required</kbd> · <kbd class="ui">Background Context</kbd> · <kbd class="ui">Target Audience</kbd> · <kbd class="ui">Desired Outcome</kbd> · <kbd class="ui">Supporting References</kbd> · <kbd class="ui">Event Name</kbd> · <kbd class="ui">Event Description</kbd> · <kbd class="ui">Event Start Date</kbd> · <kbd class="ui">Event End Date</kbd> · <kbd class="ui">Event Location</kbd> · <kbd class="ui">Event Expected Attendance</kbd> · <kbd class="ui">Event Speakers</kbd> · <kbd class="ui">Event VIPs Attending</kbd> · <kbd class="ui">Event Media Expected</kbd><br><br>
+      Your Division card is the old Department card — after a10's rename it lists as Division and stays. Already correct and keeping their cards: Title, Division, Purpose Objective, Audience Notes, Budget Required, Budget, Budget Status, PR - Key Messages, PR - Spokespersons, VIPs Dignitaries Attending Protocols, the three Branding cards, Attachments. Finish by dragging everything into the table's order below.</div>
       <ol class="steps2">
         <li>Select <code class="cc">frmSubmit</code> → properties pane → <kbd class="ui">Edit fields</kbd>.</li>
         <li>Click <kbd class="ui">+ Add field</kbd> and tick every missing requester field until the list below is complete, then drag into this order — core first, then the four sections:</li>
@@ -380,9 +386,13 @@
   </details>
 
   <details class="step" id="b6">
-    <summary><span class="dot"></span><span class="num">B6</span><span class="stitle">Make the fields friendly — and name the three section drivers</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B6</span><span class="stitle">Make the fields friendly — and name the three section drivers</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <p class="do">Cards are locked by default: select a card, then in the right pane open <kbd class="ui">Advanced</kbd> and click <kbd class="ui">Unlock to change properties</kbd> before editing it. <strong>Unlock every card you touch in b6–b10.</strong></p>
+
+      <div class="note warn"><b>Card row vs control row — the most expensive mix-up in this part</b>In the tree, a data card sits directly under <code>frmSubmit</code> (its default name ends in <code>_DataCard1</code>) and the control you actually rename is <strong>indented one level deeper inside it</strong> (default name <code>DataCardValueNN</code>). Expand the card with its chevron and click the inner row before renaming. The tell that you renamed the wrong one: the <em>card</em> row now carries your name while a <code>DataCardValueNN</code> still sits inside — and every formula referencing the name floods the App Checker with "Name isn't recognized" errors, because cards have no <code>.Text</code> or <code>.Value</code>.</div>
+
+      <div class="note fix"><b>Fixing the 18 Aug build?</b>This mix-up is exactly what happened: <code>inpBudget</code> and <code>tglBudgetRequired</code> in your tree are <strong>cards</strong>, not controls — b7's FIX box unwinds them. And the two drivers below don't exist yet in your build (their cards arrive with b5's fix): once the Type of Deliverables Required and Event VIPs Attending cards are in the form, do this step exactly as written — inner controls, not cards.</div>
 
       <div class="fxgroup">
         <p class="gh">The three section drivers — rename their inner controls</p>
@@ -411,8 +421,14 @@
   </details>
 
   <details class="step" id="b7">
-    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">Conditional sections — the pattern, applied to Budget</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B7</span><span class="stitle">Conditional sections — the pattern, applied to Budget</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build? Four renames kill all five High errors</b>Your Budget cards carry the right formulas on the wrong names — the cards themselves got called <code>inpBudget</code> and <code>tglBudgetRequired</code>, so <code>tglBudgetRequired.Value</code> and <code>inpBudget.Text</code> point at cards, which have neither property. Unwind it in the tree view (⋮ → <kbd class="ui">Rename</kbd> on each):<br><br>
+      <strong>1.</strong> The card named <code>inpBudget</code> → rename to <code class="cc">Budget_DataCard1</code><br>
+      <strong>2.</strong> The <code>DataCardValue11</code> <em>inside</em> it → rename to <code class="cc">inpBudget</code><br>
+      <strong>3.</strong> The card named <code>tglBudgetRequired</code> → rename to <code class="cc">BudgetRequired_DataCard1</code><br>
+      <strong>4.</strong> The <code>DataCardValue12</code> <em>inside</em> it → rename to <code class="cc">tglBudgetRequired</code><br><br>
+      The Visible and Update formulas you already pasted are correct — they start working the instant the names land, and the five High errors vanish. One thing genuinely missing: the <strong>Budget Status card never got its two formulas</strong> — do its box below (unlock, rename <code>DataCardValue13</code> to <code class="cc">cmbBudgetStatus</code>, paste Visible and Update). Then skip the rest of this step.</div>
       <p class="do">This step teaches the pattern once; b8–b10 repeat it per section. Every conditional card gets <strong>two formulas</strong>:</p>
       <div class="pane">
         <p class="ph">The conditional-card pattern</p>
@@ -452,8 +468,9 @@
   </details>
 
   <details class="step" id="b8">
-    <summary><span class="dot"></span><span class="num">B8</span><span class="stitle">Conditional PR section</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B8</span><span class="stitle">Conditional PR section</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build?</b>Both PR cards exist in your form but have <strong>no Visible or Update at all</strong> — they were waiting on <code>cmbDeliverables</code>, which exists after b5–b6's fixes. Do this step exactly as written.</div>
       <p class="do">Two cards, shown when the deliverables include <strong>Media &amp; PR</strong>. One condition for both:</p>
       <p class="fxlabel">Visible — both PR cards</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>"Media &amp; PR" in cmbDeliverables.SelectedItems.Value</code></div>
@@ -480,8 +497,9 @@
   </details>
 
   <details class="step" id="b9">
-    <summary><span class="dot"></span><span class="num">B9</span><span class="stitle">Conditional Event section</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B9</span><span class="stitle">Conditional Event section</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build?</b>Nine of these ten cards don't exist until b5's fix adds them — build them fresh per this step. The one you already have, <strong>VIPs Dignitaries Attending Protocols</strong>, has no formulas: give it the tenth-card treatment at the bottom of this step (unlock, rename <code>DataCardValue21</code> to <code class="cc">inpVIPProtocols</code>, paste its Visible and Update).</div>
       <p class="do">Ten cards — nine share one condition; the VIP-protocols card adds the VIP toggle to it. The section condition:</p>
       <p class="fxlabel">Visible — nine Event cards (all except VIPs Dignitaries Attending Protocols)</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>"Event Support" in cmbDeliverables.SelectedItems.Value</code></div>
@@ -522,8 +540,9 @@
   </details>
 
   <details class="step" id="b10">
-    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Conditional Branding section</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B10</span><span class="stitle">Conditional Branding section</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build?</b>All three Branding cards exist, none has its formulas. Their inner controls are <code>DataCardValue10</code> (Requirements), <code>DataCardValue7</code> (Design Exists) and <code>DataCardValue9</code> (Partner Assets) — rename per the table and do the step as written.</div>
       <p class="do">Last section — three cards, shown when the deliverables include <strong>Branding &amp; Design</strong>:</p>
       <p class="fxlabel">Visible — all three Branding cards</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>"Branding &amp; Design" in cmbDeliverables.SelectedItems.Value</code></div>
@@ -539,7 +558,7 @@
   </details>
 
   <details class="step" id="b11">
-    <summary><span class="dot"></span><span class="num">B11</span><span class="stitle">The submit button — and its honest helper line</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B11</span><span class="stitle">The submit button — and its honest helper line</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
         <p class="gh">btnSubmit — Button</p>
@@ -560,6 +579,7 @@
         <div class="fx"><button class="copy" type="button">Copy</button><code>If(frmSubmit.Valid, DisplayMode.Edit, DisplayMode.Disabled)</code></div>
       </div>
 
+      <div class="note fix"><b>Fixing the 18 Aug build?</b>Your button, hint label and their formulas are all correct — only the required set is short: Title and Division (the old Department card) are done; set <strong>Required = true</strong> on Launch Date, Type of Deliverables Required and Purpose Objective once b5's fix adds their cards. Skip the rest of this step.</div>
       <div class="fxgroup">
         <p class="gh">The five required cards</p>
         <p class="do">List-level Required is off for every column, so the form enforces it. Unlock each of these five cards and set its <strong>Required</strong> property to <code class="cc">true</code>: <strong>Title</strong> (usually already is) · <strong>Division</strong> · <strong>Launch Date</strong> · <strong>Type of Deliverables Required</strong> · <strong>Purpose Objective</strong>. Each card's star turns on and <code>frmSubmit.Valid</code> now waits for all five.</p>
@@ -790,8 +810,15 @@
   </details>
 
   <details class="step" id="b15">
-    <summary><span class="dot"></span><span class="num">B15</span><span class="stitle">F5 test — sections, submit, confirm, cancel</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">B15</span><span class="stitle">F5 test — sections, submit, confirm, cancel</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="fxgroup">
+        <p class="gh">Before testing: clear the App Checker's accessibility warnings</p>
+        <p class="do">The checker flags every card input that lacks an accessible label (the 18 Aug build has 22 of these — they're the "Medium" list). One formula clears them all, card by card: select each card's <strong>inner control</strong> (the DataCardValue / your renamed input), pick <strong>AccessibleLabel</strong> in the property dropdown, and paste:</p>
+        <p class="fxlabel">AccessibleLabel — same formula on every card's inner control</p>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>Parent.DisplayName</code></div>
+        <div class="note why"><b>Why Parent.DisplayName</b>Inside a data card, <code>Parent</code> is the card and <code>DisplayName</code> is its column label — so every input announces its own field name to screen readers, and renaming a column never breaks it. Part 3's gallery gets its own accessibility fix in c3.</div>
+      </div>
       <ol class="steps2">
         <li>Press <kbd class="key">F5</kbd>. With the form empty, read the hint: <em>"Fill the fields marked * to enable Submit."</em> — the button is greyed. No dark overlay, and <strong>no Budget / PR / Event / Branding cards anywhere</strong> — just the core.</li>
         <li>Title: <code class="cc">TEST from app - delete me later</code>. Pick a Division, a Launch Date, and tick <strong>Event Support</strong> under Type of Deliverables — <strong>the nine event cards unfold</strong>. Switch <strong>Event VIPs Attending</strong> on — the protocols box appears; switch it off again and it goes.</li>
