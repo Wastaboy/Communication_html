@@ -103,6 +103,9 @@
   .note.check{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.check b{color:var(--ok)}
   .note.check b::before{content:"✅ ";}
   .note code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:5px}
+  .note.fix{background:#fdecec;border:2px solid #e89b9b;color:#6e1d1d}.note.fix b{color:var(--red);font-size:18px}
+  .note.fix b::before{content:"🔧 ";}
+  summary .fixtag{flex:none;font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;letter-spacing:.08em;color:#fff;background:var(--red);border-radius:999px;padding:3px 11px}
 
   /* tap-to-copy chips: every code chip outside a dark .fx box is copyable */
   code.cc{cursor:copy;position:relative;-webkit-tap-highlight-color:transparent}
@@ -183,6 +186,7 @@
     <section class="block">
     <h2 class="sec">What Part 3 builds</h2>
     <div class="tldr"><b>TL;DR</b>A second screen, <code class="cc">scrMyRequests</code>: requesters see their own submissions with live status colors and CCD notes, and can reopen any request for editing — the shared form from Part 2 learns an edit mode. Every edit still lands in version history automatically.</div>
+    <div class="note fix"><b>Fixing the 18 Aug build? Where this part stands</b>c1–c3 are built and correct — header, both nav buttons, and the gallery with the right Items filter (your scrSubmit button is named <code>btnGoMyRequests1</code> instead of <code>btnGoMyRequests</code>; harmless, rename if you like). Two things need attention: <a href="#c3">c3</a>'s gallery is missing its two accessibility properties, and <a href="#c4">c4</a>'s three labels are still the stock ones — all showing the bare title. From <a href="#c5">c5</a> on, nothing is built yet: no detail panel, no legend, no edit button, and the form still opens in New-only mode — do c5–c11 exactly as written, nothing to unlearn.</div>
   </section>
 
   <section class="block">
@@ -285,7 +289,7 @@
   </details>
 
   <details class="step" id="c3">
-    <summary><span class="dot"></span><span class="num">C3</span><span class="stitle">The gallery</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">C3</span><span class="stitle">The gallery</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
       <div class="fxgroup">
         <p class="gh">galMyRequests — Vertical gallery</p>
@@ -301,6 +305,15 @@
         <p class="fxlabel">galMyRequests · Items</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>SortByColumns(Filter('Communication Requests', 'Created By'.Email = User().Email), "Created", SortOrder.Descending)</code></div>
       </div>
+      <div class="fxgroup">
+        <p class="gh">Two accessibility properties — same gallery</p>
+        <p class="do">Still on <code class="cc">galMyRequests</code>, set two more properties so the App Checker stays quiet and keyboard users can reach the list:</p>
+        <dl class="props">
+          <div><dt>AccessibleLabel</dt><dd><code class="cc">"My requests list"</code></dd></div>
+          <div><dt>TabIndex</dt><dd><code class="cc">0</code></dd></div>
+        </dl>
+        <div class="note fix"><b>Fixing the 18 Aug build?</b>Your gallery is otherwise correct — the Items filter, position and layout all check out. Just add these two properties; they're the gallery's two entries in the App Checker's warning list.</div>
+      </div>
       <div class="note warn"><b>Blue delegation underline — expected</b>Filtering on <code>'Created By'.Email</code> can't be pushed down to SharePoint, so Power Apps warns you. At this system's volumes (well under the 2,000-item delegation ceiling) that is fine. For regular staff the Part 1 item-level permissions already hide other people's items server-side; the filter mostly matters for CCD members, who can see everything.</div>
       <div class="note check"><b>Check before moving on</b>The gallery lists your TEST items, newest first.</div>
       <button class="done" type="button">Mark step done</button>
@@ -308,8 +321,9 @@
   </details>
 
   <details class="step" id="c4">
-    <summary><span class="dot"></span><span class="num">C4</span><span class="stitle">Gallery fields</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">C4</span><span class="stitle">Gallery fields</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note fix"><b>Fixing the 18 Aug build? Your three labels are the stock ones</b>Your gallery template has <code>Title3</code>, <code>Subtitle3</code> and <code>Body2</code> — all three currently showing <code>ThisItem.Title</code>, which is why every row repeats the same text three times. They map straight onto this step: <code>Title3</code> is the <strong>top</strong> label (rename it <code class="cc">lblReqTitle</code>), <code>Subtitle3</code> the <strong>middle</strong> (<code class="cc">lblReqStatus</code>), <code>Body2</code> the <strong>bottom</strong> (<code class="cc">lblReqDate</code>) — then set each one's Text/Color/Size exactly as written below. The stock <code>NextArrow3</code> chevron icon can stay (it selects the row) or be deleted; leave <code>Separator3</code> and <code>Rectangle4</code> alone — they draw the row divider and the selected-row bar.</div>
       <p class="do">Click <em>inside</em> the first gallery row — that selects the <strong>template</strong>, so whatever you change repeats on every row. The <kbd class="ui">Title, subtitle, and body</kbd> layout gives you three labels; rename each one (tree view → <kbd class="ui">⋮</kbd> → <kbd class="ui">Rename</kbd>) and set it up below. If your layout produced fewer labels, keep the template selected and add more with <kbd class="ui">Insert</kbd> → <kbd class="ui">Text label</kbd>.</p>
 
       <div class="fxgroup">
