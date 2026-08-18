@@ -61,6 +61,7 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
         "triggerOutputs()?['body/{TriggerWindowEndToken}']",
         "concat('Status is now: ', triggerOutputs()?['body/Status/Value'])",
         "join(body('Select_-_Deliverables'), ', ')",
+        "coalesce(triggerOutputs()?['body/TypeofDeliverables'], json('[]'))",
         "formatDateTime(triggerOutputs()?['body/LaunchDate'], 'dd MMM yyyy')",
         "coalesce(triggerOutputs()?['body/Priority/Value'], 'Not set')",
         "triggerOutputs()?['body/AssignedTo/Email']",

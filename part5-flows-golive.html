@@ -183,6 +183,7 @@
     <section class="block">
     <h2 class="sec">What Part 5 builds</h2>
     <div class="tldr"><b>TL;DR</b>Two Power Automate flows — <code class="cc">CBF - New Request Notification</code> (email the CCD team on every submission, now carrying division, launch date and deliverables) and <code class="cc">CBF - Audit Logger</code> (a reportable row in Audit Log for every create, edit and status change) — plus two optional flows (status-change email to the requester, and an assignment email to the CCD member a request is assigned to), test-data cleanup, and the full acceptance walkthrough that takes the system live.</div>
+    <div class="note warn"><b>Changed since the last guide (17 Aug edition)</b>One expression changed: the deliverables column's internal name in the live list is <code class="cc">TypeofDeliverables</code> — lowercase <strong>o</strong> — and e2's Select expression now spells it that way. Flow expressions address columns by their <em>internal</em> name, which froze at creation and is <strong>case-sensitive</strong>: <code>body/TypeOfDeliverables</code> silently returns nothing on this list, while the ⚡ dynamic chips always show the friendly display labels ('Division', 'CCM Notes') and are unaffected by any of this. If an expression in this part ever returns blank against a healthy item, check its internal-name spelling first.</div>
   </section>
 
   <section class="block">
@@ -251,7 +252,7 @@
           <div><dt>Map</dt><dd>click the small <kbd class="ui">T</kbd>/text-mode toggle at the Map field's right, then <kbd class="ui">fx</kbd> → paste the second expression → <kbd class="ui">Add</kbd></dd></div>
         </dl>
         <p class="fxlabel">From (expression — the coalesce keeps the flow alive if a list item ever has no deliverables)</p>
-        <div class="fx"><button class="copy" type="button">Copy</button><code>coalesce(triggerOutputs()?['body/TypeOfDeliverables'], json('[]'))</code></div>
+        <div class="fx"><button class="copy" type="button">Copy</button><code>coalesce(triggerOutputs()?['body/TypeofDeliverables'], json('[]'))</code></div>
         <p class="fxlabel">Map (expression, in text mode)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>item()?['Value']</code></div>
       </div>
