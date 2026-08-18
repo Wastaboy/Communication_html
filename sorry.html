@@ -149,9 +149,9 @@
     <div class="mast-copy">
       <p class="kicker">BBK · CCD · Fix edition</p>
       <h1>Sorry.</h1>
-      <p class="sub">Everything the 18 Aug build needs fixed, on one page. Work top to bottom — nine steps, roughly 45 minutes, and the App Checker goes quiet.</p>
+      <p class="sub">Everything the 18 Aug build needs fixed, on one page. Work top to bottom — nine steps, about an hour, and the App Checker goes quiet.</p>
       <div class="meta">
-        <span><b>18 August 2026</b></span> <span><b>9 steps</b> · fixes only</span> <span><b>5 High errors</b> → 0</span>
+        <span><b>18 August 2026</b></span> <span><b>9 steps</b> · ~1 hr · fixes only</span> <span><b>5 High errors</b> → 0</span>
       </div>
     </div>
   </div>
@@ -170,6 +170,15 @@
     <h2 class="sec">What happened</h2>
     <div class="tldr"><b>The honest version</b>Two things went wrong, and one of them is on the guide. First: the guide's "rename the control inside the card" instruction wasn't explicit enough about the difference between a <em>card's</em> tree row and the <em>control's</em> tree row — so two cards got renamed instead of their controls, and every one of the five App Checker High errors traces to that single mix-up. Second: the SharePoint list was extended rather than rebuilt, so it drifted from the guide's names in a handful of places. This page is the complete corrective path — nothing here is new building, only fixing. The full <a href="index.html">guide series</a> stays canonical; its red FIX boxes match these steps one-for-one.</div>
     <div class="note why"><b>The one concept behind most of this page</b>In the tree view, a data card sits directly under <code>frmSubmit</code>, and the control you type into sits <strong>one level deeper inside it</strong> (default name <code>DataCardValueNN</code>). Formulas like <code>.Text</code> and <code>.Value</code> only exist on controls — a card with a control's name breaks every formula that references it. When any step below says <em>rename</em>, expand the card with its chevron and click the inner row first.</div>
+    <div class="pane">
+      <p class="ph">Before you start</p>
+      <ol>
+        <li>Open the app for editing: <code>make.powerapps.com</code> → <kbd class="ui">Apps</kbd> → hover <strong>Communication Briefing Form</strong> → <kbd class="ui">✏ Edit</kbd>. Wait for Studio to fully load.</li>
+        <li>In a second browser tab, open the <strong>Communication Requests</strong> list on the SharePoint site — F1 and F3 work there.</li>
+        <li>Find the <strong>App Checker</strong>: the stethoscope icon in Studio's top-right toolbar. Click it now — it should list <strong>5 errors</strong> under Formulas (a different count is fine; this page clears whatever's there).</li>
+        <li>Work the steps strictly <strong>top to bottom</strong> — later steps assume earlier ones — and press <kbd class="key">Ctrl+S</kbd> after finishing each one.</li>
+      </ol>
+    </div>
     <div class="pane">
       <p class="ph">How to rename anything</p>
       <ol>
@@ -195,7 +204,9 @@
   <details class="step" id="f1" open>
     <summary><span class="dot"></span><span class="num">F1</span><span class="stitle">SharePoint — eleven label renames</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Your list has every column it needs — <strong>nothing to create</strong>. Division and CCM Notes "exist" as your old <code>Department</code> and <code>CCD Notes</code> columns; they just need their visible labels changed, along with nine others. In the <strong>Communication Requests</strong> list, for each row: click the column's header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the chip → <kbd class="ui">Save</kbd>.</p>
+      <p class="do">Your list has every column it needs — <strong>nothing to create</strong>. Division and CCM Notes "exist" as your old <code>Department</code> and <code>CCD Notes</code> columns; they just need their visible labels changed, along with nine others.</p>
+      <div class="note warn"><b>This step happens in SharePoint, not the app</b>Do these renames in the browser tab with the <strong>Communication Requests list</strong> — not in Power Apps Studio. Renaming a field inside the app changes nothing in SharePoint.</div>
+      <p class="do">For each table row, the same five clicks: click the column's <strong>header</strong> (the label at the top of the column) → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → select the old text and delete it → tap the amber chip here and paste → <kbd class="ui">Save</kbd>. If a column isn't visible in the current view, use the list's <kbd class="ui">⚙ → List settings</kbd> page instead — every column is listed there and clicking its name opens the same rename box.</p>
       <table class="cols">
         <tr><th>Current label</th><th>Rename to</th></tr>
         <tr><td>Department</td><td><code class="cc">Division</code></td></tr>
@@ -220,8 +231,9 @@
   <details class="step" id="f2">
     <summary><span class="dot"></span><span class="num">F2</span><span class="stitle">Delete the stray title label</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">On <code>scrSubmit</code> your tree has a duplicate, <code>lblSubmitTitle1</code>, sitting under the real <code>lblSubmitTitle</code>. Tree view → <kbd class="ui">⋮</kbd> next to <code>lblSubmitTitle1</code> → <kbd class="ui">Delete</kbd>.</p>
-      <div class="note check"><b>Check before moving on</b>One title label in the tree, and the header still reads "Communication Briefing Form".</div>
+      <p class="do">In Studio, click <code>scrSubmit</code> in the tree view. It has a duplicate title label: <code>lblSubmitTitle</code> and <code>lblSubmitTitle1</code> are identical twins sitting on top of each other. Tree view → <kbd class="ui">⋮</kbd> next to <code class="cc">lblSubmitTitle1</code> — <strong>the one ending in 1</strong> — → <kbd class="ui">Delete</kbd>.</p>
+      <div class="note tip"><b>Worried about deleting the wrong one?</b>You can't really — they're copies, and nothing references either by name. The guide keeps the one <em>without</em> the 1 purely so the tree matches the other parts. If you deleted <code>lblSubmitTitle</code> by mistake, just rename the survivor to <code class="cc">lblSubmitTitle</code> and move on.</div>
+      <div class="note check"><b>Check before moving on</b>One title label in the tree, and the navy header still reads "Communication Briefing Form".</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -229,13 +241,13 @@
   <details class="step" id="f3">
     <summary><span class="dot"></span><span class="num">F3</span><span class="stitle">Form cards — remove 7, add 15, reorder</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Select <code class="cc">frmSubmit</code> → properties pane → <kbd class="ui">Edit fields</kbd>.</p>
-      <p class="do"><strong>Remove these 7</strong> (⋮ next to each → <kbd class="ui">Remove</kbd>) — the first two are the dead old-schema fields, the rest are CCD-side and never belonged on the requester form:</p>
+      <p class="do">Select <code class="cc">frmSubmit</code> in the tree view. In the <strong>Properties</strong> pane on the right (if the right rail is collapsed, click its chevron to open it), click the <kbd class="ui">Edit fields</kbd> link — a <strong>Fields</strong> panel slides in listing every card on the form.</p>
+      <p class="do"><strong>Remove these 7</strong> (hover a field → <kbd class="ui">⋮</kbd> → <kbd class="ui">Remove</kbd>) — the first two are the dead old-schema fields, the rest are CCD-side and never belonged on the requester form:</p>
       <ol class="steps2">
         <li><kbd class="ui">Request Details</kbd> · <kbd class="ui">Target Date</kbd></li>
         <li><kbd class="ui">Assigned to</kbd> · <kbd class="ui">Assigned on</kbd> · <kbd class="ui">Completed on</kbd> · <kbd class="ui">Completed by</kbd> · <kbd class="ui">CCM Notes</kbd></li>
       </ol>
-      <p class="do"><strong>Add these 15</strong> (<kbd class="ui">+ Add field</kbd>, tick them all, <kbd class="ui">Add</kbd>):</p>
+      <p class="do"><strong>Add these 15</strong> — in the same Fields panel click <kbd class="ui">+ Add field</kbd>, tick all fifteen boxes, then <kbd class="ui">Add</kbd>. They land at the <strong>bottom</strong> of the field list (and as new cards at the bottom of the form); the reorder below sorts that out:</p>
       <ol class="steps2">
         <li><kbd class="ui">Launch Date</kbd> · <kbd class="ui">Type of Deliverables Required</kbd> · <kbd class="ui">Background Context</kbd> · <kbd class="ui">Target Audience</kbd> · <kbd class="ui">Desired Outcome</kbd> · <kbd class="ui">Supporting References</kbd></li>
         <li><kbd class="ui">Event Name</kbd> · <kbd class="ui">Event Description</kbd> · <kbd class="ui">Event Start Date</kbd> · <kbd class="ui">Event End Date</kbd> · <kbd class="ui">Event Location</kbd> · <kbd class="ui">Event Expected Attendance</kbd> · <kbd class="ui">Event Speakers</kbd> · <kbd class="ui">Event VIPs Attending</kbd> · <kbd class="ui">Event Media Expected</kbd></li>
@@ -273,7 +285,7 @@
         <tr><td>28</td><td>Branding Partner Assets</td></tr>
         <tr><td>29</td><td>Attachments</td><td>Core — last card</td></tr>
       </table>
-      <p class="do">Now go back to SharePoint and <strong>delete the two dead columns</strong> from F1's warning: <em>Request Details</em> and <em>Target Date</em>.</p>
+      <p class="do">Now switch to the SharePoint tab and <strong>delete the two dead columns</strong> — their form cards are gone, so it's safe now. For each: click the <strong>Request Details</strong> header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Delete</kbd> → confirm; then the same for <strong>Target Date</strong>. (Careful: <em>Target Date</em>, not <em>Launch Date</em> — Launch Date stays forever.) Back in Studio, refresh the data source once more: <kbd class="ui">Data</kbd> → <kbd class="ui">⋮</kbd> → <kbd class="ui">Refresh</kbd>.</p>
       <div class="note check"><b>Check before moving on</b>29 cards in the order above; none of the CCD-side fields anywhere in the form; the two dead columns are gone from the list.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
@@ -290,8 +302,9 @@
         <tr><td>3</td><td>The <strong>card</strong> named <code>tglBudgetRequired</code></td><td><code class="cc">BudgetRequired_DataCard1</code></td></tr>
         <tr><td>4</td><td><code>DataCardValue12</code> <em>inside</em> it</td><td><code class="cc">tglBudgetRequired</code></td></tr>
       </table>
-      <div class="note why"><b>Why nothing else is needed here</b>The Visible and Update formulas you already pasted on the Budget card are correct — they start working the instant the names land on the right objects, and the five High errors disappear from the App Checker on the spot.</div>
-      <div class="note check"><b>Check before moving on</b>App Checker (stethoscope icon) shows <strong>zero</strong> formula errors.</div>
+      <div class="note why"><b>Why nothing else is needed here</b>The Visible and Update formulas you already pasted on the Budget card are correct — they start working the instant the names land on the right objects, and the five High errors disappear from the App Checker on the spot. (The errors stay red until all four renames are done — that's expected mid-way.)</div>
+      <div class="note tip"><b>If Studio says the name is already in use</b>Some builds already have a hidden <code>Budget_DataCard1</code>. No problem — use <code class="cc">crdBudget</code> and <code class="cc">crdBudgetRequired</code> for the two cards instead; the card's own name is never referenced by any formula, only the controls inside are.</div>
+      <div class="note check"><b>Check before moving on</b>Open the App Checker (the stethoscope icon, top-right toolbar): <strong>zero</strong> formula errors.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -299,7 +312,8 @@
   <details class="step" id="f5">
     <summary><span class="dot"></span><span class="num">F5</span><span class="stitle">Name every inner control</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">F6's formulas reference these names. For each row: <strong>unlock the card</strong> (select it → right pane → <kbd class="ui">Advanced</kbd> → <kbd class="ui">Unlock to change properties</kbd>), expand it in the tree, click the control <em>inside</em> (its ⋮ → <kbd class="ui">Rename</kbd>), and paste the chip. The cards you added in F3 got <em>fresh</em> DataCardValue numbers, so where the middle column names no number, the target is simply the <strong>only input control inside that card</strong> — every card holds exactly one input plus a few labels. Event Start Date and Event End Date need no renames at all.</p>
+      <p class="do">F6's formulas reference these names. For each row: <strong>unlock the card</strong> (select it → right pane → <kbd class="ui">Advanced</kbd> → <kbd class="ui">Unlock to change properties</kbd>), expand it in the tree, click the control <em>inside</em> (its ⋮ → <kbd class="ui">Rename</kbd>), and paste the chip. The cards you added in F3 got <em>fresh</em> DataCardValue numbers, so where the middle column names no number, the target is simply the <strong>only input control inside that card</strong> — every card holds exactly one input plus a few labels (DataCardKey, ErrorMessage, StarVisible — leave those alone). Event Start Date and Event End Date need no renames at all.</p>
+      <div class="note warn"><b>The tripwire that caused this whole page</b>Before you press Enter on any rename here, look at the row you selected: if its current name <strong>ends in <code>_DataCard1</code></strong> (or is a card you named in F4), STOP — that's the card, not the control. Collapse nothing, just click one level deeper. A correct rename always replaces a name that starts with <code>DataCardValue</code>.</div>
       <table class="cols">
         <tr><th>Card</th><th>Control inside</th><th>Rename to</th></tr>
         <tr><td>Type of Deliverables Required</td><td>Combo box</td><td><code class="cc">cmbDeliverables</code></td></tr>
@@ -327,6 +341,7 @@
   <details class="step" id="f6">
     <summary><span class="dot"></span><span class="num">F6</span><span class="stitle">The conditional-section formulas</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
+      <div class="note tip"><b>If a property won't take the paste</b>The card is still locked — <kbd class="ui">Advanced</kbd> → <kbd class="ui">Unlock to change properties</kbd> first. Every card in this step should already be unlocked from F5, but the two date cards and Budget Status are easy to miss.</div>
       <p class="do">Each conditional card gets two formulas — <strong>both set on the card itself, not the control inside it</strong>: select the card in the tree, pick <strong>Update</strong> in the property dropdown, paste its row from the table below; then pick <strong>Visible</strong> and paste the section's block. Work section by section, and always <strong>Update first, Visible last</strong> — once Visible is pasted the card vanishes from the canvas whenever its condition is false (that's the feature working, not a crash; reach hidden cards from the Tree view, or hold <kbd class="key">Alt</kbd> and click the deliverables combo / toggles right on the canvas to flip them while editing).</p>
 
       <p class="fxlabel">Visible · Budget and Budget Status cards</p>
@@ -373,7 +388,7 @@
   <details class="step" id="f7">
     <summary><span class="dot"></span><span class="num">F7</span><span class="stitle">Required fields + the 22 accessibility warnings</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Title and Division already have <strong>Required</strong> = <code>true</code> in your build. Unlock and set it on three more cards: <kbd class="ui">Launch Date</kbd> · <kbd class="ui">Type of Deliverables Required</kbd> · <kbd class="ui">Purpose Objective</kbd>. The submit button's hint line starts honoring all five automatically.</p>
+      <p class="do">Title and Division already have <strong>Required</strong> = <code>true</code> in your build. Three more cards need it: <kbd class="ui">Launch Date</kbd> · <kbd class="ui">Type of Deliverables Required</kbd> · <kbd class="ui">Purpose Objective</kbd>. For each: select the <strong>card</strong> in the tree, unlock it if it shows the padlock, pick <strong>Required</strong> in the property dropdown, replace whatever is there with <code class="cc">true</code>. The card's star turns on and the submit button's hint line starts honoring all five automatically.</p>
       <p class="do">Then silence the App Checker's Medium list: for <strong>every card in the form — all 29, the Attachments control included</strong> — select the card's inner control, pick <strong>AccessibleLabel</strong> in the property dropdown, and paste the same formula every time. It reads the card's own column label, so it never goes stale:</p>
       <p class="fxlabel">AccessibleLabel — same formula on every card's inner control</p>
       <div class="fx"><button class="copy" type="button">Copy</button><code>Parent.DisplayName</code></div>
@@ -389,7 +404,7 @@
       <table class="cols">
         <tr><th>Your control</th><th>Rename to</th><th>Text</th></tr>
         <tr><td><code>Title3</code> (top)</td><td><code class="cc">lblReqTitle</code></td><td><code class="cc">ThisItem.Title</code> — plus FontWeight <code class="cc">FontWeight.Semibold</code>, Size <code class="cc">16</code></td></tr>
-        <tr><td><code>Subtitle3</code> (middle)</td><td><code class="cc">lblReqStatus</code></td><td><code class="cc">ThisItem.Status.Value</code> — Size <code class="cc">13</code>, Color below</td></tr>
+        <tr><td><code>Subtitle3</code> (middle)</td><td><code class="cc">lblReqStatus</code></td><td><code class="cc">ThisItem.Status.Value</code> — FontWeight <code class="cc">FontWeight.Semibold</code>, Size <code class="cc">13</code>, Color below</td></tr>
         <tr><td><code>Body2</code> (bottom)</td><td><code class="cc">lblReqDate</code></td><td><code class="cc">"Launch: " &amp; Text(ThisItem.'Launch Date', ShortDate)</code> — Size <code class="cc">12</code>, Color <code class="cc">RGBA(91, 102, 120, 1)</code></td></tr>
       </table>
       <p class="fxlabel">lblReqStatus · Color</p>
