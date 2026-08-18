@@ -103,6 +103,9 @@
   .note.check{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.check b{color:var(--ok)}
   .note.check b::before{content:"✅ ";}
   .note code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:5px}
+  .note.fix{background:#fdecec;border:2px solid #e89b9b;color:#6e1d1d}.note.fix b{color:var(--red);font-size:18px}
+  .note.fix b::before{content:"🔧 ";}
+  summary .fixtag{flex:none;font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;letter-spacing:.08em;color:#fff;background:var(--red);border-radius:999px;padding:3px 11px}
 
   /* tap-to-copy chips: every code chip outside a dark .fx box is copyable */
   code.cc{cursor:copy;position:relative;-webkit-tap-highlight-color:transparent}
@@ -204,6 +207,14 @@
       <tr><td><a href="#a8">a8</a></td><td>Branding</td><td>25–27</td></tr>
       <tr><td><a href="#a9">a9</a></td><td>CCD workflow — status, assignment, priority, completion</td><td>28–34</td></tr>
     </table>
+    <div class="note warn"><b>Changed since the last guide (17 Aug edition)</b>This edition adopts three <strong>internal column names from the live BBK build</strong> instead of the idealized ones: <code class="cc">Department</code> (was Division), <code class="cc">CCDNotes</code> (was CCMNotes) and <code class="cc">TypeofDeliverables</code> (lowercase <strong>o</strong> — was TypeOfDeliverables). The display labels people see are unchanged — a10's renames still produce <strong>Division</strong>, <strong>CCM Notes</strong> and <strong>Type of Deliverables Required</strong>. Only Part 5's flow expressions care about internal names, and they now match the real list. a10 also gained a red FIX box reconciling an already-built list.</div>
+    <table class="cols">
+      <tr><th>Requested field (comms list)</th><th>In the live list</th><th>Resolution</th></tr>
+      <tr><td>Division</td><td>Missing — old <code>Department</code> column holds the same data</td><td>Keep <code>Department</code>, rename its label to <strong>Division</strong> (a10). Nothing to create.</td></tr>
+      <tr><td>CCM Notes</td><td>Missing — old <code>CCDNotes</code> column</td><td>Keep <code>CCDNotes</code>, rename its label to <strong>CCM Notes</strong> (a10). Nothing to create.</td></tr>
+      <tr><td><em>(not requested)</em></td><td>Leftovers: <code>RequestDetails</code>, <code>TargetDate</code></td><td>Delete both — after their form cards are removed in Part 2 b5 (order matters).</td></tr>
+      <tr><td>Everything else</td><td>Present, clean internal names</td><td>Only display labels drift — a10's FIX box lists the exact renames.</td></tr>
+    </table>
     <div class="note why"><b>Phase-1 rule</b>There is <strong>no approval or rejection workflow anywhere</strong> in this build — that is a business decision by CCD, not an oversight. If you find yourself adding an approve button at any point in this series, stop.</div>
   </section>
 
@@ -286,21 +297,21 @@
       <p class="do">The real request schema is <strong>34 columns in eight groups</strong>, built over steps a3–a9. Create every one with the <strong>space-free name</strong> exactly as shown — a10 renames the display labels afterwards. The clicks are always the same (see the "How to create any column" pane at the top of this page): <kbd class="ui">+ Add column</kbd> → pick the type → <kbd class="ui">Next</kbd> → paste the name → set the listed options → <kbd class="ui">Save</kbd>. This step: the three basics every request starts with.</p>
       <table class="cols">
         <tr><th>Name</th><th>Type</th><th>Details</th></tr>
-        <tr><td><code class="cc">Division</code></td><td><kbd class="ui">Choice</kbd></td><td>Paste the division list below</td></tr>
+        <tr><td><code class="cc">Department</code></td><td><kbd class="ui">Choice</kbd></td><td>Paste the division list below — a10 relabels it "Division"</td></tr>
         <tr><td><code class="cc">LaunchDate</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">No</kbd></td></tr>
-        <tr><td><code class="cc">TypeOfDeliverables</code></td><td><kbd class="ui">Choice</kbd></td><td>Multi-select — drives the form's conditional sections</td></tr>
+        <tr><td><code class="cc">TypeofDeliverables</code></td><td><kbd class="ui">Choice</kbd></td><td>Multi-select — drives the form's conditional sections. Lowercase <strong>o</strong>, on purpose</td></tr>
       </table>
 
       <div class="fxgroup">
-        <p class="gh">Division — column 1 of 34</p>
+        <p class="gh">Department — column 1 of 34</p>
         <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
         <dl class="props">
-          <div><dt>Name</dt><dd><code class="cc">Division</code></dd></div>
+          <div><dt>Name</dt><dd><code class="cc">Department</code> — yes, Department: the internal name matches the live BBK list; a10 renames the visible label to <strong>Division</strong></dd></div>
           <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
           <div><dt>Default value</dt><dd>Leave empty — requesters must pick their own division.</dd></div>
         </dl>
         <p class="do">Click into the <strong>first</strong> choice box and paste the whole block — it splits into one pill per line:</p>
-        <p class="fxlabel">Division · Choices (all 22, paste as one block)</p>
+        <p class="fxlabel">Department · Choices (all 22 divisions, paste as one block)</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>CE Office
 Operations &amp; Administration
 Information Technology
@@ -339,16 +350,16 @@ Legal</code></div>
       </div>
 
       <div class="fxgroup">
-        <p class="gh">TypeOfDeliverables — column 3 of 34</p>
+        <p class="gh">TypeofDeliverables — column 3 of 34</p>
         <p class="do"><kbd class="ui">+ Add column</kbd> → <kbd class="ui">Choice</kbd> → <kbd class="ui">Next</kbd>, then:</p>
         <dl class="props">
-          <div><dt>Name</dt><dd><code class="cc">TypeOfDeliverables</code> — one word, no spaces</dd></div>
+          <div><dt>Name</dt><dd><code class="cc">TypeofDeliverables</code> — one word, and the <strong>o</strong> in "of" is lowercase: this matches the live list's frozen internal name, and Part 5's flow expressions are case-sensitive</dd></div>
           <div><dt>Type</dt><dd><code class="cc">Choice</code></dd></div>
           <div><dt>Allow multiple selections</dt><dd><code class="cc">Yes</code> — under <kbd class="ui">More options</kbd>; a request can need an event <em>and</em> branding <em>and</em> PR at once</dd></div>
           <div><dt>Default value</dt><dd>None</dd></div>
         </dl>
         <p class="do">Paste the whole block into the first choice box:</p>
-        <p class="fxlabel">TypeOfDeliverables · Choices</p>
+        <p class="fxlabel">TypeofDeliverables · Choices</p>
         <div class="fx"><button class="copy" type="button">Copy</button><code>Event Support
 Media &amp; PR
 Branding &amp; Design
@@ -360,7 +371,7 @@ Video &amp; Photography</code></div>
       </div>
 
       <div class="note warn"><b>Confirm with CCD</b>Three of the choice lists in a3–a5 are <strong>proposed defaults</strong>: the deliverable types above, the Target Audience list (a4), and the Budget Status list (a5). The division list and the three status names are carried over from the current process. If CCD wants different values, change them here — every later part reads whatever these columns hold. One warning: Part 2's conditional sections key off the exact texts <code class="cc">Event Support</code>, <code class="cc">Media &amp; PR</code> and <code class="cc">Branding &amp; Design</code> — if you rename those three, Part 2 tells you where to update the matching formulas.</div>
-      <div class="note check"><b>Check before moving on</b>The list shows Title · Division · LaunchDate · TypeOfDeliverables — and clicking the <strong>TypeOfDeliverables header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Edit</kbd> shows seven choices with multiple selections allowed (close the panel without saving).</div>
+      <div class="note check"><b>Check before moving on</b>The list shows Title · Department · LaunchDate · TypeofDeliverables — and clicking the <strong>TypeofDeliverables header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Edit</kbd> shows seven choices with multiple selections allowed (close the panel without saving).</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -423,7 +434,7 @@ VIPs &amp; Dignitaries</code></div>
         <p class="do">Plain-text drill with this name: <code class="cc">DesiredOutcome</code></p>
       </div>
 
-      <div class="note check"><b>Check before moving on</b>Eight columns exist so far: Title · Division · LaunchDate · TypeOfDeliverables · PurposeObjective · BackgroundContext · TargetAudience · AudienceNotes · DesiredOutcome.</div>
+      <div class="note check"><b>Check before moving on</b>Eight columns exist so far (Title aside): Department · LaunchDate · TypeofDeliverables · PurposeObjective · BackgroundContext · TargetAudience · AudienceNotes · DesiredOutcome.</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
@@ -626,7 +637,7 @@ Not Yet Requested</code></div>
         <tr><td><code class="cc">AssignedTo</code></td><td><kbd class="ui">Person</kbd></td><td>Single person</td></tr>
         <tr><td><code class="cc">AssignedOn</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
         <tr><td><code class="cc">Priority</code></td><td><kbd class="ui">Choice</kbd></td><td>Four choices, no default</td></tr>
-        <tr><td><code class="cc">CCMNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text</td></tr>
+        <tr><td><code class="cc">CCDNotes</code></td><td><kbd class="ui">Multiple lines of text</kbd></td><td>Plain text — a10 relabels it "CCM Notes"</td></tr>
         <tr><td><code class="cc">CompletedOn</code></td><td><kbd class="ui">Date and time</kbd></td><td>Include time: <kbd class="ui">Yes</kbd></td></tr>
         <tr><td><code class="cc">CompletedBy</code></td><td><kbd class="ui">Person</kbd></td><td>Single person</td></tr>
       </table>
@@ -675,8 +686,8 @@ Urgent</code></div>
         <p class="do">Click <kbd class="ui">Save</kbd>.</p>
       </div>
       <div class="fxgroup">
-        <p class="gh">CCMNotes — column 32 of 34</p>
-        <p class="do">Plain-text drill (see a4's pane) with this name: <code class="cc">CCMNotes</code> — note the M: the column is called <strong>CCM Notes</strong> in the requested schema even though the team is CCD.</p>
+        <p class="gh">CCDNotes — column 32 of 34</p>
+        <p class="do">Plain-text drill (see a4's pane) with this name: <code class="cc">CCDNotes</code> — the internal name matches the live BBK list; a10 renames its visible label to <strong>CCM Notes</strong>, the wording the requested schema uses.</p>
       </div>
       <div class="fxgroup">
         <p class="gh">CompletedOn — column 33 of 34</p>
@@ -688,19 +699,33 @@ Urgent</code></div>
       </div>
 
       <div class="note why"><b>Why these live on the same list</b>Item-level privacy (a12) hides other people's requests from requesters, and the Part 2 form simply never shows these seven fields — so one list serves both sides without a second "tracking" list to keep in sync.</div>
-      <div class="note check"><b>Check before moving on</b>All 34 columns exist. Spot-check the last seven: Status · AssignedTo · AssignedOn · Priority · CCMNotes · CompletedOn · CompletedBy — and a <kbd class="ui">+ New</kbd> item shows Status pre-filled with <strong>Submitted</strong> (press <kbd class="key">Esc</kbd> to close without saving).</div>
+      <div class="note check"><b>Check before moving on</b>All 34 columns exist. Spot-check the last seven: Status · AssignedTo · AssignedOn · Priority · CCDNotes · CompletedOn · CompletedBy — and a <kbd class="ui">+ New</kbd> item shows Status pre-filled with <strong>Submitted</strong> (press <kbd class="key">Esc</kbd> to close without saving).</div>
       <button class="done" type="button">Mark step done</button>
     </div>
   </details>
 
   <details class="step" id="a10">
-    <summary><span class="dot"></span><span class="num">A10</span><span class="stitle">Rename the display labels</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <summary><span class="dot"></span><span class="num">A10</span><span class="stitle">Rename the display labels</span><span class="fixtag">FIX</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
     <div class="body">
-      <p class="do">Thirty renames, same clicks each time: click the column's <strong>header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the new label → <kbd class="ui">Save</kbd>. Tap each amber chip to copy its label. <code class="cc">Title</code>, <code class="cc">Division</code>, <code class="cc">Budget</code>, <code class="cc">Status</code> and <code class="cc">Priority</code> keep their names — they were readable already.</p>
+      <div class="note fix"><b>Already built the list? Reconcile it here</b>Your live list (checked 18 Aug) has every column — nothing to create — but eleven labels differ from the target wording and two leftover columns need deleting. Same rename clicks as below, current label → target label:<br><br>
+      <strong>Department</strong> → <code class="cc">Division</code> ·
+      <strong>CCD Notes</strong> → <code class="cc">CCM Notes</code> ·
+      <strong>Type of Deliverables</strong> → <code class="cc">Type of Deliverables Required</code> ·
+      <strong>PR Key Messages</strong> → <code class="cc">PR - Key Messages</code> ·
+      <strong>PR Spokespersons</strong> → <code class="cc">PR - Spokespersons</code> ·
+      <strong>Event VIP's Attending</strong> → <code class="cc">Event VIPs Attending</code> (drop the apostrophe) ·
+      <strong>VIP Protocols</strong> → <code class="cc">VIPs Dignitaries Attending Protocols</code> ·
+      <strong>Assigned To</strong> → <code class="cc">Assigned to</code> ·
+      <strong>Assigned On</strong> → <code class="cc">Assigned on</code> ·
+      <strong>Completed On</strong> → <code class="cc">Completed on</code> ·
+      <strong>Completed By</strong> → <code class="cc">Completed by</code>
+      <br><br><strong>Then delete the two leftovers</strong> — but only <em>after</em> removing their form cards in Part 2 b5, or the app shows broken cards: click the <strong>Request Details</strong> header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Delete</kbd> → confirm; same for <strong>Target Date</strong>. (Don't confuse Target Date with Launch Date — Launch Date stays.) Finally, in Power Apps: <kbd class="ui">Data</kbd> → <kbd class="ui">⋮</kbd> next to Communication Requests → <kbd class="ui">Refresh</kbd> so the app sees the new labels. That's this step done — skip the table below.</div>
+      <p class="do">Thirty-one renames, same clicks each time: click the column's <strong>header</strong> → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the new label → <kbd class="ui">Save</kbd>. Tap each amber chip to copy its label. <code class="cc">Title</code>, <code class="cc">Budget</code>, <code class="cc">Status</code> and <code class="cc">Priority</code> keep their names — they were readable already.</p>
       <table class="cols">
         <tr><th>Column</th><th>Rename to</th></tr>
+        <tr><td><code>Department</code></td><td><code class="cc">Division</code></td></tr>
         <tr><td><code>LaunchDate</code></td><td><code class="cc">Launch Date</code></td></tr>
-        <tr><td><code>TypeOfDeliverables</code></td><td><code class="cc">Type of Deliverables Required</code></td></tr>
+        <tr><td><code>TypeofDeliverables</code></td><td><code class="cc">Type of Deliverables Required</code></td></tr>
         <tr><td><code>PurposeObjective</code></td><td><code class="cc">Purpose Objective</code></td></tr>
         <tr><td><code>BackgroundContext</code></td><td><code class="cc">Background Context</code></td></tr>
         <tr><td><code>TargetAudience</code></td><td><code class="cc">Target Audience</code></td></tr>
@@ -726,7 +751,7 @@ Urgent</code></div>
         <tr><td><code>BrandingPartnerAssets</code></td><td><code class="cc">Branding Partner Assets</code></td></tr>
         <tr><td><code>AssignedTo</code></td><td><code class="cc">Assigned to</code></td></tr>
         <tr><td><code>AssignedOn</code></td><td><code class="cc">Assigned on</code></td></tr>
-        <tr><td><code>CCMNotes</code></td><td><code class="cc">CCM Notes</code></td></tr>
+        <tr><td><code>CCDNotes</code></td><td><code class="cc">CCM Notes</code></td></tr>
         <tr><td><code>CompletedOn</code></td><td><code class="cc">Completed on</code></td></tr>
         <tr><td><code>CompletedBy</code></td><td><code class="cc">Completed by</code></td></tr>
       </table>

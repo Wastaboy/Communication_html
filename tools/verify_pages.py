@@ -16,11 +16,12 @@ SNIPPETS = {  # filename -> [verbatim decoded formula strings]
     "part1-foundation.html": [
         "Everyone except external users",
         "Create items and edit items that were created by the user",
-        "TypeOfDeliverables",
+        "TypeofDeliverables",
         "Event Support\nMedia & PR\nBranding & Design\nDigital & Social Media\nInternal Communication\nPrint & Publications\nVideo & Photography",
         "Approved\nPending Approval\nNot Yet Requested",
         "VIPs Dignitaries Attending Protocols",
-        "CCMNotes",
+        "CCDNotes",
+        "Event VIP's Attending",
     ],
     "part2-submission-form.html": [
         "SubmitForm(frmSubmit)",
