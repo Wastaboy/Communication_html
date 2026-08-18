@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F3B6E">
+<title>Sorry — the fix list · 18 Aug 2026 · Communication Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3B6E; --navy-deep:#142a52; --ink:#0f1f3d;
+    --amber:#E08A1E; --amber-soft:#fbe8cd;
+    --paper:#F4F5F8; --card:#fff; --line:#e3e6ee; --line-soft:#eef1f7;
+    --navy-tint:#eef0f6; --faint:#97a1b4;
+    --text:#1b2436; --muted:#5b6678;
+    --code-bg:#0f1f3d; --code-text:#e9edf7;
+    --ok:#1f8a52; --ok-soft:#e3f3ea;
+    --green:#228b57; --red:#c83737; --gray:#788291;
+    --radius:14px; --tap:46px; --sh-sm:0 1px 2px rgba(16,31,61,.04);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:24px;line-height:1.62;-webkit-font-smoothing:antialiased;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+
+  header.mast{background:radial-gradient(120% 140% at 100% 0%, rgba(200,55,55,.28), transparent 55%),linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:calc(28px + env(safe-area-inset-top)) 0 26px;border-bottom:3px solid var(--red)}
+  .mast-inner{display:flex;gap:18px;align-items:center}
+  .mast-copy{flex:1;min-width:0}
+  .brandmark{flex:none;width:60px;height:60px;border-radius:15px;background:linear-gradient(160deg,#274982,#1a345f);border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 22px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);display:grid;place-items:center}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:#f0a9a9;font-weight:500;margin:0 0 10px}
+  .mast h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:42px;line-height:1.12;margin:0 0 8px;letter-spacing:-.01em}
+  .mast p.sub{margin:0;color:#c7d2e8;font-size:21px;max-width:48ch}
+  .mast .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .mast .meta span{font-family:"IBM Plex Mono",monospace;font-size:16px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);padding:5px 9px;border-radius:999px;color:#dde6f5}
+  .mast .meta span b{color:#fff;font-weight:600}
+  @media(max-width:480px){ .brandmark{width:50px;height:50px} .mast h1{font-size:34px} }
+
+  .sticky{position:sticky;top:0;z-index:40;background:rgba(244,245,248,.86);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  .progress{height:5px;background:var(--line);overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--red));transition:width .35s ease}
+  .progtext{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--muted);padding:6px 0 8px;display:flex;justify-content:space-between;align-items:center}
+  .progtext button{background:none;border:none;color:var(--navy);font-family:inherit;font-size:15px;cursor:pointer;text-decoration:underline;padding:4px}
+
+  section.block{margin:26px 0}
+  section.block > h2.sec{font-family:"IBM Plex Serif",serif;font-size:29px;font-weight:600;color:var(--navy);margin:0 0 4px;letter-spacing:-.01em;scroll-margin-top:120px}
+  section.block > p.lead{margin:0 0 14px;color:var(--muted);font-size:21px}
+
+  .tldr{background:#fffdf8;border:1px dashed #ecd6ad;border-radius:12px;padding:13px 15px;margin:0 0 15px;font-size:20px}
+  .tldr b{display:block;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#a4651a;margin-bottom:4px}
+
+  details.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:12px 0;overflow:hidden;scroll-margin-top:118px;box-shadow:var(--sh-sm)}
+  details.step[open]{box-shadow:0 6px 24px -12px rgba(16,31,61,.28);border-color:#d4dae8}
+  summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 16px;min-height:var(--tap);user-select:none;-webkit-tap-highlight-color:transparent}
+  summary::-webkit-details-marker{display:none}
+  summary .num{flex:none;min-width:30px;height:30px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:18px}
+  details.isdone summary .num{background:var(--ok)}
+  summary .stitle{flex:1;font-weight:600;font-size:22px;line-height:1.3}
+  summary .chev{flex:none;color:var(--muted);transition:transform .2s ease}
+  details[open] summary .chev{transform:rotate(90deg)}
+  summary .dot{flex:none;width:9px;height:9px;border-radius:50%;border:2px solid var(--line)}
+  details.isdone summary .dot{background:var(--ok);border-color:var(--ok)}
+  .body{padding:2px 16px 18px;border-top:1px solid var(--line-soft)}
+  .body > *:first-child{margin-top:14px}
+  .body p{margin:0 0 12px}
+  p.do{margin:0 0 12px}
+  .body ul,.body ol{margin:0 0 12px;padding-left:22px}.body li{margin:0 0 8px}
+  ol.steps2{counter-reset:s2;list-style:none;padding-left:0}
+  ol.steps2 > li{position:relative;padding:2px 0 10px 40px;margin:0}
+  ol.steps2 > li::before{counter-increment:s2;content:counter(s2);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--navy-tint);color:var(--navy);font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:16px;display:grid;place-items:center;border:1px solid #dbe3f5}
+
+  dl.props{margin:0 0 13px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  dl.props > div{display:grid;grid-template-columns:210px 1fr;border-top:1px solid var(--line-soft)}
+  dl.props > div:first-child{border-top:none}
+  dl.props dt{background:#f7f9fc;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:18px;color:var(--navy);font-weight:500;border-right:1px solid var(--line-soft)}
+  dl.props dd{margin:0;padding:9px 12px;font-size:20px}
+  dl.props dd code{font-family:"IBM Plex Mono",monospace;font-size:18px;background:#eef1f7;padding:1px 5px;border-radius:5px}
+  @media(max-width:430px){dl.props > div{grid-template-columns:130px 1fr}dl.props dt{font-size:15px;padding:8px 9px}dl.props dd{font-size:18px;padding:8px 10px}}
+
+  .fxlabel{font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:0 0 5px;font-weight:500}
+  .fx{position:relative;margin:0 0 13px}
+  .fx code{display:block;background:var(--code-bg);color:var(--code-text);font-family:"IBM Plex Mono",monospace;font-size:18px;line-height:1.55;padding:14px 84px 14px 16px;border-radius:11px;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;border:1px solid #1c3360}
+  .fx .copy{position:absolute;top:8px;right:8px;height:34px;min-width:34px;padding:0 11px;border:none;border-radius:8px;background:rgba(224,138,30,.95);color:#1b1206;font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .fx .copy:active{transform:scale(.96)}
+  .fx .copy.copied{background:var(--ok);color:#fff}
+  .fxgroup{border:1px solid var(--line);border-radius:12px;padding:12px 13px 2px;margin:0 0 14px;background:#fcfdff}
+  .fxgroup > .gh{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--navy);margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .fxgroup > .gh::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--red)}
+
+  .pane{background:#f4f6fb;border:1px solid #dbe2f1;border-left:4px solid var(--navy);border-radius:11px;padding:12px 14px;margin:0 0 13px}
+  .pane > .ph{font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);font-weight:600;margin:0 0 9px;display:flex;align-items:center;gap:7px}
+  .pane > .ph::before{content:"\2699";font-size:16px;line-height:1}
+  .pane ol,.pane ul{margin:0;padding-left:20px}.pane li{margin:0 0 6px;font-size:19px}
+  .pane p{margin:0 0 8px;font-size:19px}
+  .pane code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:#e7ecf7;color:var(--navy);padding:1px 6px;border-radius:5px}
+
+  .note{border-radius:11px;padding:12px 14px;margin:0 0 13px;font-size:20px;border:1px solid;line-height:1.55}
+  .note b{display:block;font-size:17px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;font-family:"IBM Plex Mono",monospace}
+  .note.why{background:#eef2fb;border-color:#d5def3;color:#23365e}.note.why b{color:var(--navy)}
+  .note.warn{background:#fbe8cd33;border-color:var(--amber-soft);color:#6b4410}.note.warn b{color:#a4651a}
+  .note.tip{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.tip b{color:var(--ok)}
+  .note.check{background:var(--ok-soft);border-color:#c9e6d6;color:#1c5236}.note.check b{color:var(--ok)}
+  .note.check b::before{content:"✅ ";}
+  .note code{font-family:"IBM Plex Mono",monospace;font-size:17px;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:5px}
+
+  code.cc{cursor:copy;position:relative;-webkit-tap-highlight-color:transparent}
+  code.cc::after{content:"⧉";font-size:.78em;margin-left:5px;opacity:.55}
+  code.cc.copied{background:var(--ok) !important;color:#fff !important}
+  code.cc.copied::after{content:"✓";opacity:1}
+  code.cc{background:#fdf1dd !important;color:#7a4d10 !important;border:1px solid #eed7ae;border-radius:6px;padding:1px 6px}
+  kbd.ui{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:.8em;font-weight:600;color:#fff;background:linear-gradient(180deg,#2a4a85,#1F3B6E);border:1px solid #142a52;border-radius:8px;padding:2px 9px 3px;line-height:1.4;white-space:normal;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 1px 0 #0d1c3a;vertical-align:baseline}
+  kbd.key{font-family:"IBM Plex Mono",monospace;font-size:.72em;font-weight:600;color:#3d4a63;background:linear-gradient(#fff,#eef0f5);border:1px solid #c3cad9;border-bottom-width:3px;border-radius:6px;padding:1px 7px;line-height:1.5;white-space:nowrap}
+
+  table.cols{width:100%;border-collapse:collapse;margin:0 0 13px;font-size:18px;background:#fff;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  table.cols th{background:#f7f9fc;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.cols td{padding:7px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  table.cols tr:last-child td{border-bottom:none}
+  @media(max-width:560px){
+    table.cols{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+    table.cols th,table.cols td{white-space:nowrap}
+  }
+
+  a.nextpart{display:block;margin:28px 0 8px;background:radial-gradient(120% 140% at 100% 0%, rgba(224,138,30,.25), transparent 55%),linear-gradient(160deg,var(--navy),var(--navy-deep));color:#fff;border-radius:var(--radius);padding:18px 20px;text-align:center;text-decoration:none;box-shadow:0 8px 24px -12px rgba(16,31,61,.5);border:1px solid #142a52}
+  a.nextpart b{display:block;font-size:23px;font-weight:600}
+  a.nextpart span{display:block;margin-top:3px;color:#c7d2e8;font-size:18px}
+  a.nextpart:active{transform:scale(.99)}
+
+  .done{-webkit-appearance:none;appearance:none;width:100%;min-height:var(--tap);margin-top:6px;border:1.5px solid var(--navy);border-radius:11px;background:#fff;color:var(--navy);font-family:inherit;font-size:21px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;gap:8px}
+  .done:active{background:var(--line-soft)}
+  details.isdone .done{background:var(--ok);border-color:var(--ok);color:#fff}
+
+  footer{margin:34px 0 10px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:18px;text-align:center;line-height:1.6}
+  footer a{color:var(--navy);font-weight:600}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap mast-inner">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="16" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/>
+        <path d="M17 17l14 14M31 17L17 31" stroke="rgba(240,169,169,.95)" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="mast-copy">
+      <p class="kicker">BBK · CCD · Fix edition</p>
+      <h1>Sorry.</h1>
+      <p class="sub">Everything the 18 Aug build needs fixed, on one page. Work top to bottom — nine steps, roughly 45 minutes, and the App Checker goes quiet.</p>
+      <div class="meta">
+        <span><b>18 August 2026</b></span> <span><b>9 steps</b> · fixes only</span> <span><b>5 High errors</b> → 0</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sticky">
+  <div class="wrap">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="progtext"><span id="progLabel">0 of 9 steps done</span><span><button id="expandAll" type="button">Expand all</button> <button id="reset" type="button">Reset</button></span></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="block">
+    <h2 class="sec">What happened</h2>
+    <div class="tldr"><b>The honest version</b>Two things went wrong, and one of them is on the guide. First: the guide's "rename the control inside the card" instruction wasn't explicit enough about the difference between a <em>card's</em> tree row and the <em>control's</em> tree row — so two cards got renamed instead of their controls, and every one of the five App Checker High errors traces to that single mix-up. Second: the SharePoint list was extended rather than rebuilt, so it drifted from the guide's names in a handful of places. This page is the complete corrective path — nothing here is new building, only fixing. The full <a href="index.html">guide series</a> stays canonical; its red FIX boxes match these steps one-for-one.</div>
+    <div class="note why"><b>The one concept behind most of this page</b>In the tree view, a data card sits directly under <code>frmSubmit</code>, and the control you type into sits <strong>one level deeper inside it</strong> (default name <code>DataCardValueNN</code>). Formulas like <code>.Text</code> and <code>.Value</code> only exist on controls — a card with a control's name breaks every formula that references it. When any step below says <em>rename</em>, expand the card with its chevron and click the inner row first.</div>
+    <div class="pane">
+      <p class="ph">How to rename anything</p>
+      <ol>
+        <li>Find it in the <kbd class="ui">Tree view</kbd> (left rail). Cards live under <code>frmSubmit</code>; expand a card with its <strong>chevron</strong> to see the controls inside.</li>
+        <li>Click the <kbd class="ui">⋮</kbd> that appears on the row → <kbd class="ui">Rename</kbd> (or double-click the name).</li>
+        <li>Tap the amber chip here, paste it in, press <kbd class="key">Enter</kbd>. Exact spelling matters — every formula on this page references these names.</li>
+      </ol>
+    </div>
+    <div class="pane">
+      <p class="ph">How to set any property (Visible, Update, Required, AccessibleLabel…)</p>
+      <ol>
+        <li>Select the control or card in the <kbd class="ui">Tree view</kbd>.</li>
+        <li>If it's a <strong>card</strong> and the right pane shows a padlock: open <kbd class="ui">Advanced</kbd> → <kbd class="ui">Unlock to change properties</kbd> first.</li>
+        <li>Open the <strong>property dropdown</strong> — top-left of the formula bar — and pick the property named in the row.</li>
+        <li>Select everything already in the formula bar, delete it, and paste the value from here. Paste <em>only</em> the value — never the property's name.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">The fixes</h2>
+
+  <details class="step" id="f1" open>
+    <summary><span class="dot"></span><span class="num">F1</span><span class="stitle">SharePoint — eleven label renames</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Your list has every column it needs — <strong>nothing to create</strong>. Division and CCM Notes "exist" as your old <code>Department</code> and <code>CCD Notes</code> columns; they just need their visible labels changed, along with nine others. In the <strong>Communication Requests</strong> list, for each row: click the column's header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Rename</kbd> → clear the box → paste the chip → <kbd class="ui">Save</kbd>.</p>
+      <table class="cols">
+        <tr><th>Current label</th><th>Rename to</th></tr>
+        <tr><td>Department</td><td><code class="cc">Division</code></td></tr>
+        <tr><td>CCD Notes</td><td><code class="cc">CCM Notes</code></td></tr>
+        <tr><td>Type of Deliverables</td><td><code class="cc">Type of Deliverables Required</code></td></tr>
+        <tr><td>PR Key Messages</td><td><code class="cc">PR - Key Messages</code></td></tr>
+        <tr><td>PR Spokespersons</td><td><code class="cc">PR - Spokespersons</code></td></tr>
+        <tr><td>Event VIP's Attending</td><td><code class="cc">Event VIPs Attending</code></td></tr>
+        <tr><td>VIP Protocols</td><td><code class="cc">VIPs Dignitaries Attending Protocols</code></td></tr>
+        <tr><td>Assigned To</td><td><code class="cc">Assigned to</code></td></tr>
+        <tr><td>Assigned On</td><td><code class="cc">Assigned on</code></td></tr>
+        <tr><td>Completed On</td><td><code class="cc">Completed on</code></td></tr>
+        <tr><td>Completed By</td><td><code class="cc">Completed by</code></td></tr>
+      </table>
+      <p class="do">Then, in Power Apps Studio: <kbd class="ui">Data</kbd> → <kbd class="ui">⋮</kbd> next to <strong>Communication Requests</strong> → <kbd class="ui">Refresh</kbd>, so the app sees the new labels.</p>
+      <div class="note warn"><b>Two columns get deleted — but not yet</b><code>Request Details</code> and <code>Target Date</code> are dead old-schema columns. Deleting them now breaks their form cards; F3 removes the cards first, then you come back and delete the columns (header → <kbd class="ui">Column settings</kbd> → <kbd class="ui">Delete</kbd>). Don't confuse <em>Target Date</em> with <em>Launch Date</em> — Launch Date stays.</div>
+      <div class="note check"><b>Check before moving on</b>List headers now read Division · CCM Notes · Type of Deliverables Required · PR - Key Messages… and the data source was refreshed in Studio.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f2">
+    <summary><span class="dot"></span><span class="num">F2</span><span class="stitle">Delete the stray title label</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">On <code>scrSubmit</code> your tree has a duplicate, <code>lblSubmitTitle1</code>, sitting under the real <code>lblSubmitTitle</code>. Tree view → <kbd class="ui">⋮</kbd> next to <code>lblSubmitTitle1</code> → <kbd class="ui">Delete</kbd>.</p>
+      <div class="note check"><b>Check before moving on</b>One title label in the tree, and the header still reads "Communication Briefing Form".</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f3">
+    <summary><span class="dot"></span><span class="num">F3</span><span class="stitle">Form cards — remove 7, add 15, reorder</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Select <code class="cc">frmSubmit</code> → properties pane → <kbd class="ui">Edit fields</kbd>.</p>
+      <p class="do"><strong>Remove these 7</strong> (⋮ next to each → <kbd class="ui">Remove</kbd>) — the first two are the dead old-schema fields, the rest are CCD-side and never belonged on the requester form:</p>
+      <ol class="steps2">
+        <li><kbd class="ui">Request Details</kbd> · <kbd class="ui">Target Date</kbd></li>
+        <li><kbd class="ui">Assigned to</kbd> · <kbd class="ui">Assigned on</kbd> · <kbd class="ui">Completed on</kbd> · <kbd class="ui">Completed by</kbd> · <kbd class="ui">CCM Notes</kbd></li>
+      </ol>
+      <p class="do"><strong>Add these 15</strong> (<kbd class="ui">+ Add field</kbd>, tick them all, <kbd class="ui">Add</kbd>):</p>
+      <ol class="steps2">
+        <li><kbd class="ui">Launch Date</kbd> · <kbd class="ui">Type of Deliverables Required</kbd> · <kbd class="ui">Background Context</kbd> · <kbd class="ui">Target Audience</kbd> · <kbd class="ui">Desired Outcome</kbd> · <kbd class="ui">Supporting References</kbd></li>
+        <li><kbd class="ui">Event Name</kbd> · <kbd class="ui">Event Description</kbd> · <kbd class="ui">Event Start Date</kbd> · <kbd class="ui">Event End Date</kbd> · <kbd class="ui">Event Location</kbd> · <kbd class="ui">Event Expected Attendance</kbd> · <kbd class="ui">Event Speakers</kbd> · <kbd class="ui">Event VIPs Attending</kbd> · <kbd class="ui">Event Media Expected</kbd></li>
+      </ol>
+      <p class="do"><strong>Then drag each field into this order</strong> (grab a field's handle in the Edit fields panel and pull it up or down) — core first, then the four conditional sections:</p>
+      <table class="cols">
+        <tr><th>#</th><th>Field</th><th>Section</th></tr>
+        <tr><td>1</td><td>Title</td><td rowspan="11">Core — always visible</td></tr>
+        <tr><td>2</td><td>Division</td></tr>
+        <tr><td>3</td><td>Launch Date</td></tr>
+        <tr><td>4</td><td>Type of Deliverables Required</td></tr>
+        <tr><td>5</td><td>Purpose Objective</td></tr>
+        <tr><td>6</td><td>Background Context</td></tr>
+        <tr><td>7</td><td>Target Audience</td></tr>
+        <tr><td>8</td><td>Audience Notes</td></tr>
+        <tr><td>9</td><td>Desired Outcome</td></tr>
+        <tr><td>10</td><td>Supporting References</td></tr>
+        <tr><td>11</td><td>Budget Required</td></tr>
+        <tr><td>12</td><td>Budget</td><td rowspan="2">Budget</td></tr>
+        <tr><td>13</td><td>Budget Status</td></tr>
+        <tr><td>14</td><td>PR - Key Messages</td><td rowspan="2">PR</td></tr>
+        <tr><td>15</td><td>PR - Spokespersons</td></tr>
+        <tr><td>16</td><td>Event Name</td><td rowspan="10">Event</td></tr>
+        <tr><td>17</td><td>Event Description</td></tr>
+        <tr><td>18</td><td>Event Start Date</td></tr>
+        <tr><td>19</td><td>Event End Date</td></tr>
+        <tr><td>20</td><td>Event Location</td></tr>
+        <tr><td>21</td><td>Event Expected Attendance</td></tr>
+        <tr><td>22</td><td>Event Speakers</td></tr>
+        <tr><td>23</td><td>Event VIPs Attending</td></tr>
+        <tr><td>24</td><td>VIPs Dignitaries Attending Protocols</td></tr>
+        <tr><td>25</td><td>Event Media Expected</td></tr>
+        <tr><td>26</td><td>Branding Requirements</td><td rowspan="3">Branding</td></tr>
+        <tr><td>27</td><td>Branding Design Exists</td></tr>
+        <tr><td>28</td><td>Branding Partner Assets</td></tr>
+        <tr><td>29</td><td>Attachments</td><td>Core — last card</td></tr>
+      </table>
+      <p class="do">Now go back to SharePoint and <strong>delete the two dead columns</strong> from F1's warning: <em>Request Details</em> and <em>Target Date</em>.</p>
+      <div class="note check"><b>Check before moving on</b>29 cards in the order above; none of the CCD-side fields anywhere in the form; the two dead columns are gone from the list.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f4">
+    <summary><span class="dot"></span><span class="num">F4</span><span class="stitle">The four renames that kill all five High errors</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Your Budget cards carry the <em>right formulas</em> on the <em>wrong names</em> — the cards themselves are called <code>inpBudget</code> and <code>tglBudgetRequired</code>, so the formulas point at cards, which have no <code>.Text</code> or <code>.Value</code>. Four renames in the tree view (⋮ → <kbd class="ui">Rename</kbd>), in this order:</p>
+      <table class="cols">
+        <tr><th>#</th><th>Tree row</th><th>Rename to</th></tr>
+        <tr><td>1</td><td>The <strong>card</strong> named <code>inpBudget</code></td><td><code class="cc">Budget_DataCard1</code></td></tr>
+        <tr><td>2</td><td><code>DataCardValue11</code> <em>inside</em> it</td><td><code class="cc">inpBudget</code></td></tr>
+        <tr><td>3</td><td>The <strong>card</strong> named <code>tglBudgetRequired</code></td><td><code class="cc">BudgetRequired_DataCard1</code></td></tr>
+        <tr><td>4</td><td><code>DataCardValue12</code> <em>inside</em> it</td><td><code class="cc">tglBudgetRequired</code></td></tr>
+      </table>
+      <div class="note why"><b>Why nothing else is needed here</b>The Visible and Update formulas you already pasted on the Budget card are correct — they start working the instant the names land on the right objects, and the five High errors disappear from the App Checker on the spot.</div>
+      <div class="note check"><b>Check before moving on</b>App Checker (stethoscope icon) shows <strong>zero</strong> formula errors.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f5">
+    <summary><span class="dot"></span><span class="num">F5</span><span class="stitle">Name every inner control</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">F6's formulas reference these names. For each row: <strong>unlock the card</strong> (select it → right pane → <kbd class="ui">Advanced</kbd> → <kbd class="ui">Unlock to change properties</kbd>), expand it in the tree, click the control <em>inside</em> (its ⋮ → <kbd class="ui">Rename</kbd>), and paste the chip. The cards you added in F3 got <em>fresh</em> DataCardValue numbers, so where the middle column names no number, the target is simply the <strong>only input control inside that card</strong> — every card holds exactly one input plus a few labels. Event Start Date and Event End Date need no renames at all.</p>
+      <table class="cols">
+        <tr><th>Card</th><th>Control inside</th><th>Rename to</th></tr>
+        <tr><td>Type of Deliverables Required</td><td>Combo box</td><td><code class="cc">cmbDeliverables</code></td></tr>
+        <tr><td>Budget Status</td><td>Combo box (<code>DataCardValue13</code>)</td><td><code class="cc">cmbBudgetStatus</code></td></tr>
+        <tr><td>PR - Key Messages</td><td>Text input (<code>DataCardValue18</code>)</td><td><code class="cc">inpPRKeyMessages</code></td></tr>
+        <tr><td>PR - Spokespersons</td><td>Text input (<code>DataCardValue19</code>)</td><td><code class="cc">inpPRSpokespersons</code></td></tr>
+        <tr><td>Event Name</td><td>Text input</td><td><code class="cc">inpEventName</code></td></tr>
+        <tr><td>Event Description</td><td>Text input</td><td><code class="cc">inpEventDescription</code></td></tr>
+        <tr><td>Event Location</td><td>Text input</td><td><code class="cc">inpEventLocation</code></td></tr>
+        <tr><td>Event Expected Attendance</td><td>Text input</td><td><code class="cc">inpEventAttendance</code></td></tr>
+        <tr><td>Event Speakers</td><td>Text input</td><td><code class="cc">inpEventSpeakers</code></td></tr>
+        <tr><td>Event VIPs Attending</td><td>Toggle</td><td><code class="cc">tglVIPs</code></td></tr>
+        <tr><td>Event Media Expected</td><td>Toggle</td><td><code class="cc">tglEventMedia</code></td></tr>
+        <tr><td>VIPs Dignitaries Attending Protocols</td><td>Text input (<code>DataCardValue21</code>)</td><td><code class="cc">inpVIPProtocols</code></td></tr>
+        <tr><td>Branding Requirements</td><td>Text input (<code>DataCardValue10</code>)</td><td><code class="cc">inpBrandingReqs</code></td></tr>
+        <tr><td>Branding Design Exists</td><td>Toggle (<code>DataCardValue7</code>)</td><td><code class="cc">tglDesignExists</code></td></tr>
+        <tr><td>Branding Partner Assets</td><td>Toggle (<code>DataCardValue9</code>)</td><td><code class="cc">tglPartnerAssets</code></td></tr>
+      </table>
+      <p class="do">While each of these ten cards is unlocked, select its <strong>text input</strong> and set two properties via the property dropdown — <strong>Mode</strong> to <code class="cc">TextMode.MultiLine</code> and <strong>Height</strong> to <code class="cc">120</code> — so long answers get a tall box instead of a single squeezed line. The ten cards: Purpose Objective · Background Context · Audience Notes · Desired Outcome · Supporting References · PR - Key Messages · Event Description · Event Speakers · VIPs Dignitaries Attending Protocols · Branding Requirements. (Purpose Objective and Audience Notes existed before F3 — check whether you already set them; the rest are new.)</p>
+      <div class="note check"><b>Check before moving on</b>The tree shows <code>cmbDeliverables</code> and <code>tglVIPs</code>, no control is still called by a card's name, and no <code>DataCardValueNN</code> from the table above remains.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f6">
+    <summary><span class="dot"></span><span class="num">F6</span><span class="stitle">The conditional-section formulas</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Each conditional card gets two formulas — <strong>both set on the card itself, not the control inside it</strong>: select the card in the tree, pick <strong>Update</strong> in the property dropdown, paste its row from the table below; then pick <strong>Visible</strong> and paste the section's block. Work section by section, and always <strong>Update first, Visible last</strong> — once Visible is pasted the card vanishes from the canvas whenever its condition is false (that's the feature working, not a crash; reach hidden cards from the Tree view, or hold <kbd class="key">Alt</kbd> and click the deliverables combo / toggles right on the canvas to flip them while editing).</p>
+
+      <p class="fxlabel">Visible · Budget and Budget Status cards</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>tglBudgetRequired.Value</code></div>
+      <p class="fxlabel">Visible · both PR cards</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Media &amp; PR" in cmbDeliverables.SelectedItems.Value</code></div>
+      <p class="fxlabel">Visible · nine Event cards (all except VIPs Dignitaries Attending Protocols)</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Event Support" in cmbDeliverables.SelectedItems.Value</code></div>
+      <p class="fxlabel">Visible · VIPs Dignitaries Attending Protocols card only</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Event Support" in cmbDeliverables.SelectedItems.Value &amp;&amp; tglVIPs.Value</code></div>
+      <p class="fxlabel">Visible · all three Branding cards</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>"Branding &amp; Design" in cmbDeliverables.SelectedItems.Value</code></div>
+
+      <p class="do">Updates — the guard means a hidden section saves <em>blank</em> instead of stale values:</p>
+      <table class="cols">
+        <tr><th>Card</th><th>Card · Update</th></tr>
+        <tr><td>Budget</td><td><code class="cc">If(tglBudgetRequired.Value, Value(inpBudget.Text))</code> — already in place from F4</td></tr>
+        <tr><td>Budget Status</td><td><code class="cc">If(tglBudgetRequired.Value, cmbBudgetStatus.Selected)</code></td></tr>
+        <tr><td>PR - Key Messages</td><td><code class="cc">If("Media &amp; PR" in cmbDeliverables.SelectedItems.Value, inpPRKeyMessages.Text)</code></td></tr>
+        <tr><td>PR - Spokespersons</td><td><code class="cc">If("Media &amp; PR" in cmbDeliverables.SelectedItems.Value, inpPRSpokespersons.Text)</code></td></tr>
+        <tr><td>Event Name</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventName.Text)</code></td></tr>
+        <tr><td>Event Description</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventDescription.Text)</code></td></tr>
+        <tr><td>Event Location</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventLocation.Text)</code></td></tr>
+        <tr><td>Event Expected Attendance</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, Value(inpEventAttendance.Text))</code></td></tr>
+        <tr><td>Event Speakers</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, inpEventSpeakers.Text)</code></td></tr>
+        <tr><td>Event VIPs Attending</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, tglVIPs.Value, false)</code></td></tr>
+        <tr><td>Event Media Expected</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value, tglEventMedia.Value, false)</code></td></tr>
+        <tr><td>VIPs Dignitaries Attending Protocols</td><td><code class="cc">If("Event Support" in cmbDeliverables.SelectedItems.Value &amp;&amp; tglVIPs.Value, inpVIPProtocols.Text)</code></td></tr>
+        <tr><td>Branding Requirements</td><td><code class="cc">If("Branding &amp; Design" in cmbDeliverables.SelectedItems.Value, inpBrandingReqs.Text)</code></td></tr>
+        <tr><td>Branding Design Exists</td><td><code class="cc">If("Branding &amp; Design" in cmbDeliverables.SelectedItems.Value, tglDesignExists.Value, false)</code></td></tr>
+        <tr><td>Branding Partner Assets</td><td><code class="cc">If("Branding &amp; Design" in cmbDeliverables.SelectedItems.Value, tglPartnerAssets.Value, false)</code></td></tr>
+      </table>
+
+      <p class="do">The two <strong>date</strong> cards (Event Start Date, Event End Date) keep their existing Update — it combines the date picker with the hour and minute dropdowns, and replacing it would silently drop the time. Instead, <strong>wrap it</strong>: select the card, pick <strong>Update</strong> in the property dropdown, click into the formula bar at the very start, paste this (the trailing space is part of it), then click to the very end and type a single closing <code class="cc">)</code>:</p>
+      <p class="fxlabel">Update · paste at the very start of both date cards' existing formulas</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>If("Event Support" in cmbDeliverables.SelectedItems.Value, </code></div>
+      <p class="do">A formula that looked like <code>DataCardValue30.SelectedDate + Time(…)</code> now reads <code>If("Event Support" in …, DataCardValue30.SelectedDate + Time(…))</code>. Same wrap on both date cards — and both also get the nine-card Visible from above.</p>
+
+      <div class="note check"><b>Check before moving on</b>With nothing ticked in the deliverables combo and Budget Required off, only the 11 core cards + Attachments show; ticking <strong>Event Support</strong> unfolds nine cards, the VIP toggle adds the protocols box, and the App Checker stays clean.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f7">
+    <summary><span class="dot"></span><span class="num">F7</span><span class="stitle">Required fields + the 22 accessibility warnings</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">Title and Division already have <strong>Required</strong> = <code>true</code> in your build. Unlock and set it on three more cards: <kbd class="ui">Launch Date</kbd> · <kbd class="ui">Type of Deliverables Required</kbd> · <kbd class="ui">Purpose Objective</kbd>. The submit button's hint line starts honoring all five automatically.</p>
+      <p class="do">Then silence the App Checker's Medium list: for <strong>every card in the form — all 29, the Attachments control included</strong> — select the card's inner control, pick <strong>AccessibleLabel</strong> in the property dropdown, and paste the same formula every time. It reads the card's own column label, so it never goes stale:</p>
+      <p class="fxlabel">AccessibleLabel — same formula on every card's inner control</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Parent.DisplayName</code></div>
+      <div class="note check"><b>Check before moving on</b>Five cards show the required star, and the App Checker's accessibility list no longer mentions any DataCardValue.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f8">
+    <summary><span class="dot"></span><span class="num">F8</span><span class="stitle">My Requests — wire the three stock labels</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <p class="do">On <code>scrMyRequests</code>, your gallery rows repeat the same title three times because the stock labels were never wired. Click inside the first row to select the template, then per label: rename (⋮ → <kbd class="ui">Rename</kbd>) and set the properties.</p>
+      <table class="cols">
+        <tr><th>Your control</th><th>Rename to</th><th>Text</th></tr>
+        <tr><td><code>Title3</code> (top)</td><td><code class="cc">lblReqTitle</code></td><td><code class="cc">ThisItem.Title</code> — plus FontWeight <code class="cc">FontWeight.Semibold</code>, Size <code class="cc">16</code></td></tr>
+        <tr><td><code>Subtitle3</code> (middle)</td><td><code class="cc">lblReqStatus</code></td><td><code class="cc">ThisItem.Status.Value</code> — Size <code class="cc">13</code>, Color below</td></tr>
+        <tr><td><code>Body2</code> (bottom)</td><td><code class="cc">lblReqDate</code></td><td><code class="cc">"Launch: " &amp; Text(ThisItem.'Launch Date', ShortDate)</code> — Size <code class="cc">12</code>, Color <code class="cc">RGBA(91, 102, 120, 1)</code></td></tr>
+      </table>
+      <p class="fxlabel">lblReqStatus · Color</p>
+      <div class="fx"><button class="copy" type="button">Copy</button><code>Switch(ThisItem.Status.Value, "Submitted", RGBA(224, 138, 30, 1), "In Progress", RGBA(31, 59, 110, 1), "Completed", RGBA(31, 138, 82, 1), RGBA(120, 130, 145, 1))</code></div>
+      <p class="do">Two properties on the gallery itself: <strong>AccessibleLabel</strong> <code class="cc">"My requests list"</code> and <strong>TabIndex</strong> <code class="cc">0</code>. The stock <code>NextArrow3</code> / <code>Separator3</code> / <code>Rectangle4</code> can all stay. (Optional tidy-up: your <code>btnGoMyRequests1</code> on scrSubmit can be renamed <code class="cc">btnGoMyRequests</code> — harmless either way.)</p>
+      <div class="note why"><b>The rest of Part 3 isn't a fix</b>The detail panel, status legend, edit button and edit-aware form (<a href="part3-my-requests.html#c5">c5–c11</a>) were never built — that's new construction, and it lives in the Part 3 guide, not here.</div>
+      <div class="note check"><b>Check before moving on</b>Rows show a bold title, a colored status word, and a gray "Launch: …" line.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  <details class="step" id="f9">
+    <summary><span class="dot"></span><span class="num">F9</span><span class="stitle">Prove it — F5 test and publish</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></summary>
+    <div class="body">
+      <ol class="steps2">
+        <li>App Checker: <strong>0 formula errors</strong>, no accessibility items for the form.</li>
+        <li>Press <kbd class="key">F5</kbd>. Empty form: only the core cards show, the button is greyed, the hint says fill the * fields.</li>
+        <li>Fill Title / Division / Launch Date, tick <strong>Event Support</strong> — nine event cards unfold; VIP toggle on — protocols box appears. Type a Purpose Objective — the button wakes up.</li>
+        <li>Flip <strong>Budget Required</strong> on, enter a number, then flip it off and <kbd class="ui">Submit request</kbd>. In SharePoint: the item's Budget is <strong>empty</strong> — the stale-value guard at work — and the sections you never opened are blank.</li>
+        <li><kbd class="key">Esc</kbd>, then <kbd class="key">Ctrl+S</kbd> → <kbd class="ui">Publish</kbd> → <kbd class="ui">Publish this version</kbd>.</li>
+      </ol>
+      <div class="note check"><b>Check before moving on</b>All five green. The build is error-free and published — continue with <a href="part3-my-requests.html#c5">Part 3 c5</a> to finish the My Requests screen, then Parts 4–5.</div>
+      <button class="done" type="button">Mark step done</button>
+    </div>
+  </details>
+
+  </section>
+
+  <a class="nextpart" href="part3-my-requests.html#c5"><b>Fixed? Continue building — Part 3, step c5 →</b><span>the detail panel, status legend, and edit-after-submit</span></a>
+
+  <footer>
+    The fix edition — 18 August 2026. One-off page; the numbered parts are the canonical build guides.<br>
+    The series: &nbsp;<a href="index.html">Index</a> · <a href="part1-foundation.html">Part 1 — SharePoint Foundation</a> · <a href="part2-submission-form.html">Part 2 — Submission Form</a> · <a href="part3-my-requests.html">Part 3 — My Requests</a> · <a href="part4-ccd-dashboard.html">Part 4 — CCD Dashboard</a> · <a href="part5-flows-golive.html">Part 5 — Flows + Go-Live</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var mem={};
+  var store={
+    get:function(k){try{return localStorage.getItem(k);}catch(e){return (k in mem)?mem[k]:null;}},
+    set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}},
+    del:function(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
+  };
+  var KEY="cbfSorry_v1";
+
+  function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+  function copyText(text,onDone){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(onDone,function(){fallbackCopy(text);onDone();});}
+    else{fallbackCopy(text);onDone();}
+  }
+  document.querySelectorAll(".fx .copy").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var code=btn.parentElement.querySelector("code");
+      copyText(code?code.textContent:"",function(){
+        btn.classList.add("copied");btn.textContent="✓";
+        setTimeout(function(){btn.classList.remove("copied");btn.textContent="Copy";},1300);
+      });
+    });
+  });
+  document.querySelectorAll("code.cc").forEach(function(chip){
+    chip.setAttribute("title","Tap to copy");
+    chip.addEventListener("click",function(){
+      copyText(chip.textContent,function(){
+        chip.classList.add("copied");
+        setTimeout(function(){chip.classList.remove("copied");},1100);
+      });
+    });
+  });
+
+  var steps=Array.prototype.slice.call(document.querySelectorAll("details.step"));
+  var total=steps.length;
+  var bar=document.getElementById("bar");
+  var label=document.getElementById("progLabel");
+
+  var xa=document.getElementById("expandAll");
+  if(xa){
+    function syncXa(){
+      var anyClosed=steps.some(function(d){return !d.open;});
+      xa.textContent=anyClosed?"Expand all":"Collapse all";
+    }
+    xa.addEventListener("click",function(){
+      var anyClosed=steps.some(function(d){return !d.open;});
+      steps.forEach(function(d){d.open=anyClosed;});
+      syncXa();
+    });
+    steps.forEach(function(d){d.addEventListener("toggle",syncXa);});
+    syncXa();
+  }
+  function loadDone(){var raw=store.get(KEY);if(!raw)return {};try{return JSON.parse(raw)||{};}catch(e){return {};}}
+  function saveDone(obj){store.set(KEY,JSON.stringify(obj));}
+  var doneMap=loadDone();
+  function refreshProgress(){
+    var n=0;
+    steps.forEach(function(d){if(d.classList.contains("isdone"))n++;});
+    if(bar)bar.style.width=(total?Math.round(n/total*100):0)+"%";
+    if(label)label.textContent=n+" of "+total+" steps done";
+  }
+  steps.forEach(function(d){
+    if(doneMap[d.id])d.classList.add("isdone");
+    var btn=d.querySelector(".done");
+    function syncBtn(){btn.textContent=d.classList.contains("isdone")?"✓ Done — tap to undo":"Mark step done";}
+    syncBtn();
+    btn.addEventListener("click",function(){d.classList.toggle("isdone");doneMap[d.id]=d.classList.contains("isdone");saveDone(doneMap);syncBtn();refreshProgress();});
+  });
+  refreshProgress();
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener("click",function(){
+      var el=document.getElementById(a.getAttribute("href").slice(1));
+      if(!el)return;
+      var d=el.closest?el.closest("details"):null;
+      if(el.tagName&&el.tagName.toLowerCase()==="details")d=el;
+      if(d)d.open=true;
+    });
+  });
+
+  var rst=document.getElementById("reset");
+  if(rst)rst.addEventListener("click",function(){
+    steps.forEach(function(d){d.classList.remove("isdone");d.querySelector(".done").textContent="Mark step done";});
+    doneMap={};store.del(KEY);refreshProgress();
+  });
+})();
+</script>
+</body>
+</html>
